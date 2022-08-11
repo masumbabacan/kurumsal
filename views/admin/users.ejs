@@ -79,11 +79,15 @@
                             <div class="col-4 p-4 m-0">
                                 <nav aria-label="Page navigation example" class="d-flex justify-content-end align-items-end">
                                     <ul class="pagination">
-                                      <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                        <li class="page-item" onchange="location = this.value;"><a class="page-link" href="">Previous</a></li>
+                                            <li class="page-item">
+                                                <select class="page-link" onchange="location = this.value;">
+                                                    <% for (var a=1; a<=pages; a++){ %>
+                                                        <option value="?page=<%= a; %>"><%= a; %></option>
+                                                    <% } %>
+                                                </select>
+                                            </li>
+                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
                                     </ul>
                                 </nav>
                             </div>

@@ -13,9 +13,13 @@ const {
 const unselectedColumns = '-password -__v -verificationToken -passwordToken -passwordTokenExpirationDate';
 
 const getAllUsers = async (req,res) => {
-    var perpage = 2;
-    const users = await User.find({}).select(unselectedColumns);
-    res.status(StatusCodes.OK).render("admin/users", { users: users, NumberOfData : users.length, msg : 'İşlem başarılı' });
+    var perpage = 1;
+    var total = await User.find({}).count();
+    var pages = Math.ceil(total / perpage);
+    var pageNumber = (req.query.page == null) ? 1 : req.query.page;
+    var startFrom = (pageNumber - 1) * perpage;
+    const users = await User.find({}).skip(startFrom).limit(perpage).select(unselectedColumns);
+    res.status(StatusCodes.OK).render("admin/users", { users: users, pages : pages, NumberOfData : users.length, msg : 'İşlem başarılı' });
 }
 
 const getUser = async (req,res) => {
