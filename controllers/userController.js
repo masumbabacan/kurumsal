@@ -19,7 +19,9 @@ const getAllUsers = async (req,res) => {
     var pageNumber = (req.query.page == null) ? 1 : req.query.page;
     var startFrom = (pageNumber - 1) * perpage;
     const users = await User.find({}).skip(startFrom).limit(perpage).select(unselectedColumns);
+    const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
     res.status(StatusCodes.OK).render("admin/users", { 
+        authenticateUser : authenticateUser,
         users: users, 
         pages : pages, 
         totalCount : total, 
@@ -30,8 +32,14 @@ const getAllUsers = async (req,res) => {
 
 const getUser = async (req,res) => {
     const user = await User.findOne({_id:req.params.id}).select(unselectedColumns);
+    console.log(req.user)
+    const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
     if (!user) throw new CustomError.NotFoundError("Kullanıcı Bulunamadı");
-    res.status(StatusCodes.OK).render("admin/userDetail",{user : user,msg : 'İşlem başarılı'})
+    res.status(StatusCodes.OK).render("admin/userDetail",{
+        authenticateUser : authenticateUser,
+        user : user,
+        msg : 'İşlem başarılı'
+    })
 }
 
 const showCurrentUser = async (req,res) => {

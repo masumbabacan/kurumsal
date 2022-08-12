@@ -60,7 +60,7 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme bg-dark">
             <div class="app-brand demo bg-dark mt-0">
                 <a href="#" class="app-brand-link">
-                  <span class="app-brand-text demo menu-text fw-bolder ms-2"><img src="http://10.10.10.10:8050/assets/images/logo.png" style="background-color: #233446;" alt=""></span>
+                  <span class="app-brand-text demo menu-text fw-bolder ms-2"><img src="https://btmteknoloji.com/assets/img/business-2/logo.png" style="background-color: #233446;" alt=""></span>
                 </a>
                 <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
                   <i class="bx bx-chevron-left bx-sm align-middle"></i>
@@ -112,9 +112,9 @@
                 <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow d-flex justify-content-between align-items-center" href="javascript:void(0);" data-bs-toggle="dropdown">
-                    <div class="m-2">Masum Babacan</div>
+                    <div class="m-2 text-danger"><%=authenticateUser.username%></div>
                     <div class="avatar avatar-online">
-                      <img src="/adminpanel/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                      <img src="http://localhost:3000/<%=authenticateUser.image%>" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </a>
                 </li>
