@@ -32,6 +32,7 @@
                                 <th style="font-size: 10px;">Soyadı</th>
                                 <th style="font-size: 10px;">Email</th>
                                 <th style="font-size: 10px;">Durumu</th>
+                                <th style="font-size: 10px;">Yetki</th>
                                 <th style="font-size: 10px;">Detaylar</th>
                               </tr>
                             </thead>
@@ -44,7 +45,7 @@
                                                 data-popup="tooltip-custom"
                                                 data-bs-placement="top"
                                                 class="avatar avatar-xs pull-up"
-                                                title="<%=user.email%>">
+                                                title="<%=user.username%>">
                                                     <% if(!user.image) { %> 
                                                         <img src="https://cdn-icons-png.flaticon.com/512/1053/1053244.png?w=360" alt="Avatar" class="rounded-circle" />
                                                     <% } else { %>
@@ -52,7 +53,11 @@
                                                     <% } %>
                                                 </li>
                                             </ul> 
-                                            <b><%=user.name%></b></td>
+                                            <b style="margin-right: 5px;"><%=user.name%></b>
+                                            <% if(user.username === authenticateUser.username) { %> 
+                                                <span class="text-danger">(Ben)</span>
+                                            <% } %> 
+                                        </td>
                                         
                                         <td style="font-size: 12px;"><%=user.surname%></td>
                                         
@@ -63,6 +68,14 @@
                                                 <span class="badge bg-label-danger me-1">Pasif</span>
                                             <% } else { %>
                                                 <span class="badge bg-label-primary me-1">Aktif</span>
+                                            <% } %>
+                                        </td>
+
+                                        <td style="font-size: 12px;">
+                                            <% if(user.role === 'admin') { %> 
+                                                <span class="badge bg-label-danger me-1">Admin</span>
+                                            <% } else { %>
+                                                <span class="badge bg-label-primary me-1">Kullanıcı</span>
                                             <% } %>
                                         </td>
 
