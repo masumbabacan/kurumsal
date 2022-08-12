@@ -20,6 +20,7 @@ const getAllUsers = async (req,res) => {
     var startFrom = (pageNumber - 1) * perpage;
     const users = await User.find({}).skip(startFrom).limit(perpage).select(unselectedColumns);
     const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
+    console.log(authenticateUser);
     res.status(StatusCodes.OK).render("admin/users", { 
         authenticateUser : authenticateUser,
         users: users, 

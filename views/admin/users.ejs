@@ -30,7 +30,7 @@
                               <tr>
                                 <th style="font-size: 10px;">Adı</th>
                                 <th style="font-size: 10px;">Soyadı</th>
-                                <th style="font-size: 10px;">Fotoğrafı</th>
+                                <th style="font-size: 10px;">Email</th>
                                 <th style="font-size: 10px;">Durumu</th>
                                 <th style="font-size: 10px;">Detaylar</th>
                               </tr>
@@ -38,12 +38,8 @@
                             <tbody class="table-border-bottom-0">
                                 <% users.forEach((user) => { %> 
                                     <tr>
-                                        <td style="font-size: 12px;"><i class="menu-icon tf-icons bx bx-user-circle"></i> <b><%=user.name%></b></td>
-                                        
-                                        <td style="font-size: 12px;"><%=user.surname%></td>
-                                        
-                                        <td style="font-size: 12px;">
-                                            <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                        <td class="d-flex justify-content-start align-items-center" style="font-size: 12px;">
+                                            <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center" style="margin-right: 5px !important;">
                                                 <li data-bs-toggle="tooltip"
                                                 data-popup="tooltip-custom"
                                                 data-bs-placement="top"
@@ -55,8 +51,12 @@
                                                         <img src="<%=user.image%>" alt="Avatar" class="rounded-circle" />
                                                     <% } %>
                                                 </li>
-                                            </ul>
-                                        </td>
+                                            </ul> 
+                                            <b><%=user.name%></b></td>
+                                        
+                                        <td style="font-size: 12px;"><%=user.surname%></td>
+                                        
+                                        <td style="font-size: 12px;"><%=user.email%></td>
 
                                         <td style="font-size: 12px;">
                                             <% if(!user.isVerified) { %> 
@@ -86,12 +86,12 @@
                             </tbody>
                           </table>
                           <div class="row p-0 m-0 w-100">
-                            <div class="col-12 col-md-12 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-start align-items-center">
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-start align-items-center">
                                 <div style="font-size: 12px;">
                                     Toplamda <span class="text-primary"><%=totalCount%></span> Kayıttan <span class="text-primary"><%=currentDataCount%></span> tanesi gösteriliyor
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-end align-items-center">
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-end align-items-center">
                                 <ul class="pagination m-0">
                                     <input type="hidden" class="max-page" value="<%= pages; %>">
                                     <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-prev m-0">Önceki</span></li>
