@@ -13,19 +13,25 @@ const {
 const unselectedColumns = '-password -__v -verificationToken -passwordToken -passwordTokenExpirationDate';
 
 const getAllUsers = async (req,res) => {
-    var perpage = 1;
+    var perpage = (req.query.limit == null) ? 2 : req.query.limit;
     var total = await User.find({}).count();
     var pages = Math.ceil(total / perpage);
     var pageNumber = (req.query.page == null) ? 1 : req.query.page;
     var startFrom = (pageNumber - 1) * perpage;
     const users = await User.find({}).skip(startFrom).limit(perpage).select(unselectedColumns);
-    res.status(StatusCodes.OK).render("admin/users", { users: users, pages : pages, NumberOfData : users.length, msg : 'İşlem başarılı' });
+    res.status(StatusCodes.OK).render("admin/users", { 
+        users: users, 
+        pages : pages, 
+        totalCount : total, 
+        currentDataCount : users.length, 
+        msg : 'İşlem başarılı' 
+    });
 }
 
 const getUser = async (req,res) => {
-    const user = await User.findOne({username:req.params.id}).select(unselectedColumns);
+    const user = await User.findOne({_id:req.params.id}).select(unselectedColumns);
     if (!user) throw new CustomError.NotFoundError("Kullanıcı Bulunamadı");
-    res.status(StatusCodes.OK).json({user : user,msg : "İşlem başarılı"});
+    res.status(StatusCodes.OK).render("admin/userDetail",{user : user,msg : 'İşlem başarılı'})
 }
 
 const showCurrentUser = async (req,res) => {
@@ -34,8 +40,8 @@ const showCurrentUser = async (req,res) => {
 }
 
 const updateUser = async (req,res) => {
-    const {name,surname} = req.body;
-    const user = await User.findOne({_id : req.user.userId});
+    const {updateUserId,name,surname} = req.body;
+    const user = await User.findOne({_id : updateUserId});
     if (!user) throw new CustomError.NotFoundError('Kayıt bulunamadı');
     checkPermissions(req.user,user._id);
     user.name = name;
@@ -47,8 +53,6 @@ const updateUser = async (req,res) => {
         user.image = image;
         await user.save();
     }
-    const tokenUser = createTokenUser(user);
-    attachCookiesToResponse({res,user:tokenUser});
     res.status(StatusCodes.OK).json({msg : "Güncelleme işlemi başarılı"});
 }
 

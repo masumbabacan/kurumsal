@@ -1,0 +1,120 @@
+<%- include('./include/header.ejs'); -%>
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <div class="col-lg-12 mb-4 order-0">
+                    <div class="card mb-4">
+                        <h5 class="card-header">Profilim</h5>
+                        <div class="card-body">
+                          <div class="d-flex align-items-start align-items-sm-center gap-4">
+                            <% if(!user.image) { %>
+                                <img src="http://cdn.onlinewebfonts.com/svg/img_504579.png" alt="default-image"
+                                    class="d-block rounded"
+                                    height="100"
+                                    width="100"
+                                    id="uploadedAvatar"
+                                />
+                            <% } else { %>
+                            <img src="http://localhost:3000/<%=user.image%>" alt="avatar"
+                              class="d-block rounded"
+                              height="100"
+                              width="100"
+                              id="uploadedAvatar"
+                            />
+                            <% } %>
+                          <form id="formAccountSettings" method="PATCH" onsubmit="return false">
+                            <div class="button-wrapper">
+                                <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                    <span class="d-none d-sm-block"><i class="bx bx-image-add me-1"></i>Yeni fotoğraf</span>
+                                    <i class="bx bx-upload d-block d-sm-none"></i>
+                                    <input
+                                    type="file"
+                                    id="upload"
+                                    name="image"
+                                    class="account-file-input"
+                                    hidden
+                                    accept="image/png, image/jpeg"
+                                    />
+                                </label>
+                                <p class="text-muted mb-0">E-Posta Adresi : <span class="text-primary"><%=user.email%></span></p>
+                                <p class="text-muted mb-0">Kullanıcı Adı : <span class="text-primary"><%=user.username%></span></p>
+                                <p class="text-muted mb-0">Yetki : <span class="text-danger"><%=user.role%></span></p>
+                            </div>
+                          </div>
+                        </div>
+                        <hr class="my-0" />
+                        <div class="card-body">
+                            <input class="form-control" type="hidden" name="updateUserId" id="updateUserId" value="<%=user._id%>" />
+                            <div class="row">
+                              <div class="mb-3 col-md-6">
+                                <label for="firstName" class="form-label">ad</label>
+                                <input
+                                  class="form-control"
+                                  type="text"
+                                  id="name"
+                                  name="name"
+                                  value="<%=user.name%>"
+                                  autofocus
+                                />
+                              </div>
+                              <div class="mb-3 col-md-6">
+                                <label for="lastName" class="form-label">soyad</label>
+                                <input class="form-control" type="text" name="surname" id="surname" value="<%=user.surname%>" />
+                              </div>
+                            </div>
+                            <div class="mt-2">
+                              <button type="submit" class="btn btn-primary me-2">Güncelle</button>
+                              <button type="reset" class="btn btn-outline-primary">
+                                <a style="color:black" href="http://localhost:3000/api/kurumsal/users">Geri dön</a>
+                            </button>
+                            </div>
+                          </form>
+                        </div>
+                        <!-- /Account -->
+                      </div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+<%- include('./include/footer.ejs'); -%>
+<script>
+    $("#formAccountSettings").on("submit",function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            url : "http://localhost:3000/api/kurumsal/users/updateUser",
+            type : "PATCH",
+            data : formData,
+            success : (response) => {
+                Swal.fire({
+                    icon: "success",
+                    text: response.msg
+                });
+            },
+            error : (xhr, status, error) => {
+                Swal.fire({
+                    icon: "error",
+                    text: xhr.responseJSON.msg
+                });
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+    $("#upload").change(function () {
+        const file = this.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function (event) {
+                $("#uploadedAvatar")
+                    .attr("src", event.target.result);
+                // $("#imgPreview").parent().removeClass("d-none");
+                // $("#imgPreview").parent().addClass("d-inline-block");
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

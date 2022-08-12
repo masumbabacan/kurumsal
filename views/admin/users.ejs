@@ -7,26 +7,42 @@
               <div class="row">
                 <div class="col-lg-12 mb-4 order-0">
                     <div class="card">
-                        <h5 class="card-header" style="width:49%">Kullanıcılar</h5>
+                        <h5 class="card-header py-0 pt-4">Kullanıcılar</h5>
+                        <div class="w-100 p-4 row m-0">
+                            <div class="col-12 col-lg-6 col-xl-4 m-0 p-0">
+                                <div class="pagination">
+                                    <li class="page-item d-flex justify-content-around align-items-center">
+                                        <div style="font-size: 12px; margin-right: 4px;">Sayfada</div>
+                                        <select class="page-link limit-select p-2" style="cursor: pointer; font-size: 12px; margin-right: 4px;">
+                                                <option value="2">2</option>
+                                                <option value="4">4</option>
+                                                <option value="6">6</option>
+                                                <option value="10">10</option>
+                                        </select>
+                                        <div style="font-size: 12px; margin-right: 4px;">kayıt göster</div>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
                         <div class="table-responsive text-nowrap">
-                          <table class="table">
+                          <table class="table border-bottom">
                             <thead>
                               <tr>
-                                <th>Adı</th>
-                                <th>Soyadı</th>
-                                <th>Fotoğrafı</th>
-                                <th>Durumu</th>
-                                <th>Detaylar</th>
+                                <th style="font-size: 10px;">Adı</th>
+                                <th style="font-size: 10px;">Soyadı</th>
+                                <th style="font-size: 10px;">Fotoğrafı</th>
+                                <th style="font-size: 10px;">Durumu</th>
+                                <th style="font-size: 10px;">Detaylar</th>
                               </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
                                 <% users.forEach((user) => { %> 
                                     <tr>
-                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><%=user.name%></strong></td>
+                                        <td style="font-size: 12px;"><i class="menu-icon tf-icons bx bx-user-circle"></i> <b><%=user.name%></b></td>
                                         
-                                        <td><%=user.surname%></td>
+                                        <td style="font-size: 12px;"><%=user.surname%></td>
                                         
-                                        <td>
+                                        <td style="font-size: 12px;">
                                             <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
                                                 <li data-bs-toggle="tooltip"
                                                 data-popup="tooltip-custom"
@@ -42,7 +58,7 @@
                                             </ul>
                                         </td>
 
-                                        <td>
+                                        <td style="font-size: 12px;">
                                             <% if(!user.isVerified) { %> 
                                                 <span class="badge bg-label-danger me-1">Pasif</span>
                                             <% } else { %>
@@ -51,12 +67,12 @@
                                         </td>
 
                                         <td>
-                                        <div class="dropdown">
+                                        <div style="font-size: 12px;" class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="javascript:void(0);"
+                                            <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
                                                 ><i class="bx bx-edit-alt me-1"></i> Güncelle</a
                                             >
                                             <a class="dropdown-item" href="javascript:void(0);"
@@ -70,26 +86,20 @@
                             </tbody>
                           </table>
                           <div class="row p-0 m-0 w-100">
-                            <div class="col-4 p-4 m-0">
-                                Toplamda <b class="text-primary"><%=NumberOfData%></b> Kayıt
+                            <div class="col-12 col-md-12 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-start align-items-center">
+                                <div style="font-size: 12px;">
+                                    Toplamda <span class="text-primary"><%=totalCount%></span> Kayıttan <span class="text-primary"><%=currentDataCount%></span> tanesi gösteriliyor
+                                </div>
                             </div>
-                            <div class="col-4 p-4 m-0">
-                                masum
-                            </div>
-                            <div class="col-4 p-4 m-0">
-                                <nav aria-label="Page navigation example" class="d-flex justify-content-end align-items-end">
-                                    <ul class="pagination">
-                                        <li class="page-item" onchange="location = this.value;"><a class="page-link" href="">Previous</a></li>
-                                            <li class="page-item">
-                                                <select class="page-link" onchange="location = this.value;">
-                                                    <% for (var a=1; a<=pages; a++){ %>
-                                                        <option value="?page=<%= a; %>"><%= a; %></option>
-                                                    <% } %>
-                                                </select>
-                                            </li>
-                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                    </ul>
-                                </nav>
+                            <div class="col-12 col-md-12 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-end align-items-center">
+                                <ul class="pagination m-0">
+                                    <input type="hidden" class="max-page" value="<%= pages; %>">
+                                    <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-prev m-0">Önceki</span></li>
+                                    <% for (var a=1; a<=pages; a++){ %>
+                                    <li class="page-item page-numbers d-none" style="cursor: pointer; font-size: 12px;"><span class="page-link"><%= a; %></span></li>
+                                    <% } %>
+                                    <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-next">Sonraki</span></li>
+                                </ul>
                             </div>
                           </div>
                         </div>
@@ -99,3 +109,70 @@
             </div>
             <!-- / Content -->
 <%- include('./include/footer.ejs'); -%>
+<script>
+    function updateQueryStringParameter(uri, key, value) {
+    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+    if (uri.match(re)) {
+        return uri.replace(re, '$1' + key + "=" + value + '$2');
+    }
+    else {
+        return uri + separator + key + "=" + value;
+    }
+}
+
+$(document).ready(() => {
+    let searchParams = new URLSearchParams(window.location.search);
+    let page = searchParams.get('page');
+    for (const iterator of $('.pagination .page-numbers span')) {
+        if (page === null) {
+          $(iterator).parent().addClass('active');
+          $('.pagination .page-numbers.active').removeClass('d-none');
+          $('.pagination .page-numbers.active').prev('.page-numbers').removeClass('d-none').prev('.page-numbers').removeClass('d-none');
+          $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
+          return;
+        }
+        if ($(iterator).text() === page) {
+          $(iterator).parent().addClass('active');
+        };
+    };
+    $('.pagination .page-numbers.active').removeClass('d-none');
+    $('.pagination .page-numbers.active').prev('.page-numbers').removeClass('d-none').prev('.page-numbers').removeClass('d-none');
+    $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
+    for (const iterator of $('.limit-select option')) {
+        if ($(iterator).val() == localStorage.getItem('limit')) {
+            console.log(1);
+            $(iterator).attr('selected','selected');
+        }
+    }
+});
+$('.limit-select').on('change',function(e) {
+    localStorage.setItem('limit',this.value);
+    let limit = updateQueryStringParameter(window.location.href,'limit',this.value);
+    window.location.href = updateQueryStringParameter(limit,'page',1);
+});
+
+$('.pagination .page-numbers').on('click',(e) => {
+    window.location.href = updateQueryStringParameter(window.location.href,'page',$(e.currentTarget).text());
+});
+
+$('.page-prev').on('click',(e) => {
+    let searchParams = new URLSearchParams(window.location.search);
+    let page = searchParams.get('page');
+    page = Number(page) - 1;
+    console.log(page)
+    if (!page == 0) {
+        console.log(page)
+        window.location.href = updateQueryStringParameter(window.location.href,'page',page);
+    }
+})
+$('.page-next').on('click',(e) => {
+    let searchParams = new URLSearchParams(window.location.search);
+    let page = searchParams.get('page');
+    page = Number(page) + 1;
+    console.log(page);
+    if (page <= $('.max-page').val()) {
+        window.location.href = updateQueryStringParameter(window.location.href,'page',page);
+    }
+})
+</script>
