@@ -1,0 +1,93 @@
+<%- include('./include/header.ejs'); -%>
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <div class="col-lg-12 mb-4 order-0">
+                    <div class="card mb-4">
+                        <h5 class="card-header">Kullanıcı Ekle</h5>
+                        <hr class="my-0" />
+                          <form id="createUser" method="POST" onsubmit="return false">
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="mb-3 col-md-6">
+                                  <label for="firstName" class="form-label">ad</label>
+                                  <input
+                                    class="form-control"
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    autofocus
+                                  />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                  <label for="lastName" class="form-label">soyad</label>
+                                  <input class="form-control" type="text" name="surname" id="surname" />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                  <label for="email" class="form-label">email</label>
+                                  <input class="form-control" type="text" name="email" id="email" />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                  <label for="username" class="form-label">kullanıcı adı</label>
+                                  <input class="form-control" type="text" name="username" id="username" />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                  <label for="password" class="form-label">şifre</label>
+                                  <input class="form-control" type="text" name="password" id="password" />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                  <label for="role" class="form-label">yetki</label>
+                                  <select class="form-select role-select" aria-label="Default select example">
+                                    <option value="demo">demo</option>
+                                    <option value="user">user</option>
+                                    <option value="admin">admin</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="mt-2">
+                                <button type="submit" class="btn btn-primary me-2 deneme">Ekle</button>
+                                <button type="reset" class="btn btn-outline-primary">
+                                  <a style="color:black" href="http://localhost:3000/api/kurumsal/users">Geri dön</a>
+                                </button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <!-- /Account -->
+                      </div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+<%- include('./include/footer.ejs'); -%>
+<script>
+    $("#createUser").on("submit",function(e) {
+        console.log(1);
+        e.preventDefault();
+        let role = $('.role-select option:selected').val();
+        var formData = new FormData(this);
+        formData.append('role', role);
+        $.ajax({
+            url : "http://localhost:3000/api/kurumsal/users",
+            type : "POST",
+            data : formData,
+            success : (response) => {
+                Swal.fire({
+                    icon: "success",
+                    text: response.msg
+                });
+            },
+            error : (xhr, status, error) => {
+                Swal.fire({
+                    icon: "error",
+                    text: xhr.responseJSON.msg
+                });
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+</script>

@@ -19,7 +19,7 @@ const authenticateUser = async (req,res,next) => {
         });
 
         if (!existingToken || !existingToken?.isValid) {
-            throw new CustomError.UnauthenticatedError("Geçersiz kimlik");
+            res.redirect('auth/login');
         }
         req.user = payload.user;
         attachCookiesToResponse({
@@ -29,7 +29,7 @@ const authenticateUser = async (req,res,next) => {
         next();
 
     } catch (error) {
-        throw new CustomError.UnauthenticatedError("Geçersiz kimlik");
+        res.redirect('auth/login');
     }
 };
 

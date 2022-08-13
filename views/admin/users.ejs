@@ -9,19 +9,26 @@
                     <div class="card">
                         <h5 class="card-header py-0 pt-4">Kullanıcılar</h5>
                         <div class="w-100 p-4 row m-0">
-                            <div class="col-12 col-lg-6 col-xl-4 m-0 p-0">
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0">
                                 <div class="pagination">
                                     <li class="page-item d-flex justify-content-around align-items-center">
                                         <div style="font-size: 12px; margin-right: 4px;">Sayfada</div>
                                         <select class="page-link limit-select p-2" style="cursor: pointer; font-size: 12px; margin-right: 4px;">
-                                                <option value="2">2</option>
-                                                <option value="4">4</option>
-                                                <option value="6">6</option>
-                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                                <option value="500">500</option>
                                         </select>
                                         <div style="font-size: 12px; margin-right: 4px;">kayıt göster</div>
                                     </li>
                                 </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
+                                <a href="http://localhost:3000/api/kurumsal/users/createUser">
+                                    <button type="button" class="btn btn-primary btn-sm d-flex justify-content-around align-items-center">
+                                        <span class="tf-icons bx bx-user-plus"></span>&nbsp; Kullanıcı Ekle
+                                    </button>
+                                </a>
                             </div>
                         </div>
                         <div class="table-responsive text-nowrap">
@@ -31,6 +38,7 @@
                                 <th style="font-size: 10px;">Adı</th>
                                 <th style="font-size: 10px;">Soyadı</th>
                                 <th style="font-size: 10px;">Email</th>
+                                <th style="font-size: 10px;">Kullanıcı adı</th>
                                 <th style="font-size: 10px;">Durumu</th>
                                 <th style="font-size: 10px;">Yetki</th>
                                 <th style="font-size: 10px;">Detaylar</th>
@@ -45,11 +53,13 @@
                                                 data-popup="tooltip-custom"
                                                 data-bs-placement="top"
                                                 class="avatar avatar-xs pull-up"
-                                                title="<%=user.username%>">
+                                                title="<%=user.role%>">
                                                     <% if(!user.image) { %> 
                                                         <img src="https://cdn-icons-png.flaticon.com/512/1053/1053244.png?w=360" alt="Avatar" class="rounded-circle" />
                                                     <% } else { %>
-                                                        <img src="<%=user.image%>" alt="Avatar" class="rounded-circle" />
+                                                        <a data-fancybox href="<%=user.image%>">
+                                                            <img src="<%=user.image%>" alt="Avatar" class="rounded-circle" />
+                                                        </a>
                                                     <% } %>
                                                 </li>
                                             </ul> 
@@ -63,8 +73,10 @@
                                         
                                         <td style="font-size: 12px;"><%=user.email%></td>
 
+                                        <td style="font-size: 12px;"><%=user.username%></td>
+
                                         <td style="font-size: 12px;">
-                                            <% if(!user.isVerified) { %> 
+                                            <% if(!user.status) { %> 
                                                 <span class="badge bg-label-danger me-1">Pasif</span>
                                             <% } else { %>
                                                 <span class="badge bg-label-primary me-1">Aktif</span>
@@ -74,8 +86,10 @@
                                         <td style="font-size: 12px;">
                                             <% if(user.role === 'admin') { %> 
                                                 <span class="badge bg-label-danger me-1">Admin</span>
-                                            <% } else { %>
+                                            <% } else if(user.role === 'user') { %>
                                                 <span class="badge bg-label-primary me-1">Kullanıcı</span>
+                                            <% } else if(user.role === 'demo') { %>
+                                                <span class="badge bg-label-warning me-1">Demo</span>
                                             <% } %>
                                         </td>
 
@@ -88,9 +102,15 @@
                                             <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
                                                 ><i class="bx bx-edit-alt me-1"></i> Güncelle</a
                                             >
-                                            <a class="dropdown-item" href="javascript:void(0);"
-                                                ><i class="bx bx-trash me-1"></i> Delete</a
+                                            <% if(!user.status) { %> 
+                                            <a class="dropdown-item delete-user" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
+                                                ><i class="bx bx-user-check me-1"></i> Aktif yap</a
                                             >
+                                            <% } else { %>
+                                            <a class="dropdown-item delete-user" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
+                                                ><i class="bx bx-user-x me-1"></i> Pasif yap</a
+                                            >
+                                            <% } %>
                                             </div>
                                         </div>
                                         </td>
@@ -187,5 +207,27 @@ $('.page-next').on('click',(e) => {
     if (page <= $('.max-page').val()) {
         window.location.href = updateQueryStringParameter(window.location.href,'page',page);
     }
+})
+
+$(".delete-user").on('click', function(e) {
+    e.preventDefault();
+    console.log(1);
+    $.ajax({
+        url : this.href,
+        type : "DELETE",
+        success : (response) => {
+            Swal.fire({
+                icon: "success",
+                text: response.msg
+            });
+        },
+        error : (xhr, status, error) => {
+            Swal.fire({
+                icon: "error",
+                text: xhr.responseJSON.msg
+            });
+        },
+    })
+    return false;
 })
 </script>

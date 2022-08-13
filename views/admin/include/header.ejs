@@ -46,6 +46,11 @@
     <!-- Helpers -->
     <script src="/adminpanel/assets/vendor/js/helpers.js"></script>
 
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css"
+    />
+
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/adminpanel/assets/js/config.js"></script>
@@ -71,12 +76,14 @@
 
           <ul class="menu-inner py-1 bg-dark">
             <!-- Dashboard -->
-            <li class="menu-item dashboard">
-              <a href="http://localhost:3000/api/kurumsal/admin/dashboard" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Gösterge Paneli</div>
-              </a>
-            </li>
+            <% if(authenticateUser.role === 'admin') { %>
+              <li class="menu-item dashboard">
+                <a href="http://localhost:3000/api/kurumsal/admin/dashboard" class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                  <div data-i18n="Analytics">Gösterge Paneli</div>
+                </a>
+              </li>
+            <% } %>
             <li class="menu-item logout users">
                 <a href="http://localhost:3000/api/kurumsal/users" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-user"></i>
@@ -100,6 +107,7 @@
           <nav
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar"
+            style="z-index: 1;"
           >
             <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
               <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">

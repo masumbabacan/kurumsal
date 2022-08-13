@@ -64,7 +64,6 @@ const postLogin = async (req,res) => {
         refreshToken = existingToken.refreshToken;
         attachCookiesToResponse({res,user:tokenUser,refreshToken});
         res.status(StatusCodes.OK).json({user:tokenUser, msg: 'Giriş başarılı'});
-        console.log(1);
         return;
     }
     refreshToken = crypto.randomBytes(40).toString('hex');
@@ -73,7 +72,6 @@ const postLogin = async (req,res) => {
     const userToken = {refreshToken,ip,userAgent,user:user._id};
     await Token.create(userToken);
     attachCookiesToResponse({res,user:tokenUser,refreshToken});
-    console.log(2);
     res.status(StatusCodes.OK).json({user: tokenUser, msg: 'Giriş başarılı'});
 }
 

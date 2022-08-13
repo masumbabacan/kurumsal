@@ -41,7 +41,7 @@ const UserSchema = new mongoose.Schema({
     },
     role : {
         type : String,
-        enum : ["admin","user"],
+        enum : ["admin","user","demo"],
         default : "admin",
     },
     verificationToken : String,
@@ -53,10 +53,14 @@ const UserSchema = new mongoose.Schema({
     passwordToken:{
         type : String,
     },
+    status : {
+        type : Boolean,
+        default : true,
+    },
     passwordTokenExpirationDate:{
         type:Date,
     },
-});
+},{timestamps : true});
 
 UserSchema.pre('save', async function(){
     if (!this.isModified('password')) return;

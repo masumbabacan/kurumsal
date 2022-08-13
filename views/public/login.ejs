@@ -139,6 +139,7 @@
                 contentType: "application/json",
                 data : JSON.stringify(data),
                 success : (response) => {
+                    console.log(response)
                     let timerInterval
                     Swal.fire({
                         title: 'Giriş başarılı',
@@ -158,7 +159,11 @@
                         }
                         }).then((result) => {
                         if (result.dismiss === Swal.DismissReason.timer) {
+                          if (response.user.role === 'admin') {
                             window.location.href = "http://localhost:3000/api/kurumsal/admin/dashboard";
+                          }else {
+                            window.location.href = "http://localhost:3000/api/kurumsal/users";
+                          }
                         }
                     });
                 },

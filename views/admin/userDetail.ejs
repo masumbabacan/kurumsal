@@ -63,12 +63,20 @@
                                 <label for="lastName" class="form-label">soyad</label>
                                 <input class="form-control" type="text" name="surname" id="surname" value="<%=user.surname%>" />
                               </div>
+                              <div class="mb-3 col-md-6">
+                                <label for="role" class="form-label">yetki</label>
+                                <select class="form-select role-select" aria-label="Default select example">
+                                  <option value="demo">demo</option>
+                                  <option value="user">user</option>
+                                  <option value="admin">admin</option>
+                                </select>
+                              </div>
                             </div>
                             <div class="mt-2">
                               <button type="submit" class="btn btn-primary me-2">Güncelle</button>
                               <button type="reset" class="btn btn-outline-primary">
                                 <a style="color:black" href="http://localhost:3000/api/kurumsal/users">Geri dön</a>
-                            </button>
+                              </button>
                             </div>
                           </form>
                         </div>
@@ -80,9 +88,19 @@
             <!-- / Content -->
 <%- include('./include/footer.ejs'); -%>
 <script>
+    $(document).ready(() => {
+      for (const iterator of $('.role-select option')) {
+        if ($(iterator).text() === '<%=user.role%>') {
+          $(iterator).attr('selected','selected');
+        }
+      }
+    });
+
     $("#formAccountSettings").on("submit",function(e) {
         e.preventDefault();
+        let role = $('.role-select option:selected').val();
         var formData = new FormData(this);
+        formData.append('role', role);
         $.ajax({
             url : "http://localhost:3000/api/kurumsal/users/updateUser",
             type : "PATCH",
