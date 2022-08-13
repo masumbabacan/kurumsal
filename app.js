@@ -23,6 +23,7 @@ const homePageRoutes = require("./routes/homePageRoutes");
 const adminPageRoutes = require("./routes/adminPageRoutes");
 const authRouter = require("./routes/authRoutes");
 const userRouter = require("./routes/userRoutes");
+const serviceRouter = require("./routes/serviceRoutes");
 
 //middleware
 const notFoundMiddleware = require("./middleware/not-found");
@@ -42,6 +43,7 @@ app.use("/api/kurumsal/",homePageRoutes);
 app.use("/api/kurumsal/admin",adminPageRoutes);
 app.use("/api/kurumsal/auth",authRouter);
 app.use("/api/kurumsal/users",userRouter);
+app.use("/api/kurumsal/services",serviceRouter);
 
 
 app.use(notFoundMiddleware);

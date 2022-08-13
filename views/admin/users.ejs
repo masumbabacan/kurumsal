@@ -80,10 +80,19 @@
                                                     <% } %>
                                                 </li>
                                             </ul> 
-                                            <b style="margin-right: 5px;"><%=user.name%></b>
                                             <% if(user.username === authenticateUser.username) { %> 
-                                                <b class="text-danger">(Ben)</b>
+                                                <ul class="list-unstyled m-0 avatar-group d-flex justify-content-center align-items-center text-success" 
+                                                    style="margin-right: 5px !important;">
+                                                    <li data-bs-toggle="tooltip"
+                                                    data-popup="tooltip-custom"
+                                                    data-bs-placement="top"
+                                                    class="avatar avatar-xs d-flex justify-content-center align-items-center"
+                                                    title="Ben">
+                                                        <span class="tf-icons bx bx-user-check"></span>
+                                                    </li>
+                                                </ul> 
                                             <% } %> 
+                                            <b style="margin-right: 5px;"><%=user.name%></b>
                                         </td>
                                         
                                         <td style="font-size: 12px;"><%=user.surname%></td>
@@ -104,7 +113,7 @@
                                             <% if(user.role === 'admin') { %> 
                                                 <span class="badge bg-label-danger me-1">Admin</span>
                                             <% } else if(user.role === 'user') { %>
-                                                <span class="badge bg-label-primary me-1">Kullanıcı</span>
+                                                <span class="badge bg-label-info me-1">Kullanıcı</span>
                                             <% } else if(user.role === 'demo') { %>
                                                 <span class="badge bg-label-warning me-1">Demo</span>
                                             <% } %>
