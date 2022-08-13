@@ -12,21 +12,24 @@ const {
 } = 
 require("../controllers/userController");
 
-router.get("/",authenticateUser,authorizePermissions('admin','user','demo'),getAllUsers);
-
+//create user routes
 router.get("/createUser",authenticateUser,authorizePermissions('admin','user','demo'),createUserGet);
 router.post("/",authenticateUser,authorizePermissions('admin'),createUserPost);
 
+//get all user route
+router.get("/",authenticateUser,authorizePermissions('admin','user','demo'),getAllUsers);
+
+//get single user route
 router.get("/:id",authenticateUser,authorizePermissions('admin','user','demo'),getUser);
 
-router.patch("/updateUserPassword",authenticateUser,authorizePermissions('admin'),updateUserPassword);
-router.patch("/updateUser",authenticateUser,authorizePermissions('admin'),updateUser);
+//delete user route
+router.delete("/:id",authenticateUser,authorizePermissions('admin','user','demo'),deleteUser);
 
+//update user route
+router.patch("/updateUser",authenticateUser,authorizePermissions('admin','user','demo'),updateUser);
 
-router.delete("/:id",authenticateUser,authorizePermissions('admin'),deleteUser);
-
-
-
+//update authenticate user password route
+router.patch("/updateUserPassword",authenticateUser,authorizePermissions('admin','user','demo'),updateUserPassword);
 
 // router.get("/showMe",authenticateUser,authorizePermissions('admin'),showCurrentUser);
 module.exports = router; 

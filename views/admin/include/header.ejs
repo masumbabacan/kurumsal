@@ -119,10 +119,9 @@
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                  <a class="nav-link dropdown-toggle hide-arrow d-flex justify-content-between align-items-center" href="javascript:void(0);" data-bs-toggle="dropdown">
-                    <div class="m-2 text-danger"><%=authenticateUser.username%></div>
+                  <a data-fancybox class="nav-link dropdown-toggle hide-arrow d-flex justify-content-between align-items-center" href="<%=authenticateUser.image%>">
                     <div class="avatar avatar-online">
-                      <img src="http://localhost:3000/<%=authenticateUser.image%>" alt class="w-px-40 h-auto rounded-circle" />
+                      <img src="<%=authenticateUser.image%>" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </a>
                 </li>

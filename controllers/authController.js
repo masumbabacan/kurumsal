@@ -49,9 +49,8 @@ const getLogin = async (req,res) => {
 
 const postLogin = async (req,res) => {
     const {username,password} = req.body;
-    console.log(req.body);
     await nullControl([username,password]);
-    const user = await User.findOne({username});
+    const user = await User.findOne({username,status : true});
     if (!user) throw new CustomError.UnauthenticatedError("Geçersiz kimlik bilgileri");
     const isPasswordCorrect = await user.comparePassword(password);
     if (!isPasswordCorrect) throw new CustomError.BadRequestError("Geçersiz kimlik bilgileri");

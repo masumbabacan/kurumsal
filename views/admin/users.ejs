@@ -25,14 +25,31 @@
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
                                 <a href="http://localhost:3000/api/kurumsal/users/createUser">
-                                    <button type="button" class="btn btn-primary btn-sm d-flex justify-content-around align-items-center">
-                                        <span class="tf-icons bx bx-user-plus"></span>&nbsp; Kullanıcı Ekle
-                                    </button>
+                                    <ul class="list-unstyled create-user m-0 avatar-group d-flex justify-content-center align-items-center text-primary" 
+                                    style="margin-right: 5px !important;">
+                                    <li data-bs-toggle="tooltip"
+                                    data-popup="tooltip-custom"
+                                    data-bs-placement="top"
+                                    class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
+                                    title="Kullanıcı ekle">
+                                        <span class="tf-icons bx bx-user-plus"></span>
+                                    </li>
+                                </ul> 
                                 </a>
+                                <ul class="list-unstyled page-refresh m-0 avatar-group d-flex justify-content-center align-items-center text-danger" 
+                                    style="margin-right: 5px !important;">
+                                    <li data-bs-toggle="tooltip"
+                                    data-popup="tooltip-custom"
+                                    data-bs-placement="top"
+                                    class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
+                                    title="Sayfayı yenile">
+                                        <span class="tf-icons bx bx-refresh"></span>
+                                    </li>
+                                </ul> 
                             </div>
                         </div>
                         <div class="table-responsive text-nowrap">
-                          <table class="table border-bottom">
+                          <table class="table border-bottom border-top">
                             <thead>
                               <tr>
                                 <th style="font-size: 10px;">Adı</th>
@@ -55,7 +72,7 @@
                                                 class="avatar avatar-xs pull-up"
                                                 title="<%=user.role%>">
                                                     <% if(!user.image) { %> 
-                                                        <img src="https://cdn-icons-png.flaticon.com/512/1053/1053244.png?w=360" alt="Avatar" class="rounded-circle" />
+                                                        <img src="/adminpanel/assets/img/icons/unicons/userDefault.png" alt="Avatar" class="rounded-circle" />
                                                     <% } else { %>
                                                         <a data-fancybox href="<%=user.image%>">
                                                             <img src="<%=user.image%>" alt="Avatar" class="rounded-circle" />
@@ -65,7 +82,7 @@
                                             </ul> 
                                             <b style="margin-right: 5px;"><%=user.name%></b>
                                             <% if(user.username === authenticateUser.username) { %> 
-                                                <span class="text-danger">(Ben)</span>
+                                                <b class="text-danger">(Ben)</b>
                                             <% } %> 
                                         </td>
                                         
@@ -211,7 +228,6 @@ $('.page-next').on('click',(e) => {
 
 $(".delete-user").on('click', function(e) {
     e.preventDefault();
-    console.log(1);
     $.ajax({
         url : this.href,
         type : "DELETE",
@@ -229,5 +245,9 @@ $(".delete-user").on('click', function(e) {
         },
     })
     return false;
+});
+
+$('.page-refresh').on('click',(e) => {
+    location.reload();
 })
 </script>

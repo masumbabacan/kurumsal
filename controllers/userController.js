@@ -18,7 +18,10 @@ const getAllUsers = async (req,res) => {
     var pages = Math.ceil(total / perpage);
     var pageNumber = (req.query.page == null) ? 1 : req.query.page;
     var startFrom = (pageNumber - 1) * perpage;
-    const users = await User.find({}).skip(startFrom).limit(perpage).select(unselectedColumns);
+    let users;
+    if (req.user.role === 'user') users = await User.find({$or: [{role : 'user'},{role : 'demo'}]}).skip(startFrom).limit(perpage).select(unselectedColumns);
+    if (req.user.role === 'demo') users = await User.find({role : 'demo'}).skip(startFrom).limit(perpage).select(unselectedColumns);
+    if (req.user.role === 'admin') users = await User.find({}).skip(startFrom).limit(perpage).select(unselectedColumns);
     const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
     res.status(StatusCodes.OK).render("admin/users", { 
         authenticateUser : authenticateUser,
@@ -61,10 +64,10 @@ const createUserPost = async (req,res) => {
     res.status(StatusCodes.CREATED).json({msg : "İşlem başarılı!"});
 }
 
-const showCurrentUser = async (req,res) => {
-    const user = await User.findOne({_id : req.user.userId}).select(unselectedColumns);
-    res.status(StatusCodes.OK).json({data : user});
-}
+// const showCurrentUser = async (req,res) => {
+//     const user = await User.findOne({_id : req.user.userId}).select(unselectedColumns);
+//     res.status(StatusCodes.OK).json({data : user});
+// }
 
 const updateUser = async (req,res) => {
     const {updateUserId,name,surname,role} = req.body;
@@ -73,7 +76,7 @@ const updateUser = async (req,res) => {
     checkPermissions(req.user,user._id);
     user.name = name;
     user.surname = surname;
-    user.role = role;
+    if (req.user.role === 'admin') user.role = role;
     await user.save();
     if (req.files) {
         await fileDelete(user.image);
@@ -85,9 +88,10 @@ const updateUser = async (req,res) => {
 }
 
 const updateUserPassword = async (req,res) => {
-    const { oldPassword, newPassword } = req.body;
+    const { updateUserId,oldPassword, newPassword } = req.body;
     await nullControl([oldPassword,newPassword]);
-    const user = await User.findOne({_id : req.user.userId});
+    const user = await User.findOne({_id : updateUserId});
+    checkPermissions(req.user,user._id);
     const isPasswordCorrect = await user.comparePassword(oldPassword);
     if (!isPasswordCorrect) throw new CustomError.UnauthenticatedError("Geçersiz kimlik bilgileri");
     user.password = newPassword;
@@ -98,7 +102,7 @@ const updateUserPassword = async (req,res) => {
 const deleteUser = async (req,res) => {
     const user = await User.findOne({_id : req.params.id});
     if (!user) throw new CustomError.BadRequestError("Bir hata oluştu");
-    console.log(user);
+    checkPermissions(req.user,user._id);
     if (user.status === false){
         await User.findOneAndUpdate({_id : user._id},{status: true});
     } 
