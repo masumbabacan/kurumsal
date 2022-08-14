@@ -26,14 +26,14 @@
                                 <a href="http://localhost:3000/api/kurumsal/services/createService">
                                     <ul class="list-unstyled create-service m-0 avatar-group d-flex justify-content-center align-items-center text-primary" 
                                     style="margin-right: 5px !important;">
-                                    <li data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
-                                    title="Hizmet ekle">
-                                        <span class="tf-icons bx bx-list-plus"></span>
-                                    </li>
-                                </ul> 
+                                        <li data-bs-toggle="tooltip"
+                                        data-popup="tooltip-custom"
+                                        data-bs-placement="top"
+                                        class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
+                                        title="Hizmet ekle">
+                                            <span class="tf-icons bx bx-list-plus"></span>
+                                        </li>
+                                    </ul> 
                                 </a>
                                 <ul class="list-unstyled page-refresh m-0 avatar-group d-flex justify-content-center align-items-center text-danger" 
                                     style="margin-right: 5px !important;">
@@ -53,6 +53,7 @@
                               <tr>
                                 <th style="font-size: 10px;">Hizmet Adı</th>
                                 <th style="font-size: 10px;">Açıklaması</th>
+                                <th style="font-size: 10px;">Resimler</th>
                                 <th style="font-size: 10px;">Eklenme tarihi</th>
                                 <th style="font-size: 10px;">Son güncelleme tarihi</th>
                                 <th style="font-size: 10px;">Durumu</th>
@@ -62,12 +63,58 @@
                             <tbody class="table-border-bottom-0">
                                 <% services.forEach((service) => { %> 
                                     <tr>
-                                        <td style="font-size: 12px;"><%=service.name%></td>
+                                        <td style="font-size: 12px;"><b><%=service.name%></b></td>
                                         
                                         <td style="font-size: 12px;"><%=service.description.substring(0, 20)+"..."%></td>
 
-                                        <td style="font-size: 12px;">02/02/2022</td>
-                                        <td style="font-size: 12px;">02/02/2022</td>
+                                        <td style="font-size: 12px;">
+                                            <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                                <% if(service.imageUrls.length < 1){ %>
+                                                    <i class="bx bx-error-circle text-danger"></i>
+                                                    <span class="text-danger">Resim yüklenmemiş</span>
+                                                <% } else { %>
+                                                    <% if(service.imageUrls.length > 3){ %>
+                                                        <% for (var l = service.imageUrls.length, i = 0; i < 3; i++) { %>
+                                                            <li
+                                                                data-bs-toggle="tooltip"
+                                                                data-popup="tooltip-custom"
+                                                                data-bs-placement="top"
+                                                                class="avatar avatar-xs pull-up">
+                                                                <a data-fancybox="gallery" href="<%=service.imageUrls[i]%>">
+                                                                    <img src="<%=service.imageUrls[i]%>" alt="Avatar" class="rounded-circle" />
+                                                                </a>
+                                                            </li>
+                                                        <% } %>
+                                                    <% } else { %>
+                                                        <% for (var l = service.imageUrls.length, i = 0; i < l; i++) { %>
+                                                            <li
+                                                                data-bs-toggle="tooltip"
+                                                                data-popup="tooltip-custom"
+                                                                data-bs-placement="top"
+                                                                class="avatar avatar-xs pull-up">
+                                                                <a data-fancybox="gallery" href="<%=service.imageUrls[i]%>">
+                                                                    <img src="<%=service.imageUrls[i]%>" alt="Avatar" class="rounded-circle" />
+                                                                </a>
+                                                            </li>
+                                                        <% } %>
+                                                    <% } %>
+                                                <% } %>
+                                            </ul>
+                                        </td>
+
+                                        <td style="font-size: 12px;">
+                                            <%=service.createdAt.getDate(); %> 
+                                            <%=service.createdAt.toLocaleString('default', {month: 'long'}); %>
+                                            <%=service.createdAt.getFullYear(); %> 
+                                            <br><%=service.createdAt.getHours(); %>:<%=service.createdAt.getMinutes(); %>
+                                        </td>
+
+                                        <td style="font-size: 12px;">
+                                            <%=service.updatedAt.getDate(); %> 
+                                            <%=service.updatedAt.toLocaleString('default', {month: 'long'}); %>
+                                            <%=service.updatedAt.getFullYear(); %>
+                                            <br><%=service.updatedAt.getHours(); %>:<%=service.updatedAt.getMinutes(); %>
+                                        </td>
 
                                         <td style="font-size: 12px;">
                                             <% if(!service.status) { %> 
