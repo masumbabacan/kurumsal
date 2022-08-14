@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <div class="table-responsive text-nowrap">
-                          <table class="table border-bottom border-top" style="table-layout: fixed;">
+                          <table class="table border-bottom border-top">
                             <thead>
                               <tr>
                                 <th style="font-size: 10px;">Hizmet Adı</th>
@@ -64,9 +64,7 @@
                                     <tr>
                                         <td style="font-size: 12px;"><%=service.name%></td>
                                         
-                                        <td style="font-size: 12px; text-overflow:ellipsis;
-                                        overflow:hidden;
-                                        white-space:nowrap;"><%=service.description%></td>
+                                        <td style="font-size: 12px;"><%=service.description.substring(0, 20)+"..."%></td>
 
                                         <td style="font-size: 12px;">02/02/2022</td>
                                         <td style="font-size: 12px;">02/02/2022</td>
