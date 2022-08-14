@@ -8,9 +8,13 @@
                     <div class="card mb-4">
                         <h5 class="card-header">Hizmet Ekle</h5>
                         <hr class="my-0" />
-                          <form id="createService" method="POST" onsubmit="return false">
+                          <form id="createService" method="POST" enctype="multipart/form-data" onsubmit="return false">
                             <div class="card-body">
                               <div class="row">
+                                <div class="mb-3 col-12">
+                                  <label for="firstName" class="form-label">Resim Ekle</label>
+                                  <br><input type="file" name="images" value="Resim ekle" multiple>
+                                </div>
                                 <div class="mb-3 col-12">
                                   <label for="firstName" class="form-label">Hizmet adı</label>
                                   <input

@@ -5,6 +5,7 @@ const sendVerificationEmail = require("./sendVerificationEmail");
 const sendResetPasswordEmail = require("./sendResetPasswordEmail");
 const createHash = require("./createHash");
 const singleImageUpload = require("./fileUpload");
+const multipleFileUpload = require("./multipleFileUpload");
 const nullControl = require("./nullControl");
 const fileDelete = require("./fileDelete");
 
@@ -18,6 +19,7 @@ module.exports = {
     sendResetPasswordEmail,
     createHash,
     singleImageUpload,
+    multipleFileUpload,
     nullControl,
     fileDelete,
 }

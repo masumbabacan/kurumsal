@@ -7,12 +7,15 @@ const {
     createServicePost,
     getService,
     updateService,
-    deleteService
+    deleteService,
+    deleteServiceImage
 } = 
 require("../controllers/serviceController");
 
 router.get("/createService",authenticateUser,authorizePermissions('admin','user','demo'),createServiceGet);
 router.post("/",authenticateUser,authorizePermissions('admin'),createServicePost);
+
+router.get("/imageDelete",authenticateUser,authorizePermissions('admin',),deleteServiceImage);
 
 router.get("/",authenticateUser,authorizePermissions('admin','user','demo'),getAllServices);
 router.get("/:id",authenticateUser,authorizePermissions('admin','user','demo'),getService);

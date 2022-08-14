@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
-
+app.locals.moment = require('moment');
 
 
 //apples

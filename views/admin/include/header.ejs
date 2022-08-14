@@ -46,10 +46,9 @@
     <!-- Helpers -->
     <script src="/adminpanel/assets/vendor/js/helpers.js"></script>
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.2/assets/owl.carousel.min.css" type="text/css" />
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
@@ -125,7 +124,7 @@
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                  <a data-fancybox class="nav-link dropdown-toggle hide-arrow d-flex justify-content-between align-items-center" href="<%=authenticateUser.image%>">
+                  <a class="nav-link dropdown-toggle hide-arrow d-flex justify-content-between align-items-center" href="<%=authenticateUser.image%>">
                     <div class="avatar avatar-online">
                       <img src="<%=authenticateUser.image%>" alt class="w-100 h-100 h-auto rounded-circle" />
                     </div>
