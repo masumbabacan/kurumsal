@@ -13,7 +13,7 @@ const {
 const unselectedColumns = '-password -__v -verificationToken -passwordToken -passwordTokenExpirationDate';
 
 const getAllUsers = async (req,res) => {
-    var perpage = (req.query.limit == null) ? 25 : req.query.limit;
+    var perpage = (req.query.limit == null) ? 10 : req.query.limit;
     var total = await User.find({}).count();
     var pages = Math.ceil(total / perpage);
     var pageNumber = (req.query.page == null) ? 1 : req.query.page;

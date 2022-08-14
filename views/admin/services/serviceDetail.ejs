@@ -1,0 +1,89 @@
+<%- include('../include/header.ejs'); -%>
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <div class="col-lg-12 mb-4 order-0">
+                    <div class="card mb-4">
+                        <h5 class="card-header">Hizmet</h5>
+                        <hr class="my-0" />
+                          <form id="serviceForm" method="POST" onsubmit="return false">
+                            <input class="form-control" type="hidden" name="updateServiceId" id="updateServiceId" value="<%=service._id%>" />
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="mb-3 col-12">
+                                  <label for="firstName" class="form-label">Hizmet adı</label>
+                                  <input
+                                    class="form-control"
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    value="<%=service.name%>"
+                                    autofocus
+                                  />
+                                </div>
+                                <div class="mb-3 col-12">
+                                  <label for="description" class="form-label">Açıklama</label>
+                                  <textarea class="form-control" type="text" name="description" id="description"><%=service.description%></textarea>
+                                </div>
+                                <div class="mb-3 col-12">
+                                  <label for="role" class="form-label">Durumu</label>
+                                  <select class="form-select status-select" aria-label="Default select example">
+                                    <option value="true">true</option>
+                                    <option value="false">false</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="mt-2">
+                                <button type="submit" class="btn btn-primary me-2">Güncelle</button>
+                                <button type="reset" class="btn btn-outline-primary">
+                                  <a style="color:black" href="http://localhost:3000/api/kurumsal/services">Geri dön</a>
+                                </button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <!-- /Account -->
+                      </div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+<%- include('../include/footer.ejs'); -%>
+<script>
+    $(document).ready(() => {
+      for (const iterator of $('.status-select option')) {
+        if ($(iterator).text() === '<%=service.status%>') {
+          $(iterator).attr('selected','selected');
+        }
+      }
+    });
+
+    $("#serviceForm").on("submit",function(e) {
+        e.preventDefault();
+        let status = $('.status-select option:selected').val();
+        var formData = new FormData(this);
+        formData.append('status', status);
+        $.ajax({
+            url : "http://localhost:3000/api/kurumsal/services/updateService",
+            type : "PATCH",
+            data : formData,
+            success : (response) => {
+                Swal.fire({
+                    icon: "success",
+                    text: response.msg
+                });
+            },
+            error : (xhr, status, error) => {
+                Swal.fire({
+                    icon: "error",
+                    text: xhr.responseJSON.msg
+                });
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+</script>

@@ -1,0 +1,215 @@
+<%- include('../include/header.ejs'); -%>
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <div class="col-lg-12 mb-4 order-0">
+                    <div class="card">
+                        <h5 class="card-header py-0 pt-4">Hizmetler</h5>
+                        <div class="w-100 p-4 row m-0">
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0">
+                                <div class="pagination">
+                                    <li class="page-item d-flex justify-content-around align-items-center">
+                                        <div style="font-size: 12px; margin-right: 4px;">Sayfada</div>
+                                        <select class="page-link limit-select p-2" style="cursor: pointer; font-size: 12px; margin-right: 4px;">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                        </select>
+                                        <div style="font-size: 12px; margin-right: 4px;">kayıt göster</div>
+                                    </li>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
+                                <a href="http://localhost:3000/api/kurumsal/services/createService">
+                                    <ul class="list-unstyled create-service m-0 avatar-group d-flex justify-content-center align-items-center text-primary" 
+                                    style="margin-right: 5px !important;">
+                                    <li data-bs-toggle="tooltip"
+                                    data-popup="tooltip-custom"
+                                    data-bs-placement="top"
+                                    class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
+                                    title="Hizmet ekle">
+                                        <span class="tf-icons bx bx-list-plus"></span>
+                                    </li>
+                                </ul> 
+                                </a>
+                                <ul class="list-unstyled page-refresh m-0 avatar-group d-flex justify-content-center align-items-center text-danger" 
+                                    style="margin-right: 5px !important;">
+                                    <li data-bs-toggle="tooltip"
+                                    data-popup="tooltip-custom"
+                                    data-bs-placement="top"
+                                    class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
+                                    title="Sayfayı yenile">
+                                        <span class="tf-icons bx bx-refresh"></span>
+                                    </li>
+                                </ul> 
+                            </div>
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                          <table class="table border-bottom border-top" style="table-layout: fixed;">
+                            <thead>
+                              <tr>
+                                <th style="font-size: 10px;">Hizmet Adı</th>
+                                <th style="font-size: 10px;">Açıklaması</th>
+                                <th style="font-size: 10px;">Eklenme tarihi</th>
+                                <th style="font-size: 10px;">Son güncelleme tarihi</th>
+                                <th style="font-size: 10px;">Durumu</th>
+                                <th style="font-size: 10px;">Detaylar</th>
+                              </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                <% services.forEach((service) => { %> 
+                                    <tr>
+                                        <td style="font-size: 12px;"><%=service.name%></td>
+                                        
+                                        <td style="font-size: 12px; text-overflow:ellipsis;
+                                        overflow:hidden;
+                                        white-space:nowrap;"><%=service.description%></td>
+
+                                        <td style="font-size: 12px;">02/02/2022</td>
+                                        <td style="font-size: 12px;">02/02/2022</td>
+
+                                        <td style="font-size: 12px;">
+                                            <% if(!service.status) { %> 
+                                                <span class="badge bg-label-danger me-1">Pasif</span>
+                                            <% } else { %>
+                                                <span class="badge bg-label-primary me-1">Aktif</span>
+                                            <% } %>
+                                        </td>
+
+                                        <td>
+                                        <div style="font-size: 12px;" class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/services/<%=service._id%>"
+                                                ><i class="bx bx-edit-alt me-1"></i> Güncelle</a
+                                            >
+                                            <a class="dropdown-item delete-service" href="http://localhost:3000/api/kurumsal/services/<%=service._id%>"
+                                                ><i class="bx bx-trash me-1"></i> Sil</a
+                                            >
+                                            </div>
+                                        </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                          </table>
+                          <div class="row p-0 m-0 w-100">
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-start align-items-center">
+                                <div style="font-size: 12px;">
+                                    Toplamda <span class="text-primary"><%=totalCount%></span> Kayıttan <span class="text-primary"><%=currentDataCount%></span> tanesi gösteriliyor
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-end align-items-center">
+                                <ul class="pagination m-0">
+                                    <input type="hidden" class="max-page" value="<%= pages; %>">
+                                    <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-prev m-0">Önceki</span></li>
+                                    <% for (var a=1; a<=pages; a++){ %>
+                                    <li class="page-item page-numbers d-none" style="cursor: pointer; font-size: 12px;"><span class="page-link"><%= a; %></span></li>
+                                    <% } %>
+                                    <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-next">Sonraki</span></li>
+                                </ul>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+<%- include('../include/footer.ejs'); -%>
+<script>
+    function updateQueryStringParameter(uri, key, value) {
+    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+    if (uri.match(re)) {
+        return uri.replace(re, '$1' + key + "=" + value + '$2');
+    }
+    else {
+        return uri + separator + key + "=" + value;
+    }
+}
+
+$(document).ready(() => {
+    let searchParams = new URLSearchParams(window.location.search);
+    let page = searchParams.get('page');
+    for (const iterator of $('.pagination .page-numbers span')) {
+        if (page === null) {
+          $(iterator).parent().addClass('active');
+          $('.pagination .page-numbers.active').removeClass('d-none');
+          $('.pagination .page-numbers.active').prev('.page-numbers').removeClass('d-none').prev('.page-numbers').removeClass('d-none');
+          $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
+          return;
+        }
+        if ($(iterator).text() === page) {
+          $(iterator).parent().addClass('active');
+        };
+    };
+    $('.pagination .page-numbers.active').removeClass('d-none');
+    $('.pagination .page-numbers.active').prev('.page-numbers').removeClass('d-none').prev('.page-numbers').removeClass('d-none');
+    $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
+    for (const iterator of $('.limit-select option')) {
+        if ($(iterator).val() == localStorage.getItem('limit')) {
+            $(iterator).attr('selected','selected');
+        }
+    }
+});
+$('.limit-select').on('change',function(e) {
+    localStorage.setItem('limit',this.value);
+    let limit = updateQueryStringParameter(window.location.href,'limit',this.value);
+    window.location.href = updateQueryStringParameter(limit,'page',1);
+});
+
+$('.pagination .page-numbers').on('click',(e) => {
+    window.location.href = updateQueryStringParameter(window.location.href,'page',$(e.currentTarget).text());
+});
+
+$('.page-prev').on('click',(e) => {
+    let searchParams = new URLSearchParams(window.location.search);
+    let page = searchParams.get('page');
+    page = Number(page) - 1;
+    console.log(page)
+    if (!page == 0) {
+        console.log(page)
+        window.location.href = updateQueryStringParameter(window.location.href,'page',page);
+    }
+})
+$('.page-next').on('click',(e) => {
+    let searchParams = new URLSearchParams(window.location.search);
+    let page = searchParams.get('page');
+    page = Number(page) + 1;
+    console.log(page);
+    if (page <= $('.max-page').val()) {
+        window.location.href = updateQueryStringParameter(window.location.href,'page',page);
+    }
+})
+
+$(".delete-service").on('click', function(e) {
+    e.preventDefault();
+    $.ajax({
+        url : this.href,
+        type : "DELETE",
+        success : (response) => {
+            Swal.fire({
+                icon: "success",
+                text: response.msg
+            });
+        },
+        error : (xhr, status, error) => {
+            Swal.fire({
+                icon: "error",
+                text: xhr.responseJSON.msg
+            });
+        },
+    })
+    return false;
+});
+
+$('.page-refresh').on('click',(e) => {
+    location.reload();
+})
+</script>
