@@ -13,7 +13,28 @@
                               <div class="row">
                                 <div class="mb-3 col-12">
                                   <label for="firstName" class="form-label">Resim Ekle</label>
-                                  <br><input type="file" name="images" value="Resim ekle" multiple>
+                                  <div class="row">
+                                    <div class="col-2 add-image d-flex justify-content-center align-items-center px-2 mb-2">
+                                      <label 
+                                        for="upload" 
+                                        class="btn w-100 d-flex justify-content-center align-items-center border rounded" 
+                                        style="height: 100px;"
+                                        tabindex="0">
+                                        <span style="opacity: .5;" class="d-none d-sm-block">
+                                          <i style="font-size: 30px;" class="bx bx-plus me-1"></i>
+                                        </span>
+                                        <input
+                                          type="file"
+                                          id="upload"
+                                          name="images"
+                                          class="account-file-input"
+                                          hidden
+                                          accept="image/png, image/jpeg"
+                                          multiple
+                                        />
+                                      </label>
+                                    </div>
+                                  </div>
                                 </div>
                                 <div class="mb-3 col-12">
                                   <label for="firstName" class="form-label">Hizmet adı</label>
@@ -69,6 +90,24 @@
             cache: false,
             contentType: false,
             processData: false
+        });
+    });
+
+    $("#upload").change(function () {
+        const files = this.files;
+        files.forEach(file => {
+          if (file) {
+            let reader = new FileReader();
+            reader.onload = function (event) {
+                $('#upload').parents('.add-image').after(`<div class="col-2 d-flex justify-content-center align-items-center px-2 mb-2">
+                                      <img class="w-100 rounded" 
+                                      src="${event.target.result}" 
+                                      alt=""
+                                      style="object-fit: cover; height:100px">
+                                    </div> `);
+            };
+            reader.readAsDataURL(file);
+          }
         });
     });
 </script>

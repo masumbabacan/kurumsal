@@ -5,8 +5,8 @@ const fileDelete = async (imagePath) => {
     //check and delete the desired file
     if (fs.existsSync(path.join(__dirname,'../public' + `${imagePath}`))) {
         fs.unlinkSync(path.join(__dirname,'../public' + `${imagePath}`));
+        return;
     }
-    return;
 }
 
 module.exports = fileDelete;

@@ -73,6 +73,18 @@ const updateService = async (req,res) => {
     res.status(StatusCodes.OK).json({msg : "Güncelleme işlemi başarılı"});
 }
 
+const updateServiceImages = async (req,res) => {
+    const {updateServiceId} = req.body;
+    const service = await Service.findOne({_id : updateServiceId});
+    if (!service) throw new CustomError.NotFoundError('Kayıt bulunamadı');
+    const imageUrls = await multipleFileUpload(req);
+    imageUrls.forEach(image => {
+        service.imageUrls.push(image);
+    });
+    await service.save();
+    res.status(StatusCodes.OK).json({msg : "Güncelleme işlemi başarılı"});
+}
+
 const deleteService = async (req,res) => {
     const service = await Service.findOneAndDelete({_id : req.params.id});
     if (!service) throw new CustomError.BadRequestError("Bir hata oluştu");
@@ -105,4 +117,5 @@ module.exports = {
     updateService,
     deleteService,
     deleteServiceImage,
+    updateServiceImages
 }
