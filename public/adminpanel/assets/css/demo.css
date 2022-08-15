@@ -19,6 +19,14 @@
   text-transform: lowercase;
 }
 
+.font12px{
+  font-size: 12px !important;
+}
+
+.font10px{
+  font-size: 10px !important;
+}
+
 /* ! For .layout-navbar-fixed added fix padding top tpo .layout-page */
 /* Detached navbar */
 .layout-navbar-fixed .layout-wrapper:not(.layout-horizontal):not(.layout-without-menu) .layout-page {

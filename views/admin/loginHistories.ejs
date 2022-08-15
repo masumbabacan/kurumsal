@@ -1,0 +1,154 @@
+<%- include('./include/header.ejs'); -%>
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <div class="col-lg-12 mb-4 order-0">
+                    <div class="card">
+                        <h5 class="card-header py-0 pt-4">Kayıt geçmişi</h5>
+                        <div class="w-100 p-4 row m-0">
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0">
+                                <div class="pagination">
+                                    <li class="page-item d-flex justify-content-around align-items-center">
+                                        <div style="font-size: 12px; margin-right: 4px;">Sayfada</div>
+                                        <select class="page-link limit-select p-2" style="cursor: pointer; font-size: 12px; margin-right: 4px;">
+                                                <option value="5">5</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                        </select>
+                                        <div style="font-size: 12px; margin-right: 4px;">kayıt göster</div>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                          <table class="table border-bottom border-top">
+                            <thead>
+                              <tr>
+                                <th class="font10px">Kullanıcı adı</th>
+                                <th class="font10px">Yetkisi</th>
+                                <th class="font10px">İşlem tarihi</th>
+                                <th class="font10px">İşlem detayı</th>
+                              </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                <% loginHistories.forEach((history) => { %> 
+                                    <tr>
+                                        
+                                        <td class="font12px"><%=history.user.username%></td>
+
+                                        <td class="font12px">
+                                            <% if(history.user.role === 'admin') { %> 
+                                                <span class="badge bg-label-danger me-1">Admin</span>
+                                            <% } else if(history.user.role === 'user') { %>
+                                                <span class="badge bg-label-info me-1">Kullanıcı</span>
+                                            <% } else if(history.user.role === 'demo') { %>
+                                                <span class="badge bg-label-warning me-1">Demo</span>
+                                            <% } %>
+                                        </td>
+
+                                        <td class="font12px">
+                                            <%=history.createdAt.getDate(); %> 
+                                            <%=history.createdAt.toLocaleString('default', {month: 'long'}); %>
+                                            <%=history.createdAt.getFullYear(); %> 
+                                            <br><%=history.createdAt.getHours(); %>:<%=history.createdAt.getMinutes(); %>
+                                        </td>
+
+                                        <td class="<%=history.color%> font12px"><%=history.note%></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                          </table>
+                          <div class="row p-0 m-0 w-100">
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-start align-items-center">
+                                <div style="font-size: 12px;">
+                                    Toplamda <span class="text-primary"><%=totalCount%></span> Kayıttan <span class="text-primary"><%=currentDataCount%></span> tanesi gösteriliyor
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-end align-items-center">
+                                <ul class="pagination m-0">
+                                    <input type="hidden" class="max-page" value="<%= pages; %>">
+                                    <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-prev m-0">Önceki</span></li>
+                                    <% for (var a=1; a<=pages; a++){ %>
+                                    <li class="page-item page-numbers d-none" style="cursor: pointer; font-size: 12px;"><span class="page-link"><%= a; %></span></li>
+                                    <% } %>
+                                    <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-next">Sonraki</span></li>
+                                </ul>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+<%- include('./include/footer.ejs'); -%>
+<script>
+    function updateQueryStringParameter(uri, key, value) {
+    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+    if (uri.match(re)) {
+        return uri.replace(re, '$1' + key + "=" + value + '$2');
+    }
+    else {
+        return uri + separator + key + "=" + value;
+    }
+}
+
+$(document).ready(() => {
+    let searchParams = new URLSearchParams(window.location.search);
+    let page = searchParams.get('page');
+    for (const iterator of $('.pagination .page-numbers span')) {
+        if (page === null) {
+          $(iterator).parent().addClass('active');
+          $('.pagination .page-numbers.active').removeClass('d-none');
+          $('.pagination .page-numbers.active').prev('.page-numbers').removeClass('d-none').prev('.page-numbers').removeClass('d-none');
+          $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
+          return;
+        }
+        if ($(iterator).text() === page) {
+          $(iterator).parent().addClass('active');
+        };
+    };
+    $('.pagination .page-numbers.active').removeClass('d-none');
+    $('.pagination .page-numbers.active').prev('.page-numbers').removeClass('d-none').prev('.page-numbers').removeClass('d-none');
+    $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
+    for (const iterator of $('.limit-select option')) {
+        if ($(iterator).val() == localStorage.getItem('limit')) {
+            $(iterator).attr('selected','selected');
+        }
+    }
+});
+$('.limit-select').on('change',function(e) {
+    localStorage.setItem('limit',this.value);
+    let limit = updateQueryStringParameter(window.location.href,'limit',this.value);
+    window.location.href = updateQueryStringParameter(limit,'page',1);
+});
+
+$('.pagination .page-numbers').on('click',(e) => {
+    window.location.href = updateQueryStringParameter(window.location.href,'page',$(e.currentTarget).text());
+});
+
+$('.page-prev').on('click',(e) => {
+    let searchParams = new URLSearchParams(window.location.search);
+    let page = searchParams.get('page');
+    page = Number(page) - 1;
+    console.log(page)
+    if (!page == 0) {
+        console.log(page)
+        window.location.href = updateQueryStringParameter(window.location.href,'page',page);
+    }
+})
+$('.page-next').on('click',(e) => {
+    let searchParams = new URLSearchParams(window.location.search);
+    let page = searchParams.get('page');
+    page = Number(page) + 1;
+    console.log(page);
+    if (page <= $('.max-page').val()) {
+        window.location.href = updateQueryStringParameter(window.location.href,'page',page);
+    }
+})
+</script>

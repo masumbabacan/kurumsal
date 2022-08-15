@@ -6,16 +6,16 @@
               <div class="row">
                 <div class="col-lg-6 mb-4 order-0">
                   <div class="card mb-4">
-                      <h5 class="card-header">Hizmet</h5>
+                      <h5 class="card-header font12px">Hizmet</h5>
                       <hr class="my-0" />
                       <form id="serviceForm" method="POST" onsubmit="return false">
                         <input class="form-control" type="hidden" name="updateServiceId" id="updateServiceId" value="<%=service._id%>" />
                         <div class="card-body">
                           <div class="row">
                             <div class="mb-3 col-12">
-                              <label for="firstName" class="form-label">Hizmet adı</label>
+                              <label for="firstName" class="form-label font10px">Hizmet adı</label>
                               <input
-                                class="form-control"
+                                class="form-control font12px"
                                 type="text"
                                 id="name"
                                 name="name"
@@ -24,20 +24,20 @@
                               />
                             </div>
                             <div class="mb-3 col-12">
-                              <label for="description" class="form-label">Açıklama</label>
-                              <textarea class="form-control" type="text" name="description" id="description" style="min-height: 300px;"><%=service.description%></textarea>
+                              <label for="description" class="form-label font10px">Açıklama</label>
+                              <textarea class="form-control font12px" type="text" name="description" id="description" style="min-height: 200px;"><%=service.description%></textarea>
                             </div>
                             <div class="mb-3 col-12">
-                              <label for="role" class="form-label">Durumu</label>
-                              <select class="form-select status-select" aria-label="Default select example">
+                              <label for="role" class="form-label font10px">Durumu</label>
+                              <select class="form-select status-select font12px" aria-label="Default select example">
                                 <option value="true">true</option>
                                 <option value="false">false</option>
                               </select>
                             </div>
                           </div>
                           <div class="mt-2">
-                            <button type="submit" class="btn btn-primary me-2">Güncelle</button>
-                            <button type="reset" class="btn btn-outline-primary">
+                            <button type="submit" class="btn btn-primary me-2 font12px">Güncelle</button>
+                            <button type="reset" class="btn btn-outline-primary font12px">
                               <a style="color:black" href="http://localhost:3000/api/kurumsal/services">Geri dön</a>
                             </button>
                           </div>
@@ -47,7 +47,7 @@
                   </div>
                   <div class="col-lg-6 mb-4 order-0">
                   <div class="card mb-4">
-                      <h5 class="card-header">Resimler</h5>
+                      <h5 class="card-header font12px">Resimler</h5>
                       <hr class="my-0" />
                       <div class="owl-carousel p-4">
                         <% if(service.imageUrls.length < 1) { %>
@@ -57,7 +57,7 @@
                           </div>
                         <% } %>
                         <% for (var l = service.imageUrls.length, i = 0; i < l; i++) { %>
-                          <div class="border rounded position-relative" style="width: 100%; height: 200px;">
+                          <div class="border rounded position-relative" style="width: 100%; height: 100px;">
                             <img class="p-4" style="object-fit: contain; width: 100%; height: 100%;" src="<%=service.imageUrls[i]%>" alt="Service Image">
                             <a class="delete-image" href="http://localhost:3000/api/kurumsal/services/imageDelete?image=<%=service.imageUrls[i]%>&serviceId=<%=service._id%>">
                               <ul class="list-unstyled m-0 avatar-group d-flex justify-content-center align-items-center text-danger" 
@@ -67,7 +67,7 @@
                                   data-bs-placement="top"
                                   class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
                                   title="Fotoğrafı sil">
-                                      <span class="tf-icons bx bx-trash"></span>
+                                      <span class="tf-icons bx bx-trash font12px"></span>
                                   </li>
                               </ul> 
                             </a>
@@ -77,7 +77,7 @@
                       <form id="imageUploadForm" method="PATCH" enctype="multipart/form-data"  onsubmit="return false">
                         <input class="form-control" type="hidden" name="updateServiceId" id="updateServiceId" value="<%=service._id%>" />
                         <div class="d-flex justify-content-around align-items-center p-2">
-                          <label for="upload" class="btn btn-primary me-2 mb-4 w-100" tabindex="0">
+                          <label for="upload" class="btn btn-danger me-2 mb-4 w-100 font12px" tabindex="0">
                             <span class="d-none d-sm-block"><i class="bx bx-image-add me-1"></i>Yeni fotoğraf</span>
                             <i class="bx bx-upload d-block d-sm-none"></i>
                             <input
@@ -90,8 +90,8 @@
                               multiple
                             />
                           </label>
-                          <button type="submit" for="upload" class="btn btn-primary me-2 mb-4 w-100 add-new-photo" tabindex="0">
-                            <span class="d-none d-sm-block"><i class="bx bx-check me-1"></i>Kaydet</span>
+                          <button type="submit" for="upload" class="btn btn-primary me-2 mb-4 w-100 add-new-photo font12px" tabindex="0">
+                            <span class="d-none d-sm-block"><i class="bx bx-check me-1"></i>Güncelle</span>
                           </button>
                         </div>
                       </form>

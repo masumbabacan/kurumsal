@@ -200,7 +200,6 @@ $(document).ready(() => {
     $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
     for (const iterator of $('.limit-select option')) {
         if ($(iterator).val() == localStorage.getItem('limit')) {
-            console.log(1);
             $(iterator).attr('selected','selected');
         }
     }

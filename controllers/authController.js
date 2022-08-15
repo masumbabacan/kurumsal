@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Token = require("../models/Token");
+const LoginHistory = require("../models/LoginHistory");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const crypto = require('crypto');
@@ -28,6 +29,7 @@ const register = async (req,res) => {
         verificationToken : verificationToken,
         origin : origin,
     });
+    await LoginHistory.create({user : user._id, note : 'Kullanıcı kayıt oldu', color : 'text-primary'});
     res.status(StatusCodes.CREATED).json({msg : "İşlem başarılı! Lütfen hesabınızı doğrulamak için e-postanızı kontrol edin"});
 }
 
@@ -62,6 +64,7 @@ const postLogin = async (req,res) => {
         if (!existingToken.isValid) throw new CustomError.UnauthenticatedError("geçersiz kimlik bilgileri");
         refreshToken = existingToken.refreshToken;
         attachCookiesToResponse({res,user:tokenUser,refreshToken});
+        await LoginHistory.create({user : user._id, note : 'Kullanıcı giriş yaptı', color : 'text-success'});
         res.status(StatusCodes.OK).json({user:tokenUser, msg: 'Giriş başarılı'});
         return;
     }
@@ -71,6 +74,7 @@ const postLogin = async (req,res) => {
     const userToken = {refreshToken,ip,userAgent,user:user._id};
     await Token.create(userToken);
     attachCookiesToResponse({res,user:tokenUser,refreshToken});
+    await LoginHistory.create({user : user._id, note : 'Kullanıcı giriş yaptı', color : 'text-success'});
     res.status(StatusCodes.OK).json({user: tokenUser, msg: 'Giriş başarılı'});
 }
 
@@ -84,6 +88,7 @@ const logout = async (req,res) => {
         httpOnly : true,
         expires : new Date(Date.now()),
     });
+    await LoginHistory.create({user : req.user.userId, note : 'Kullanıcı çıkış yaptı', color : 'text-danger'});
     res.status(StatusCodes.OK).json({msg : 'Kullanıcı çıkış yaptı'});
 }
 
