@@ -11,7 +11,6 @@ const {
 const unselectedColumns = '-password -__v -verificationToken -passwordToken -passwordTokenExpirationDate';
 
 const getAllServices = async (req,res) => {
-    console.log(ipInfo.clientIp);
     var perpage = (req.query.limit == null) ? 10 : req.query.limit;
     var total = await Service.find({}).count();
     var pages = Math.ceil(total / perpage);
