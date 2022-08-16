@@ -36,7 +36,13 @@ const loginHistories = async (req,res) => {
     });
 }
 
+const allHistoryDelete = async (req,res) => {
+    await LoginHistory.deleteMany();
+    res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
+}
+
 module.exports = {
     page,
-    loginHistories
+    loginHistories,
+    allHistoryDelete,
 }

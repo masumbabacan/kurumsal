@@ -1,9 +1,8 @@
 const User = require("../models/User");
+const LoginHistory = require("../models/LoginHistory");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const {
-    createTokenUser,
-    attachCookiesToResponse,
     checkPermissions, 
     nullControl,
     singleImageUpload, 
@@ -18,10 +17,42 @@ const getAllUsers = async (req,res) => {
     var pages = Math.ceil(total / perpage);
     var pageNumber = (req.query.page == null) ? 1 : req.query.page;
     var startFrom = (pageNumber - 1) * perpage;
+    var search = (req.query.search == null) ? '' : req.query.search;
     let users;
-    if (req.user.role === 'user') users = await User.find({$or: [{role : 'user'},{role : 'demo'}]}).skip(startFrom).limit(perpage).select(unselectedColumns);
-    if (req.user.role === 'demo') users = await User.find({role : 'demo'}).skip(startFrom).limit(perpage).select(unselectedColumns);
-    if (req.user.role === 'admin') users = await User.find({}).skip(startFrom).limit(perpage).select(unselectedColumns);
+    if (req.user.role === 'user'){
+        users = await User.find({
+            $or: [
+                {role : 'user'},
+                {role : 'demo'},
+                {name : {$regex : search, '$options' : 'i'}},
+                {surname : {$regex : search, '$options' : 'i'}},
+                {username : {$regex : search, '$options' : 'i'}},
+                {email : {$regex : search, '$options' : 'i'}},
+            ]
+        }).skip(startFrom).limit(perpage).select(unselectedColumns);
+    } 
+    if (req.user.role === 'demo'){
+        users = await User.find({
+            role : 'demo',
+            $or: [
+                {name : {$regex : search, '$options' : 'i'}},
+                {surname : {$regex : search, '$options' : 'i'}},
+                {username : {$regex : search, '$options' : 'i'}},
+                {email : {$regex : search, '$options' : 'i'}},
+            ]
+        }).skip(startFrom).limit(perpage).select(unselectedColumns);
+    } 
+    if (req.user.role === 'admin'){
+        users = await User.find({
+            $or: [
+                {name : {$regex : search, '$options' : 'i'}},
+                {surname : {$regex : search, '$options' : 'i'}},
+                {username : {$regex : search, '$options' : 'i'}},
+                {email : {$regex : search, '$options' : 'i'}},
+            ]
+        }).skip(startFrom).limit(perpage).select(unselectedColumns);
+    }
+    
     const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
     res.status(StatusCodes.OK).render("admin/users", { 
         authenticateUser : authenticateUser,
@@ -61,6 +92,7 @@ const createUserPost = async (req,res) => {
     if (usernameExist) throw new CustomError.BadRequestError("kullanıcı adı daha önceden alınmış");
     const user = await User.create({name,surname,email,username,password,role});
     if (!user) throw new CustomError.BadRequestError("Bir hata oluştu");
+    await LoginHistory.create({user : req.user.userId, note : `${user.username} kişisini sisteme ${role} yetkisi ile kaydetti`, color : 'text-info'});
     res.status(StatusCodes.CREATED).json({msg : "İşlem başarılı!"});
 }
 
@@ -105,9 +137,11 @@ const deleteUser = async (req,res) => {
     checkPermissions(req.user,user._id);
     if (user.status === false){
         await User.findOneAndUpdate({_id : user._id},{status: true});
+        await LoginHistory.create({user : req.user.userId, note : `${user.username} kişisini aktif yaptı`, color : 'text-warning'});
     } 
     if (user.status === true){
         await User.findOneAndUpdate({_id : user._id},{status: false});
+        await LoginHistory.create({user : req.user.userId, note : `${user.username} kişisini pasif yaptı`, color : 'text-warning'});
     }
     await user.save();
     res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});

@@ -3,14 +3,7 @@ const User = require("../models/User");
 const Service = require("../models/Service");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
-const fs = require('fs');
-const path = require('path');
 const {
-    createTokenUser,
-    attachCookiesToResponse,
-    checkPermissions, 
-    nullControl,
-    singleImageUpload,
     multipleFileUpload,
     fileDelete
 } = require("../utils");
@@ -18,12 +11,18 @@ const {
 const unselectedColumns = '-password -__v -verificationToken -passwordToken -passwordTokenExpirationDate';
 
 const getAllServices = async (req,res) => {
+    console.log(ipInfo.clientIp);
     var perpage = (req.query.limit == null) ? 10 : req.query.limit;
     var total = await Service.find({}).count();
     var pages = Math.ceil(total / perpage);
     var pageNumber = (req.query.page == null) ? 1 : req.query.page;
     var startFrom = (pageNumber - 1) * perpage;
-    const services = await Service.find({}).skip(startFrom).limit(perpage);
+    var search = (req.query.search == null) ? '' : req.query.search;
+    const services = await Service.find({
+        $or: [
+            {name : {$regex : search, '$options' : 'i'}},
+        ]
+    }).skip(startFrom).limit(perpage);
     const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
     res.status(StatusCodes.OK).render("admin/services/services", { 
         authenticateUser : authenticateUser,

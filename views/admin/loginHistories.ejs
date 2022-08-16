@@ -23,6 +23,20 @@
                                     </li>
                                 </div>
                             </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
+                                <ul class="list-unstyled page-refresh m-0 avatar-group d-flex justify-content-center align-items-center text-danger" 
+                                    style="margin-right: 5px !important;">
+                                    <a class="all-history-delete" href="http://localhost:3000/api/kurumsal/admin/deleteHistory">
+                                        <li data-bs-toggle="tooltip"
+                                        data-popup="tooltip-custom"
+                                        data-bs-placement="top"
+                                        class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
+                                        title="Tabloyu tamamen sil">
+                                            <span class="tf-icons bx bx-trash"></span>
+                                        </li>
+                                    </a>
+                                </ul> 
+                            </div>
                         </div>
                         <div class="table-responsive text-nowrap">
                           <table class="table border-bottom border-top">
@@ -87,7 +101,7 @@
             <!-- / Content -->
 <%- include('./include/footer.ejs'); -%>
 <script>
-    function updateQueryStringParameter(uri, key, value) {
+function updateQueryStringParameter(uri, key, value) {
     var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
     var separator = uri.indexOf('?') !== -1 ? "&" : "?";
     if (uri.match(re)) {
@@ -151,4 +165,25 @@ $('.page-next').on('click',(e) => {
         window.location.href = updateQueryStringParameter(window.location.href,'page',page);
     }
 })
+
+$(".all-history-delete").on('click', function(e) {
+    e.preventDefault();
+    $.ajax({
+        url : this.href,
+        type : "DELETE",
+        success : (response) => {
+            Swal.fire({
+                icon: "success",
+                text: response.msg
+            });
+        },
+        error : (xhr, status, error) => {
+            Swal.fire({
+                icon: "error",
+                text: xhr.responseJSON.msg
+            });
+        },
+    })
+    return false;
+});
 </script>

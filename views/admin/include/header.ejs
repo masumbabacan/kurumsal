@@ -123,15 +123,19 @@
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <% if(authenticateUser.role === 'admin') { %>
-                  <a href="http://localhost:3000/api/kurumsal/admin/loginHistories">
-                    <li data-bs-toggle="tooltip"
-                      data-popup="tooltip-custom"
-                      data-bs-placement="bottom"
-                      class="avatar d-flex justify-content-center align-items-center"
-                      title="Giriş kayıtları">
-                          <img src="/adminpanel/assets/img/icons/unicons/history.png" alt="">
-                    </li>
-                  </a>
+                  <div class="btn-group">
+                    <button  class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      İşlemler
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/admin/loginHistories">
+                          <i class="bx bx-user bx-xs align-middle"></i>
+                          Kullanıcı hareketleri
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 <% } %>
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow d-flex justify-content-between align-items-center">

@@ -23,6 +23,24 @@
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
+                                <a href="http://localhost:3000/api/kurumsal/services">
+                                    <ul class="list-unstyled filter-clean m-0 avatar-group d-flex justify-content-center align-items-center text-dark" 
+                                        style="margin-right: 5px !important;">
+                                        <li data-bs-toggle="tooltip"
+                                        data-popup="tooltip-custom"
+                                        data-bs-placement="top"
+                                        class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
+                                        title="Filtreyi temizle">
+                                            <span class="tf-icons bx bx-eraser"></span>
+                                        </li>
+                                    </ul> 
+                                </a> 
+                                <div class="input-group me-1 w-50">
+                                    <input type="text" class="form-control avatar avatar-xs" placeholder="Ara">
+                                    <button class="input-group-text search-button avatar avatar-xs d-flex justify-content-center align-items-center">
+                                        <span class="tf-icons bx bx-search"></span>
+                                    </button>
+                                </div>
                                 <a href="http://localhost:3000/api/kurumsal/services/createService">
                                     <ul class="list-unstyled create-service m-0 avatar-group d-flex justify-content-center align-items-center text-primary" 
                                     style="margin-right: 5px !important;">
@@ -232,6 +250,12 @@ $('.page-next').on('click',(e) => {
         window.location.href = updateQueryStringParameter(window.location.href,'page',page);
     }
 })
+
+$('.search-button').on('click',function(e) {
+    const queryString = $(this).parent().find('input').val();
+    let search = updateQueryStringParameter(window.location.href,'search',queryString);
+    window.location.href = updateQueryStringParameter(search,'search',queryString);
+});
 
 $(".delete-service").on('click', function(e) {
     e.preventDefault();

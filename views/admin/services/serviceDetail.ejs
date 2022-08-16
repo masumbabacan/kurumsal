@@ -170,9 +170,7 @@
         reader.onload = function (event) {
             $("#upload").parent().find('span').remove();
             $("#upload").parent().append(`<span class="d-none d-sm-block"><i class="bx bx-checkbox-checked me-1"></i>Fotoğraf yüklendi</span>`);
-            $("#upload").parent().removeClass('btn-primary').addClass('btn-success');
-            // $("#imgPreview").parent().removeClass("d-none");
-            // $("#imgPreview").parent().addClass("d-inline-block");
+            $("#upload").parent().removeClass('btn-danger').addClass('btn-success');
         };
         reader.readAsDataURL(file);
       }

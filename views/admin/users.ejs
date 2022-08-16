@@ -24,17 +24,35 @@
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
+                                <a href="http://localhost:3000/api/kurumsal/users">
+                                    <ul class="list-unstyled filter-clean m-0 avatar-group d-flex justify-content-center align-items-center text-dark" 
+                                        style="margin-right: 5px !important;">
+                                        <li data-bs-toggle="tooltip"
+                                        data-popup="tooltip-custom"
+                                        data-bs-placement="top"
+                                        class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
+                                        title="Filtreyi temizle">
+                                            <span class="tf-icons bx bx-eraser"></span>
+                                        </li>
+                                    </ul> 
+                                </a> 
+                                <div class="input-group me-1 w-50">
+                                    <input type="text" class="form-control avatar avatar-xs" placeholder="Ara">
+                                    <button class="input-group-text search-button avatar avatar-xs d-flex justify-content-center align-items-center">
+                                        <span class="tf-icons bx bx-search"></span>
+                                    </button>
+                                </div>
                                 <a href="http://localhost:3000/api/kurumsal/users/createUser">
                                     <ul class="list-unstyled create-user m-0 avatar-group d-flex justify-content-center align-items-center text-primary" 
-                                    style="margin-right: 5px !important;">
-                                    <li data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
-                                    title="Kullanıcı ekle">
-                                        <span class="tf-icons bx bx-user-plus"></span>
-                                    </li>
-                                </ul> 
+                                        style="margin-right: 5px !important;">
+                                        <li data-bs-toggle="tooltip"
+                                        data-popup="tooltip-custom"
+                                        data-bs-placement="top"
+                                        class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
+                                        title="Kullanıcı ekle">
+                                            <span class="tf-icons bx bx-user-plus"></span>
+                                        </li>
+                                    </ul> 
                                 </a>
                                 <ul class="list-unstyled page-refresh m-0 avatar-group d-flex justify-content-center align-items-center text-danger" 
                                     style="margin-right: 5px !important;">
@@ -125,18 +143,18 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
-                                                ><i class="bx bx-edit-alt me-1"></i> Güncelle</a
-                                            >
-                                            <% if(!user.status) { %> 
-                                            <a class="dropdown-item delete-user" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
-                                                ><i class="bx bx-user-check me-1"></i> Aktif yap</a
-                                            >
-                                            <% } else { %>
-                                            <a class="dropdown-item delete-user" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
-                                                ><i class="bx bx-user-x me-1"></i> Pasif yap</a
-                                            >
-                                            <% } %>
+                                                <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
+                                                    ><i class="bx bx-edit-alt me-1"></i> Güncelle</a
+                                                >
+                                                <% if(!user.status) { %> 
+                                                <a class="dropdown-item delete-user" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
+                                                    ><i class="bx bx-user-check me-1"></i> Aktif yap</a
+                                                >
+                                                <% } else { %>
+                                                <a class="dropdown-item delete-user" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
+                                                    ><i class="bx bx-user-x me-1"></i> Pasif yap</a
+                                                >
+                                                <% } %>
                                             </div>
                                         </div>
                                         </td>
@@ -204,10 +222,18 @@ $(document).ready(() => {
         }
     }
 });
+
 $('.limit-select').on('change',function(e) {
     localStorage.setItem('limit',this.value);
     let limit = updateQueryStringParameter(window.location.href,'limit',this.value);
     window.location.href = updateQueryStringParameter(limit,'page',1);
+});
+
+$('.search-button').on('click',function(e) {
+    const queryString = $(this).parent().find('input').val();
+    localStorage.setItem('search',queryString);
+    let search = updateQueryStringParameter(window.location.href,'search',queryString);
+    window.location.href = updateQueryStringParameter(search,'search',queryString);
 });
 
 $('.pagination .page-numbers').on('click',(e) => {
@@ -224,6 +250,7 @@ $('.page-prev').on('click',(e) => {
         window.location.href = updateQueryStringParameter(window.location.href,'page',page);
     }
 })
+
 $('.page-next').on('click',(e) => {
     let searchParams = new URLSearchParams(window.location.search);
     let page = searchParams.get('page');
@@ -232,7 +259,7 @@ $('.page-next').on('click',(e) => {
     if (page <= $('.max-page').val()) {
         window.location.href = updateQueryStringParameter(window.location.href,'page',page);
     }
-})
+});
 
 $(".delete-user").on('click', function(e) {
     e.preventDefault();
