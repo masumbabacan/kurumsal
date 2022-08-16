@@ -1,13 +1,13 @@
 <%- include('../include/header.ejs'); -%>
-          <!-- Content wrapper -->
           <div class="content-wrapper">
-            <!-- Content -->
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row">
                 <div class="col-lg-12 mb-4 order-0">
                     <div class="card">
-                        <h5 class="card-header py-0 pt-4">Hizmetler</h5>
-                        <div class="w-100 p-4 row m-0">
+                        <div class="p-4">
+                            <h5 class="m-0">Hizmetler</h5>
+                        </div>
+                        <div class="w-100 p-4 py-2 row m-0">
                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0">
                                 <div class="pagination">
                                     <li class="page-item d-flex justify-content-around align-items-center">
@@ -23,42 +23,41 @@
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
-                                <a href="http://localhost:3000/api/kurumsal/services">
-                                    <ul class="list-unstyled filter-clean m-0 avatar-group d-flex justify-content-center align-items-center text-dark" 
-                                        style="margin-right: 5px !important;">
-                                        <li data-bs-toggle="tooltip"
+                                <a class="mx-1 filter-clean" href="http://localhost:3000/api/kurumsal/services">
+                                    <ul class="list-unstyled avatar-group text-dark m-0">
+                                        <li 
+                                        data-bs-toggle="tooltip"
                                         data-popup="tooltip-custom"
                                         data-bs-placement="top"
-                                        class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
+                                        class="avatar avatar-xs text-center border rounded"
                                         title="Filtreyi temizle">
                                             <span class="tf-icons bx bx-eraser"></span>
                                         </li>
                                     </ul> 
                                 </a> 
-                                <div class="input-group me-1 w-50">
+                                <div class="input-group w-50 mx-1">
                                     <input type="text" class="form-control avatar avatar-xs" placeholder="Ara">
-                                    <button class="input-group-text search-button avatar avatar-xs d-flex justify-content-center align-items-center">
+                                    <button class="input-group-text search-button avatar avatar-xs d-flex justify-content-center">
                                         <span class="tf-icons bx bx-search"></span>
                                     </button>
                                 </div>
-                                <a href="http://localhost:3000/api/kurumsal/services/createService">
-                                    <ul class="list-unstyled create-service m-0 avatar-group d-flex justify-content-center align-items-center text-primary" 
-                                    style="margin-right: 5px !important;">
-                                        <li data-bs-toggle="tooltip"
+                                <a class="mx-1 create-user" href="http://localhost:3000/api/kurumsal/services/createService">
+                                    <ul class="list-unstyled m-0 avatar-group text-primary">
+                                        <li 
+                                        data-bs-toggle="tooltip"
                                         data-popup="tooltip-custom"
                                         data-bs-placement="top"
-                                        class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
-                                        title="Hizmet ekle">
-                                            <span class="tf-icons bx bx-list-plus"></span>
+                                        class="avatar avatar-xs text-center border rounded"
+                                        title="Kullanıcı ekle">
+                                            <span class="tf-icons bx bx-plus"></span>
                                         </li>
                                     </ul> 
                                 </a>
-                                <ul class="list-unstyled page-refresh m-0 avatar-group d-flex justify-content-center align-items-center text-danger" 
-                                    style="margin-right: 5px !important;">
+                                <ul class="list-unstyled page-refresh m-0 avatar-group text-danger mx-1">
                                     <li data-bs-toggle="tooltip"
                                     data-popup="tooltip-custom"
                                     data-bs-placement="top"
-                                    class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
+                                    class="avatar avatar-xs text-center border rounded"
                                     title="Sayfayı yenile">
                                         <span class="tf-icons bx bx-refresh"></span>
                                     </li>
@@ -161,13 +160,14 @@
                                 <% }); %>
                             </tbody>
                           </table>
-                          <div class="row p-0 m-0 w-100">
-                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-start align-items-center">
+                        </div>
+                        <div class="row p-4 py-2 m-0 w-100">
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-start align-items-center">
                                 <div style="font-size: 12px;">
                                     Toplamda <span class="text-primary"><%=totalCount%></span> Kayıttan <span class="text-primary"><%=currentDataCount%></span> tanesi gösteriliyor
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-end align-items-center">
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
                                 <ul class="pagination m-0">
                                     <input type="hidden" class="max-page" value="<%= pages; %>">
                                     <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-prev m-0">Önceki</span></li>
@@ -177,7 +177,6 @@
                                     <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-next">Sonraki</span></li>
                                 </ul>
                             </div>
-                          </div>
                         </div>
                     </div>
                 </div>

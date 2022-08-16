@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Service = require("../models/Service");
 const LoginHistory = require("../models/LoginHistory");
 const { StatusCodes } = require("http-status-codes");
 const unselectedColumns = '-password -__v -verificationToken -passwordToken -passwordTokenExpirationDate';
@@ -9,12 +10,14 @@ const page = async (req,res) => {
     const adminCount = await User.find({role : 'admin'}).count();
     const demoCount = await User.find({role : 'demo'}).count();
     const normalUserCount = await User.find({role : 'user'}).count();
+    const serviceCount = await Service.find({}).count();
     res.status(200).render("admin/homePage",{
         authenticateUser : authenticateUser,
         totalNumberOfUsers : userCount,
         totalNumberOfAdmin : adminCount,
         totalNumberOfDemo : demoCount,
         totalNumberOfNormalUser : normalUserCount,
+        totalNumberOfService : serviceCount,
     });
 }
 
