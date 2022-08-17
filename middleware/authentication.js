@@ -2,6 +2,7 @@ const CustomError = require("../errors");
 const Token = require("../models/Token");
 const { isTokenValid } = require("../utils");
 const { attachCookiesToResponse, createTokenUser, sendVerificationEmail } = require("../utils/index");
+
 const authenticateUser = async (req,res,next) => {
     const {refreshToken, accessToken} = req.signedCookies;
 

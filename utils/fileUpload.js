@@ -5,7 +5,7 @@ const CustomError = require("../errors");
 const singleImageUpload = async (req) => {
     //If the request does not have a file, continue
     if (!req.files) return;
-    const image = req.files.image;
+    const image = req.files.images;
     const maxSize = 1024 * 1024;
     //Is the file an image?
     if (!image.mimetype.startsWith('image')) throw new CustomError.BadRequestError('Lütfen bir resim yükleyiniz');

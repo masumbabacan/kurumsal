@@ -8,28 +8,30 @@ const {
     createUserPost,
     updateUser,
     updateUserPassword,
-    deleteUser
+    deleteUser,
+    showCurrentUser
 } = 
 require("../controllers/userController");
 
 //create user routes
-router.get("/createUser",authenticateUser,authorizePermissions('admin','user','demo'),createUserGet);
+router.get("/createUser",authenticateUser,authorizePermissions('admin'),createUserGet);
 router.post("/",authenticateUser,authorizePermissions('admin'),createUserPost);
 
 //get all user route
-router.get("/",authenticateUser,authorizePermissions('admin','user','demo'),getAllUsers);
+router.get("/",authenticateUser,authorizePermissions('admin'),getAllUsers);
+router.get("/profile",authenticateUser,authorizePermissions('admin','companyOfficial'),showCurrentUser);
 
 //get single user route
-router.get("/:id",authenticateUser,authorizePermissions('admin','user','demo'),getUser);
+router.get("/:id",authenticateUser,authorizePermissions('admin'),getUser);
 
 //delete user route
-router.delete("/:id",authenticateUser,authorizePermissions('admin','user','demo'),deleteUser);
+router.delete("/:id",authenticateUser,authorizePermissions('admin'),deleteUser);
 
 //update user route
-router.patch("/updateUser",authenticateUser,authorizePermissions('admin','user','demo'),updateUser);
+router.patch("/updateUser",authenticateUser,authorizePermissions('admin','companyOfficial'),updateUser);
 
 //update authenticate user password route
-router.patch("/updateUserPassword",authenticateUser,authorizePermissions('admin','user','demo'),updateUserPassword);
+router.patch("/updateUserPassword",authenticateUser,authorizePermissions('admin','companyOfficial'),updateUserPassword);
 
-// router.get("/showMe",authenticateUser,authorizePermissions('admin'),showCurrentUser);
+
 module.exports = router; 

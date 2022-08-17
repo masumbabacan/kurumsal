@@ -44,7 +44,6 @@ const verifyEmail = async (req,res) => {
     res.status(StatusCodes.OK).json({msg : 'E-posta doğrulandı'});
 }
 
-
 const getLogin = async (req,res) => {
     res.render("public/login");
 }

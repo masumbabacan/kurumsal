@@ -7,15 +7,17 @@
               <div class="row">
                 <div class="col-lg-12 mb-4 order-0">
                     <div class="card">
-                        <h5 class="card-header py-0 pt-4">Kayıt geçmişi</h5>
-                        <div class="w-100 p-4 row m-0">
+                        <div class="p-4">
+                            <h5 class="m-0">Hareketler</h5>
+                        </div>
+                        <div class="w-100 p-4 py-2 row m-0">
                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0">
                                 <div class="pagination">
                                     <li class="page-item d-flex justify-content-around align-items-center">
                                         <div style="font-size: 12px; margin-right: 4px;">Sayfada</div>
                                         <select class="page-link limit-select p-2" style="cursor: pointer; font-size: 12px; margin-right: 4px;">
                                                 <option value="5">5</option>
-                                                <option value="25">25</option>
+                                                <option value="10">10</option>
                                                 <option value="50">50</option>
                                                 <option value="100">100</option>
                                         </select>
@@ -24,17 +26,44 @@
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
-                                <ul class="list-unstyled page-refresh m-0 avatar-group d-flex justify-content-center align-items-center text-danger" 
-                                    style="margin-right: 5px !important;">
-                                    <a class="all-history-delete" href="http://localhost:3000/api/kurumsal/admin/deleteHistory">
-                                        <li data-bs-toggle="tooltip"
+                                <a class="mx-1 filter-clean" href="http://localhost:3000/api/kurumsal/admin/loginHistories">
+                                    <ul class="list-unstyled avatar-group text-dark m-0">
+                                        <li 
+                                        data-bs-toggle="tooltip" 
+                                        data-popup="tooltip-custom" 
+                                        data-bs-placement="top" 
+                                        class="avatar avatar-xs text-center border rounded"
+                                        title="Filtreyi temizle">
+                                            <span class="tf-icons bx bx-eraser"></span>
+                                        </li>
+                                    </ul> 
+                                </a> 
+                                <div class="input-group w-50 mx-1">
+                                    <input type="text" class="form-control avatar avatar-xs" placeholder="Ara">
+                                    <button class="input-group-text search-button avatar avatar-xs d-flex justify-content-center">
+                                        <span class="tf-icons bx bx-search"></span>
+                                    </button>
+                                </div>
+                                <a class="mx-1 create-user all-history-delete" href="http://localhost:3000/api/kurumsal/admin/deleteHistory">
+                                    <ul class="list-unstyled m-0 avatar-group text-danger">
+                                        <li 
+                                        data-bs-toggle="tooltip"
                                         data-popup="tooltip-custom"
                                         data-bs-placement="top"
-                                        class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
-                                        title="Tabloyu tamamen sil">
+                                        class="avatar avatar-xs text-center border rounded"
+                                        title="Kayıtları sil">
                                             <span class="tf-icons bx bx-trash"></span>
                                         </li>
-                                    </a>
+                                    </ul> 
+                                </a>
+                                <ul class="list-unstyled page-refresh m-0 avatar-group text-danger mx-1">
+                                    <li data-bs-toggle="tooltip"
+                                    data-popup="tooltip-custom"
+                                    data-bs-placement="top"
+                                    class="avatar avatar-xs text-center border rounded"
+                                    title="Sayfayı yenile">
+                                        <span class="tf-icons bx bx-refresh"></span>
+                                    </li>
                                 </ul> 
                             </div>
                         </div>
@@ -56,11 +85,9 @@
 
                                         <td class="font12px">
                                             <% if(history.user.role === 'admin') { %> 
-                                                <span class="badge bg-label-danger me-1">Admin</span>
-                                            <% } else if(history.user.role === 'user') { %>
-                                                <span class="badge bg-label-info me-1">Kullanıcı</span>
-                                            <% } else if(history.user.role === 'demo') { %>
-                                                <span class="badge bg-label-warning me-1">Demo</span>
+                                                <span class="badge bg-label-danger me-1">Sistem yöneticisi</span>
+                                            <% } else if(history.user.role === 'companyOfficial') { %>
+                                                <span class="badge bg-label-primary me-1">Şirket yetkilisi</span>
                                             <% } %>
                                         </td>
 
@@ -76,13 +103,14 @@
                                 <% }); %>
                             </tbody>
                           </table>
-                          <div class="row p-0 m-0 w-100">
-                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-start align-items-center">
+                        </div>
+                        <div class="row p-4 py-2 m-0 w-100">
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-start align-items-center">
                                 <div style="font-size: 12px;">
                                     Toplamda <span class="text-primary"><%=totalCount%></span> Kayıttan <span class="text-primary"><%=currentDataCount%></span> tanesi gösteriliyor
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-2 px-2 d-flex justify-content-end align-items-center">
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
                                 <ul class="pagination m-0">
                                     <input type="hidden" class="max-page" value="<%= pages; %>">
                                     <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-prev m-0">Önceki</span></li>
@@ -92,7 +120,6 @@
                                     <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-next">Sonraki</span></li>
                                 </ul>
                             </div>
-                          </div>
                         </div>
                     </div>
                 </div>
@@ -101,89 +128,98 @@
             <!-- / Content -->
 <%- include('./include/footer.ejs'); -%>
 <script>
-function updateQueryStringParameter(uri, key, value) {
-    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-    if (uri.match(re)) {
-        return uri.replace(re, '$1' + key + "=" + value + '$2');
-    }
-    else {
-        return uri + separator + key + "=" + value;
-    }
-}
-
-$(document).ready(() => {
-    let searchParams = new URLSearchParams(window.location.search);
-    let page = searchParams.get('page');
-    for (const iterator of $('.pagination .page-numbers span')) {
-        if (page === null) {
-          $(iterator).parent().addClass('active');
-          $('.pagination .page-numbers.active').removeClass('d-none');
-          $('.pagination .page-numbers.active').prev('.page-numbers').removeClass('d-none').prev('.page-numbers').removeClass('d-none');
-          $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
-          return;
+    function updateQueryStringParameter(uri, key, value) {
+        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+        if (uri.match(re)) {
+            return uri.replace(re, '$1' + key + "=" + value + '$2');
         }
-        if ($(iterator).text() === page) {
-          $(iterator).parent().addClass('active');
+        else {
+            return uri + separator + key + "=" + value;
+        }
+    }
+
+    $(document).ready(() => {
+        let searchParams = new URLSearchParams(window.location.search);
+        let page = searchParams.get('page');
+        for (const iterator of $('.pagination .page-numbers span')) {
+            if (page === null) {
+            $(iterator).parent().addClass('active');
+            $('.pagination .page-numbers.active').removeClass('d-none');
+            $('.pagination .page-numbers.active').prev('.page-numbers').removeClass('d-none').prev('.page-numbers').removeClass('d-none');
+            $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
+            return;
+            }
+            if ($(iterator).text() === page) {
+            $(iterator).parent().addClass('active');
+            };
         };
-    };
-    $('.pagination .page-numbers.active').removeClass('d-none');
-    $('.pagination .page-numbers.active').prev('.page-numbers').removeClass('d-none').prev('.page-numbers').removeClass('d-none');
-    $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
-    for (const iterator of $('.limit-select option')) {
-        if ($(iterator).val() == localStorage.getItem('limit')) {
-            $(iterator).attr('selected','selected');
+        $('.pagination .page-numbers.active').removeClass('d-none');
+        $('.pagination .page-numbers.active').prev('.page-numbers').removeClass('d-none').prev('.page-numbers').removeClass('d-none');
+        $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
+        for (const iterator of $('.limit-select option')) {
+            if ($(iterator).val() == localStorage.getItem('limit')) {
+                $(iterator).attr('selected','selected');
+            }
         }
-    }
-});
-$('.limit-select').on('change',function(e) {
-    localStorage.setItem('limit',this.value);
-    let limit = updateQueryStringParameter(window.location.href,'limit',this.value);
-    window.location.href = updateQueryStringParameter(limit,'page',1);
-});
+    });
+    $('.limit-select').on('change',function(e) {
+        localStorage.setItem('limit',this.value);
+        let limit = updateQueryStringParameter(window.location.href,'limit',this.value);
+        window.location.href = updateQueryStringParameter(limit,'page',1);
+    });
 
-$('.pagination .page-numbers').on('click',(e) => {
-    window.location.href = updateQueryStringParameter(window.location.href,'page',$(e.currentTarget).text());
-});
+    $('.pagination .page-numbers').on('click',(e) => {
+        window.location.href = updateQueryStringParameter(window.location.href,'page',$(e.currentTarget).text());
+    });
 
-$('.page-prev').on('click',(e) => {
-    let searchParams = new URLSearchParams(window.location.search);
-    let page = searchParams.get('page');
-    page = Number(page) - 1;
-    console.log(page)
-    if (!page == 0) {
+    $('.page-prev').on('click',(e) => {
+        let searchParams = new URLSearchParams(window.location.search);
+        let page = searchParams.get('page');
+        page = Number(page) - 1;
         console.log(page)
-        window.location.href = updateQueryStringParameter(window.location.href,'page',page);
-    }
-})
-$('.page-next').on('click',(e) => {
-    let searchParams = new URLSearchParams(window.location.search);
-    let page = searchParams.get('page');
-    page = Number(page) + 1;
-    console.log(page);
-    if (page <= $('.max-page').val()) {
-        window.location.href = updateQueryStringParameter(window.location.href,'page',page);
-    }
-})
-
-$(".all-history-delete").on('click', function(e) {
-    e.preventDefault();
-    $.ajax({
-        url : this.href,
-        type : "DELETE",
-        success : (response) => {
-            Swal.fire({
-                icon: "success",
-                text: response.msg
-            });
-        },
-        error : (xhr, status, error) => {
-            Swal.fire({
-                icon: "error",
-                text: xhr.responseJSON.msg
-            });
-        },
+        if (!page == 0) {
+            console.log(page)
+            window.location.href = updateQueryStringParameter(window.location.href,'page',page);
+        }
     })
-    return false;
-});
+    $('.page-next').on('click',(e) => {
+        let searchParams = new URLSearchParams(window.location.search);
+        let page = searchParams.get('page');
+        page = Number(page) + 1;
+        console.log(page);
+        if (page <= $('.max-page').val()) {
+            window.location.href = updateQueryStringParameter(window.location.href,'page',page);
+        }
+    })
+
+    $(".all-history-delete").on('click', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url : this.href,
+            type : "DELETE",
+            success : (response) => {
+                Swal.fire({
+                    icon: "success",
+                    text: response.msg
+                });
+            },
+            error : (xhr, status, error) => {
+                Swal.fire({
+                    icon: "error",
+                    text: xhr.responseJSON.msg
+                });
+            },
+        })
+        return false;
+    });
+    $('.page-refresh').on('click',(e) => {
+        location.reload();
+    });
+    $('.search-button').on('click',function(e) {
+        const queryString = $(this).parent().find('input').val();
+        localStorage.setItem('search',queryString);
+        let search = updateQueryStringParameter(window.location.href,'search',queryString);
+        window.location.href = updateQueryStringParameter(search,'search',queryString);
+    });
 </script>

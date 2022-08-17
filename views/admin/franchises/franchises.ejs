@@ -5,7 +5,7 @@
                 <div class="col-lg-12 mb-4 order-0">
                     <div class="card">
                         <div class="p-4">
-                            <h5 class="m-0">Hizmetler</h5>
+                            <h5 class="m-0">Bayilikler</h5>
                         </div>
                         <div class="w-100 p-4 py-2 row m-0">
                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0">
@@ -23,7 +23,7 @@
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
-                                <a class="mx-1 filter-clean" href="http://localhost:3000/api/kurumsal/services">
+                                <a class="mx-1 filter-clean" href="http://localhost:3000/api/kurumsal/franchises">
                                     <ul class="list-unstyled avatar-group text-dark m-0">
                                         <li 
                                         data-bs-toggle="tooltip"
@@ -41,14 +41,14 @@
                                         <span class="tf-icons bx bx-search"></span>
                                     </button>
                                 </div>
-                                <a class="mx-1 create-user" href="http://localhost:3000/api/kurumsal/services/createService">
+                                <a class="mx-1 create-franchise" href="http://localhost:3000/api/kurumsal/franchises/createFranchise">
                                     <ul class="list-unstyled m-0 avatar-group text-primary">
                                         <li 
                                         data-bs-toggle="tooltip"
                                         data-popup="tooltip-custom"
                                         data-bs-placement="top"
                                         class="avatar avatar-xs text-center border rounded"
-                                        title="Hizmet ekle">
+                                        title="Bayilik ekle">
                                             <span class="tf-icons bx bx-plus"></span>
                                         </li>
                                     </ul> 
@@ -78,63 +78,47 @@
                               </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
-                                <% services.forEach((service) => { %> 
+                                <% franchises.forEach((franchise) => { %> 
                                     <tr>
-                                        <td style="font-size: 12px;"><b><%=service.name%></b></td>
+                                        <td style="font-size: 12px;"><b><%=franchise.name%></b></td>
                                         
-                                        <td style="font-size: 12px;"><%=service.description.substring(0, 20)+"..."%></td>
+                                        <td style="font-size: 12px;"><%=franchise.description.substring(0, 20)+"..."%></td>
 
                                         <td style="font-size: 12px;">
                                             <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                                <% if(service.imageUrls.length < 1){ %>
+                                                <% if(!franchise.imageUrl){ %>
                                                     <i class="bx bx-error-circle text-danger"></i>
                                                     <span class="text-danger">Resim yüklenmemiş</span>
                                                 <% } else { %>
-                                                    <% if(service.imageUrls.length > 3){ %>
-                                                        <% for (var l = service.imageUrls.length, i = 0; i < 3; i++) { %>
-                                                            <li
-                                                                data-bs-toggle="tooltip"
-                                                                data-popup="tooltip-custom"
-                                                                data-bs-placement="top"
-                                                                class="avatar avatar-xs pull-up">
-                                                                <a data-fancybox="gallery" href="<%=service.imageUrls[i]%>">
-                                                                    <img src="<%=service.imageUrls[i]%>" alt="Avatar" class="rounded-circle" />
-                                                                </a>
-                                                            </li>
-                                                        <% } %>
-                                                    <% } else { %>
-                                                        <% for (var l = service.imageUrls.length, i = 0; i < l; i++) { %>
-                                                            <li
-                                                                data-bs-toggle="tooltip"
-                                                                data-popup="tooltip-custom"
-                                                                data-bs-placement="top"
-                                                                class="avatar avatar-xs pull-up">
-                                                                <a data-fancybox="gallery" href="<%=service.imageUrls[i]%>">
-                                                                    <img src="<%=service.imageUrls[i]%>" alt="Avatar" class="rounded-circle" />
-                                                                </a>
-                                                            </li>
-                                                        <% } %>
-                                                    <% } %>
+                                                    <li
+                                                        data-bs-toggle="tooltip"
+                                                        data-popup="tooltip-custom"
+                                                        data-bs-placement="top"
+                                                        class="avatar avatar-xs pull-up">
+                                                        <a data-fancybox="gallery" href="<%=franchise.imageUrl%>">
+                                                            <img src="<%=franchise.imageUrl%>" alt="Avatar" class="rounded-circle" />
+                                                        </a>
+                                                    </li>
                                                 <% } %>
                                             </ul>
                                         </td>
 
                                         <td style="font-size: 12px;">
-                                            <%=service.createdAt.getDate(); %> 
-                                            <%=service.createdAt.toLocaleString('default', {month: 'long'}); %>
-                                            <%=service.createdAt.getFullYear(); %> 
-                                            <br><%=service.createdAt.getHours(); %>:<%=service.createdAt.getMinutes(); %>
+                                            <%=franchise.createdAt.getDate(); %> 
+                                            <%=franchise.createdAt.toLocaleString('default', {month: 'long'}); %>
+                                            <%=franchise.createdAt.getFullYear(); %> 
+                                            <br><%=franchise.createdAt.getHours(); %>:<%=franchise.createdAt.getMinutes(); %>
                                         </td>
 
                                         <td style="font-size: 12px;">
-                                            <%=service.updatedAt.getDate(); %> 
-                                            <%=service.updatedAt.toLocaleString('default', {month: 'long'}); %>
-                                            <%=service.updatedAt.getFullYear(); %>
-                                            <br><%=service.updatedAt.getHours(); %>:<%=service.updatedAt.getMinutes(); %>
+                                            <%=franchise.updatedAt.getDate(); %> 
+                                            <%=franchise.updatedAt.toLocaleString('default', {month: 'long'}); %>
+                                            <%=franchise.updatedAt.getFullYear(); %>
+                                            <br><%=franchise.updatedAt.getHours(); %>:<%=franchise.updatedAt.getMinutes(); %>
                                         </td>
 
                                         <td style="font-size: 12px;">
-                                            <% if(!service.status) { %> 
+                                            <% if(!franchise.status) { %> 
                                                 <span class="badge bg-label-danger me-1">Pasif</span>
                                             <% } else { %>
                                                 <span class="badge bg-label-primary me-1">Aktif</span>
@@ -147,10 +131,10 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/services/<%=service._id%>"
+                                            <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/franchises/<%=franchise._id%>"
                                                 ><i class="bx bx-edit-alt me-1"></i> Güncelle</a
                                             >
-                                            <a class="dropdown-item delete-service" href="http://localhost:3000/api/kurumsal/services/<%=service._id%>"
+                                            <a class="dropdown-item delete-franchise" href="http://localhost:3000/api/kurumsal/franchises/<%=franchise._id%>"
                                                 ><i class="bx bx-trash me-1"></i> Sil</a
                                             >
                                             </div>
@@ -256,7 +240,7 @@ $('.search-button').on('click',function(e) {
     window.location.href = updateQueryStringParameter(search,'search',queryString);
 });
 
-$(".delete-service").on('click', function(e) {
+$(".delete-franchise").on('click', function(e) {
     e.preventDefault();
     $.ajax({
         url : this.href,

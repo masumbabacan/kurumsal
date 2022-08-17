@@ -19,39 +19,14 @@ const getAllUsers = async (req,res) => {
     var startFrom = (pageNumber - 1) * perpage;
     var search = (req.query.search == null) ? '' : req.query.search;
     let users;
-    if (req.user.role === 'user'){
-        users = await User.find({
-            $or: [
-                {role : 'user'},
-                {role : 'demo'},
-                {name : {$regex : search, '$options' : 'i'}},
-                {surname : {$regex : search, '$options' : 'i'}},
-                {username : {$regex : search, '$options' : 'i'}},
-                {email : {$regex : search, '$options' : 'i'}},
-            ]
-        }).skip(startFrom).limit(perpage).select(unselectedColumns);
-    } 
-    if (req.user.role === 'demo'){
-        users = await User.find({
-            role : 'demo',
-            $or: [
-                {name : {$regex : search, '$options' : 'i'}},
-                {surname : {$regex : search, '$options' : 'i'}},
-                {username : {$regex : search, '$options' : 'i'}},
-                {email : {$regex : search, '$options' : 'i'}},
-            ]
-        }).skip(startFrom).limit(perpage).select(unselectedColumns);
-    } 
-    if (req.user.role === 'admin'){
-        users = await User.find({
-            $or: [
-                {name : {$regex : search, '$options' : 'i'}},
-                {surname : {$regex : search, '$options' : 'i'}},
-                {username : {$regex : search, '$options' : 'i'}},
-                {email : {$regex : search, '$options' : 'i'}},
-            ]
-        }).skip(startFrom).limit(perpage).select(unselectedColumns);
-    }
+    users = await User.find({
+        $or: [
+            {name : {$regex : search, '$options' : 'i'}},
+            {surname : {$regex : search, '$options' : 'i'}},
+            {username : {$regex : search, '$options' : 'i'}},
+            {email : {$regex : search, '$options' : 'i'}},
+        ]
+    }).skip(startFrom).limit(perpage).select(unselectedColumns);
     
     const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
     res.status(StatusCodes.OK).render("admin/users", { 
@@ -84,31 +59,30 @@ const createUserGet = async (req,res) => {
 }
 
 const createUserPost = async (req,res) => {
-    const { email, name, surname, username, password, role } = req.body;
-    console.log(role);
+    const { email, name, surname, username, password } = req.body;
     const emailExist = await User.findOne({email});
     if (emailExist) throw new CustomError.BadRequestError("Email daha önceden alınmış");
     const usernameExist = await User.findOne({username});
     if (usernameExist) throw new CustomError.BadRequestError("kullanıcı adı daha önceden alınmış");
-    const user = await User.create({name,surname,email,username,password,role});
+    const user = await User.create({name,surname,email,username,password});
     if (!user) throw new CustomError.BadRequestError("Bir hata oluştu");
-    await LoginHistory.create({user : req.user.userId, note : `${user.username} kişisini sisteme ${role} yetkisi ile kaydetti`, color : 'text-info'});
     res.status(StatusCodes.CREATED).json({msg : "İşlem başarılı!"});
 }
 
-// const showCurrentUser = async (req,res) => {
-//     const user = await User.findOne({_id : req.user.userId}).select(unselectedColumns);
-//     res.status(StatusCodes.OK).json({data : user});
-// }
+const showCurrentUser = async (req,res) => {
+    const user = await User.findOne({_id : req.user.userId}).select(unselectedColumns);
+    res.status(StatusCodes.OK).render("admin/profile",{authenticateUser : user});
+}
 
 const updateUser = async (req,res) => {
-    const {updateUserId,name,surname,role} = req.body;
+    console.log(1)
+    console.log(req.files)
+    const {updateUserId,name,surname} = req.body;
     const user = await User.findOne({_id : updateUserId});
     if (!user) throw new CustomError.NotFoundError('Kayıt bulunamadı');
     checkPermissions(req.user,user._id);
     user.name = name;
     user.surname = surname;
-    if (req.user.role === 'admin') user.role = role;
     await user.save();
     if (req.files) {
         await fileDelete(user.image);
@@ -155,4 +129,5 @@ module.exports = {
     updateUser,
     updateUserPassword,
     deleteUser,
+    showCurrentUser
 }

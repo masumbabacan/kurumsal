@@ -1,0 +1,201 @@
+<%- include('../include/header.ejs'); -%>
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <div class="col-lg-6 mb-4 order-0">
+                  <div class="card mb-4">
+                      <h5 class="card-header font12px">Bayi</h5>
+                      <hr class="my-0" />
+                      <form id="franchiseForm" method="POST" onsubmit="return false">
+                        <input class="form-control" type="hidden" name="updateFranchiseId" id="updateFranchiseId" value="<%=franchise._id%>" />
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="mb-3 col-12">
+                              <label for="firstName" class="form-label font10px">Bayi adı</label>
+                              <input
+                                class="form-control font12px"
+                                type="text"
+                                id="name"
+                                name="name"
+                                value="<%=franchise.name%>"
+                                autofocus
+                              />
+                            </div>
+                            <div class="mb-3 col-12">
+                              <label for="description" class="form-label font10px">Açıklama</label>
+                              <textarea class="form-control font12px" type="text" name="description" id="description" style="min-height: 200px;"><%=franchise.description%></textarea>
+                            </div>
+                            <div class="mb-3 col-12">
+                              <label for="role" class="form-label font10px">Durumu</label>
+                              <select class="form-select status-select font12px" aria-label="Default select example">
+                                <option value="true">true</option>
+                                <option value="false">false</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="mt-2">
+                            <button type="submit" class="btn btn-primary me-2 font12px">Güncelle</button>
+                            <button type="reset" class="btn btn-outline-primary font12px">
+                              <a style="color:black" href="http://localhost:3000/api/kurumsal/franchises">Geri dön</a>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-4 order-0">
+                  <div class="card mb-4">
+                      <h5 class="card-header font12px">Resimler</h5>
+                      <hr class="my-0" />
+                      <div class="owl-carousel p-4">
+                        <% if(!franchise.imageUrl) { %>
+                          <div>
+                            <i class="bx bx-error-circle text-danger"></i>
+                            <span class="text-danger">Resim yüklenmemiş</span>
+                          </div>
+                        <% }else { %>
+                            <div class="border rounded position-relative" style="width: 100%; height: 100px;">
+                                <img class="p-4" style="object-fit: contain; width: 100%; height: 100%;" src="<%=franchise.imageUrl%>" alt="franchise Image">
+                                <a class="delete-image" href="http://localhost:3000/api/kurumsal/franchises/imageDelete?image=<%=franchise.imageUrl%>&franchiseId=<%=franchise._id%>">
+                                  <ul class="list-unstyled m-0 avatar-group d-flex justify-content-center align-items-center text-danger" 
+                                  style="position: absolute; bottom: 5px; right: 5px;">
+                                      <li data-bs-toggle="tooltip"
+                                      data-popup="tooltip-custom"
+                                      data-bs-placement="top"
+                                      class="avatar avatar-xs d-flex justify-content-center align-items-center border rounded"
+                                      title="Fotoğrafı sil">
+                                          <span class="tf-icons bx bx-trash font12px"></span>
+                                      </li>
+                                  </ul> 
+                                </a>
+                            </div>
+                        <% } %>
+                      </div>
+                      <form id="imageUploadForm" method="PATCH" enctype="multipart/form-data"  onsubmit="return false">
+                        <input class="form-control" type="hidden" name="updateFranchiseId" id="updateFranchiseId" value="<%=franchise._id%>" />
+                        <div class="d-flex justify-content-around align-items-center p-2">
+                          <label for="upload" class="btn btn-danger me-2 mb-4 w-100 font12px" tabindex="0">
+                            <span class="d-none d-sm-block"><i class="bx bx-image-add me-1"></i>Yeni fotoğraf</span>
+                            <i class="bx bx-upload d-block d-sm-none"></i>
+                            <input
+                              type="file"
+                              id="upload"
+                              name="images"
+                              class="account-file-input"
+                              hidden
+                              accept="image/png, image/jpeg"
+                            />
+                          </label>
+                          <button type="submit" for="upload" class="btn btn-primary me-2 mb-4 w-100 add-new-photo font12px" tabindex="0">
+                            <span class="d-none d-sm-block"><i class="bx bx-check me-1"></i>Güncelle</span>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+<%- include('../include/footer.ejs'); -%>
+<script>
+    $(document).ready(() => {
+      for (const iterator of $('.status-select option')) {
+        if ($(iterator).text() === '<%=franchise.status%>') {
+          $(iterator).attr('selected','selected');
+        }
+      }
+      $(".owl-carousel").owlCarousel({
+        dots:false,
+        margin:10,
+      });
+    });
+
+    $("#franchiseForm").on("submit",function(e) {
+        e.preventDefault();
+        let status = $('.status-select option:selected').val();
+        var formData = new FormData(this);
+        formData.append('status', status);
+        $.ajax({
+            url : "http://localhost:3000/api/kurumsal/franchiseS/updateFranchise",
+            type : "PATCH",
+            data : formData,
+            success : (response) => {
+                Swal.fire({
+                    icon: "success",
+                    text: response.msg
+                });
+            },
+            error : (xhr, status, error) => {
+                Swal.fire({
+                    icon: "error",
+                    text: xhr.responseJSON.msg
+                });
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+
+    $(".delete-image").on('click', function(e) {
+      e.preventDefault();
+      $.ajax({
+          url : this.href,
+          type : "GET",
+          success : (response) => {
+              Swal.fire({
+                  icon: "success",
+                  text: response.msg
+              });
+          },
+          error : (xhr, status, error) => {
+              Swal.fire({
+                  icon: "error",
+                  text: xhr.responseJSON.msg
+              });
+          },
+      })
+      return false;
+    });
+
+    $("#upload").change(function () {
+      const file = this.files[0];
+      if (file) {
+        let reader = new FileReader();
+        reader.onload = function (event) {
+            $("#upload").parent().find('span').remove();
+            $("#upload").parent().append(`<span class="d-none d-sm-block"><i class="bx bx-checkbox-checked me-1"></i>Fotoğraf yüklendi</span>`);
+            $("#upload").parent().removeClass('btn-danger').addClass('btn-success');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    $('#imageUploadForm').on('submit',function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      $.ajax({
+        url : "http://localhost:3000/api/kurumsal/franchiseS/updateFranchiseImages",
+        type : "PATCH",
+        data : formData,
+        success : (response) => {
+            Swal.fire({
+                icon: "success",
+                text: response.msg
+            });
+        },
+        error : (xhr, status, error) => {
+            Swal.fire({
+                icon: "error",
+                text: xhr.responseJSON.msg
+            });
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+      });
+    });
+</script>

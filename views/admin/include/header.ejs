@@ -82,17 +82,29 @@
                   <div data-i18n="Analytics">Gösterge Paneli</div>
                 </a>
               </li>
+              <li class="menu-item logout users">
+                  <a href="http://localhost:3000/api/kurumsal/users" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-user"></i>
+                    <div data-i18n="Analytics">Kullanıcılar</div>
+                  </a>
+              </li>
             <% } %>
-            <li class="menu-item logout users">
-                <a href="http://localhost:3000/api/kurumsal/users" class="menu-link">
-                  <i class="menu-icon tf-icons bx bx-user"></i>
-                  <div data-i18n="Analytics">Kullanıcılar</div>
-                </a>
-            </li>
             <li class="menu-item logout services">
               <a href="http://localhost:3000/api/kurumsal/services" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-list-plus"></i>
                 <div data-i18n="Analytics">Hizmetler</div>
+              </a>
+            </li>
+            <li class="menu-item logout franchises">
+              <a href="http://localhost:3000/api/kurumsal/franchises" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-sitemap"></i>
+                <div data-i18n="Analytics">Bayilikler</div>
+              </a>
+            </li>
+            <li class="menu-item logout referances">
+              <a href="http://localhost:3000/api/kurumsal/referances" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-buildings"></i>
+                <div data-i18n="Analytics">Referanslar</div>
               </a>
             </li>
             <li class="menu-item" id="logout">
@@ -138,9 +150,9 @@
                   </div>
                 <% } %>
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                  <a class="nav-link dropdown-toggle hide-arrow d-flex justify-content-between align-items-center">
+                  <a href="http://localhost:3000/api/kurumsal/users/profile" class="nav-link dropdown-toggle hide-arrow d-flex justify-content-between align-items-center">
                     <div class="avatar avatar-online">
-                      <img src="<%=authenticateUser.image%>" alt class="w-100 h-100 h-auto rounded-circle" />
+                        <img src="<%=authenticateUser.image%>" alt class="w-100 h-100 h-auto rounded-circle" />
                     </div>
                   </a>
                 </li>

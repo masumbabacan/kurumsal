@@ -1,0 +1,166 @@
+<%- include('./include/header.ejs'); -%>
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row">
+            <div class="col-md-6">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="d-flex align-items-start align-items-sm-center gap-4">
+                    <img
+                      src="<%= authenticateUser.image %>"
+                      alt="user-avatar"
+                      class="d-block rounded"
+                      height="100"
+                      width="100"
+                      id="uploadedAvatar"
+                    />
+                    <form id="formAccountSettings" method="POST" onsubmit="return false">
+                    <div class="button-wrapper">
+                      <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                        <span class="d-none d-sm-block">Fotoğrafı değiştir</span>
+                        <i class="bx bx-upload d-block d-sm-none"></i>
+                        <input
+                          type="file"
+                          id="upload"
+                          class="account-file-input"
+                          name="images"
+                          hidden
+                          accept="image/png, image/jpeg"
+                        />
+                      </label>
+                      <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-0" />
+                <div class="card-body">
+                    <input class="form-control" type="hidden" name="updateUserId" id="updateUserId" value="<%=authenticateUser._id%>" />
+                    <div class="row">
+                      <div class="mb-3 col-md-6">
+                        <label for="firstName" class="form-label">Ad</label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          id="name"
+                          name="name"
+                          value="<%= authenticateUser.name %>"
+                          autofocus
+                        />
+                      </div>
+                      <div class="mb-3 col-md-6">
+                        <label for="lastName" class="form-label">Soyad</label>
+                        <input class="form-control" type="text" name="surname" id="surname" value="<%= authenticateUser.surname %>"/>
+                      </div>
+                      <div class="mb-3 col-md-6">
+                        <label for="lastName" class="form-label">Email</label>
+                        <input class="form-control" type="text" id="email" value="<%= authenticateUser.email %>" disabled/>
+                      </div>
+                      <div class="mb-3 col-md-6">
+                        <label for="lastName" class="form-label">Yetki</label>
+                        <% if(authenticateUser.role === 'admin'){ %>
+                            <input class="form-control" type="text" id="email" value="Sistem yöneticisi" disabled/>
+                        <% } else if(authenticateUser.role === 'companyOfficial'){ %>
+                            <input class="form-control" type="text" id="email" value="Şirket yetkilisi" disabled/>
+                        <% } %>
+                      </div>
+                    </div>
+                    <div class="mt-2">
+                      <button type="submit" class="btn btn-primary me-2">Güncelle</button>
+                      <button type="reset" class="btn btn-outline-secondary">Geri dön</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 mb-4 order-0">
+                <div class="card mb-4">
+                  <h5 class="card-header font12px">Şifre Değiştir</h5>
+                    <hr class="my-0" />
+                    <div class="card-body">
+                      <form id="passwordChange" method="PATCH" onsubmit="return false">
+                        <input class="form-control" type="hidden" name="updateUserId" id="updateUserId" value="<%= authenticateUser._id%>" />
+                        <div class="row">
+                          <div class="mb-3 col-6">
+                            <label for="old-password" class="form-label font10px">Eski şifre</label>
+                            <input class="form-control font12px" type="password" id="old-password" name="oldPassword" autofocus placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                          </div>
+                          <div class="mb-3 col-6">
+                            <label for="new-password" class="form-label font10px">Yeni şifre</label>
+                            <input class="form-control font12px" type="password" id="new-password" name="newPassword" autofocus placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"/>
+                          </div>
+                        </div>
+                        <div class="mt-2">
+                          <button type="submit" class="btn btn-primary me-2 font12px">Güncelle</button>
+                        </div>
+                      </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('./include/footer.ejs'); -%>
+
+<script>
+    $("#formAccountSettings").on("submit",function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            url : "http://localhost:3000/api/kurumsal/users/updateUser",
+            type : "PATCH",
+            data : formData,
+            success : (response) => {
+                Swal.fire({
+                    icon: "success",
+                    text: response.msg
+                });
+            },
+            error : (xhr, status, error) => {
+                Swal.fire({
+                    icon: "error",
+                    text: xhr.responseJSON.msg
+                });
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+    $("#upload").change(function () {
+        const file = this.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function (event) {
+                $("#uploadedAvatar")
+                    .attr("src", event.target.result);
+                // $("#imgPreview").parent().removeClass("d-none");
+                // $("#imgPreview").parent().addClass("d-inline-block");
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    $("#passwordChange").on("submit",function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            url : "http://localhost:3000/api/kurumsal/users/updateUserPassword",
+            type : "PATCH",
+            data : formData,
+            success : (response) => {
+                Swal.fire({
+                    icon: "success",
+                    text: response.msg
+                });
+            },
+            error : (xhr, status, error) => {
+                Swal.fire({
+                    icon: "error",
+                    text: xhr.responseJSON.msg
+                });
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+</script>

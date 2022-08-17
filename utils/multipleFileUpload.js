@@ -3,7 +3,7 @@ const path = require('path');
 const CustomError = require("../errors");
 
 const multiImageUpload = async (req) => {
-    if (!req.files) return;
+    if (!req.files) throw new CustomError.BadRequestError('Lütfen bir resim yükleyiniz');;
     const images = req.files.images;
     const maxSize = 1024 * 1024;
     let returnImageArray = [];

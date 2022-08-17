@@ -7,6 +7,7 @@ const {
     allHistoryDelete
 } = 
 require("../controllers/adminController");
+
 router.get("/dashboard",authenticateUser,authorizePermissions('admin'),page);
 router.get("/loginHistories",authenticateUser,authorizePermissions('admin'),loginHistories);
 router.delete("/deleteHistory",authenticateUser,authorizePermissions('admin'),allHistoryDelete);
