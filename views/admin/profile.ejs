@@ -17,7 +17,7 @@
                     <form id="formAccountSettings" method="POST" onsubmit="return false">
                     <div class="button-wrapper">
                       <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                        <span class="d-none d-sm-block">Fotoğrafı değiştir</span>
+                        <span class="d-none d-sm-block font12px">Fotoğrafı değiştir</span>
                         <i class="bx bx-upload d-block d-sm-none"></i>
                         <input
                           type="file"
@@ -28,7 +28,7 @@
                           accept="image/png, image/jpeg"
                         />
                       </label>
-                      <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                      <p class="text-muted mb-0 font12px">Allowed JPG, GIF or PNG. Max size of 800K</p>
                     </div>
                   </div>
                 </div>
@@ -37,9 +37,9 @@
                     <input class="form-control" type="hidden" name="updateUserId" id="updateUserId" value="<%=authenticateUser._id%>" />
                     <div class="row">
                       <div class="mb-3 col-md-6">
-                        <label for="firstName" class="form-label">Ad</label>
+                        <label for="firstName" class="form-label font10px">Ad</label>
                         <input
-                          class="form-control"
+                          class="form-control font12px"
                           type="text"
                           id="name"
                           name="name"
@@ -48,25 +48,25 @@
                         />
                       </div>
                       <div class="mb-3 col-md-6">
-                        <label for="lastName" class="form-label">Soyad</label>
-                        <input class="form-control" type="text" name="surname" id="surname" value="<%= authenticateUser.surname %>"/>
+                        <label for="lastName" class="form-label font10px">Soyad</label>
+                        <input class="form-control font12px" type="text" name="surname" id="surname" value="<%= authenticateUser.surname %>"/>
                       </div>
                       <div class="mb-3 col-md-6">
-                        <label for="lastName" class="form-label">Email</label>
-                        <input class="form-control" type="text" id="email" value="<%= authenticateUser.email %>" disabled/>
+                        <label for="lastName" class="form-label font10px">Email</label>
+                        <input class="form-control font12px" type="text" id="email" value="<%= authenticateUser.email %>" disabled/>
                       </div>
                       <div class="mb-3 col-md-6">
-                        <label for="lastName" class="form-label">Yetki</label>
+                        <label for="lastName" class="form-label font10px">Yetki</label>
                         <% if(authenticateUser.role === 'admin'){ %>
-                            <input class="form-control" type="text" id="email" value="Sistem yöneticisi" disabled/>
+                            <input class="form-control font12px" type="text" id="email" value="Sistem yöneticisi" disabled/>
                         <% } else if(authenticateUser.role === 'companyOfficial'){ %>
-                            <input class="form-control" type="text" id="email" value="Şirket yetkilisi" disabled/>
+                            <input class="form-control font12px" type="text" id="email" value="Şirket yetkilisi" disabled/>
                         <% } %>
                       </div>
                     </div>
                     <div class="mt-2">
-                      <button type="submit" class="btn btn-primary me-2">Güncelle</button>
-                      <button type="reset" class="btn btn-outline-secondary">Geri dön</button>
+                      <button type="submit" class="btn btn-primary me-2 font12px">Güncelle</button>
+                      <button type="reset" class="btn btn-outline-secondary font12px">Geri dön</button>
                     </div>
                   </form>
                 </div>
