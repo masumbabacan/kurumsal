@@ -82,30 +82,78 @@
                   <div data-i18n="Analytics">Gösterge Paneli</div>
                 </a>
               </li>
-              <li class="menu-item logout users">
-                  <a href="http://localhost:3000/api/kurumsal/users" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-user"></i>
-                    <div data-i18n="Analytics">Kullanıcılar</div>
-                  </a>
+              <li class="menu-item users">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <i class="menu-icon tf-icons bx bx-user"></i>
+                  <div data-i18n="Layouts">Kullanıcı yönetimi</div>
+                </a>
+                <ul class="menu-sub">
+                  <li class="menu-item">
+                    <a href="http://localhost:3000/api/kurumsal/users/createUser" class="menu-link">
+                      <div data-i18n="Blank">Kullanıcı ekle</div>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="http://localhost:3000/api/kurumsal/users" class="menu-link">
+                      <div data-i18n="Blank">Kullanıcı listesi</div>
+                    </a>
+                  </li>
+                </ul>
               </li>
             <% } %>
-            <li class="menu-item logout services">
-              <a href="http://localhost:3000/api/kurumsal/services" class="menu-link">
+            <li class="menu-item services">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-list-plus"></i>
-                <div data-i18n="Analytics">Hizmetler</div>
+                <div data-i18n="Layouts">Hizmet yönetimi</div>
               </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="http://localhost:3000/api/kurumsal/services/createService" class="menu-link">
+                    <div data-i18n="Blank">Hizmet ekle</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="http://localhost:3000/api/kurumsal/services" class="menu-link">
+                    <div data-i18n="Blank">Hizmet listesi</div>
+                  </a>
+                </li>
+              </ul>
             </li>
-            <li class="menu-item logout franchises">
-              <a href="http://localhost:3000/api/kurumsal/franchises" class="menu-link">
+            <li class="menu-item franchises">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-sitemap"></i>
-                <div data-i18n="Analytics">Bayilikler</div>
+                <div data-i18n="Layouts">Bayi yönetimi</div>
               </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="http://localhost:3000/api/kurumsal/franchises/createFranchise" class="menu-link">
+                    <div data-i18n="Blank">Bayi ekle</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="http://localhost:3000/api/kurumsal/franchises" class="menu-link">
+                    <div data-i18n="Blank">Bayi listesi</div>
+                  </a>
+                </li>
+              </ul>
             </li>
-            <li class="menu-item logout referances">
-              <a href="http://localhost:3000/api/kurumsal/referances" class="menu-link">
+            <li class="menu-item referances">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-buildings"></i>
-                <div data-i18n="Analytics">Referanslar</div>
+                <div data-i18n="Layouts">Referans yönetimi</div>
               </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="http://localhost:3000/api/kurumsal/referances/createReferance" class="menu-link">
+                    <div data-i18n="Blank">Referans ekle</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="http://localhost:3000/api/kurumsal/referances" class="menu-link">
+                    <div data-i18n="Blank">Referans listesi</div>
+                  </a>
+                </li>
+              </ul>
             </li>
             <li class="menu-item" id="logout">
                 <a href="javascript:void(0)" class="menu-link">

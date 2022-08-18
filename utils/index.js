@@ -8,7 +8,6 @@ const singleImageUpload = require("./fileUpload");
 const multipleFileUpload = require("./multipleFileUpload");
 const nullControl = require("./nullControl");
 const fileDelete = require("./fileDelete");
-const pagination = require("./custom-pagination");
 
 module.exports = {
     createJWT,
@@ -23,5 +22,4 @@ module.exports = {
     multipleFileUpload,
     nullControl,
     fileDelete,
-    pagination,
 }

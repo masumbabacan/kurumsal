@@ -39,7 +39,15 @@
                             </label>
                             <p class="text-muted mb-0 font12px">E-Posta Adresi : <span class="text-primary"><%=user.email%></span></p>
                             <p class="text-muted mb-0 font12px">Kullanıcı Adı : <span class="text-primary"><%=user.username%></span></p>
-                            <p class="text-muted mb-0 font12px">Yetki : <span class="text-danger"><%=user.role%></span></p>
+                            <p class="text-muted mb-0 font12px">
+                              Yetki : <span class="text-danger">
+                                <% if(user.role === 'admin') { %>
+                                  Sistem yöneticisi
+                                <% } else if(user.role === 'companyOfficial'){ %>
+                                  Şirket yetkilisi
+                                <% } %>
+                              </span>
+                            </p>
                             </div>
                           </div>
                         </div>
@@ -62,6 +70,15 @@
                                 <label for="lastName" class="form-label font10px">soyad</label>
                                 <input class="form-control font12px" type="text" name="surname" id="surname" value="<%=user.surname%>" />
                               </div>
+                              <% if(authenticateUser.role === 'admin') { %>
+                                <div class="mb-3 col-md-6">
+                                  <label for="role" class="form-label font10px">yetki</label>
+                                  <select class="form-select role-select font12px" aria-label="Default select example">
+                                    <option value="companyOfficial">Şirket yetkilisi</option>
+                                    <option value="admin">Sistem yöneticisi</option>
+                                  </select>
+                                </div>
+                              <% } %>
                             </div>
                             <div class="mt-2">
                               <button type="submit" class="btn btn-primary me-2 font12px">Güncelle</button>
@@ -81,7 +98,8 @@
 <script>
     $(document).ready(() => {
       for (const iterator of $('.role-select option')) {
-        if ($(iterator).text() === '<%=user.role%>') {
+        console.log($(iterator).val())
+        if ($(iterator).val() === '<%=user.role%>') {
           $(iterator).attr('selected','selected');
         }
       }

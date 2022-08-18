@@ -43,6 +43,7 @@ const getUser = async (req,res) => {
     const user = await User.findOne({_id:req.params.id}).select(unselectedColumns);
     const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
     if (!user) throw new CustomError.NotFoundError("Kullanıcı Bulunamadı");
+    if (authenticateUser.username === user.username) await showCurrentUser(req,res);
     res.status(StatusCodes.OK).render("admin/userDetail",{
         authenticateUser : authenticateUser,
         user : user,
@@ -75,14 +76,13 @@ const showCurrentUser = async (req,res) => {
 }
 
 const updateUser = async (req,res) => {
-    console.log(1)
-    console.log(req.files)
-    const {updateUserId,name,surname} = req.body;
+    const {updateUserId,name,surname,role} = req.body;
     const user = await User.findOne({_id : updateUserId});
     if (!user) throw new CustomError.NotFoundError('Kayıt bulunamadı');
     checkPermissions(req.user,user._id);
     user.name = name;
     user.surname = surname;
+    if (req.user.role === 'admin') user.role = role;
     await user.save();
     if (req.files) {
         await fileDelete(user.image);

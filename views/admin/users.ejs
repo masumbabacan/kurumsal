@@ -139,15 +139,15 @@
                                                 </button>
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
-                                                        ><i class="bx bx-edit-alt me-1"></i> Güncelle</a
+                                                        >Güncelle</a
                                                     >
                                                     <% if(!user.status) { %> 
                                                     <a class="dropdown-item delete-user" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
-                                                        ><i class="bx bx-user-check me-1"></i> Aktif yap</a
+                                                        >Değiştir <span class="badge bg-label-success">Aktif</span></a
                                                     >
                                                     <% } else { %>
                                                     <a class="dropdown-item delete-user" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
-                                                        ><i class="bx bx-user-x me-1"></i> Pasif yap</a
+                                                        >Değiştir <span class="badge bg-label-danger">Pasif</span> </a
                                                     >
                                                     <% } %>
                                                 </div>

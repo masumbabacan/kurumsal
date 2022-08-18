@@ -55,10 +55,10 @@
     let sideelements =  ['dashboard','users','services','franchises','referances'];
         let href = $(location).attr('href');
         sideelements.forEach(element => {
-        if (href.indexOf(element) > -1) {
-            $("." + element).addClass("active");
-            $("." + element).parent().parent().addClass("active open");
-        }
+          if (href.indexOf(element) > -1) {
+              $("." + element).addClass("active");
+              $("." + element).parent().parent().addClass("open");
+          }
         });
     });
     $("#logout").on('click',(e) => {
