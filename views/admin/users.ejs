@@ -119,9 +119,23 @@
 
                                             <td style="font-size: 12px;">
                                                 <% if(!user.status) { %> 
-                                                        <a class="delete-user btn btn-danger btn-xs" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>">Pasif</a>
+                                                    <a class="delete-user btn btn-danger btn-xs" 
+                                                    data-bs-toggle="tooltip" 
+                                                    data-popup="tooltip-custom" 
+                                                    data-bs-placement="top"
+                                                    title="Aktif yap"
+                                                    href="http://localhost:3000/api/kurumsal/users/<%=user._id%>">
+                                                        Pasif
+                                                    </a>
                                                 <% } else { %>
-                                                    <a class="delete-user btn btn-primary btn-xs" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>">Aktif</a>
+                                                    <a class="delete-user btn btn-primary btn-xs" 
+                                                    data-bs-toggle="tooltip" 
+                                                    data-popup="tooltip-custom" 
+                                                    data-bs-placement="top"
+                                                    title="Pasif yap"
+                                                    href="http://localhost:3000/api/kurumsal/users/<%=user._id%>">
+                                                        Aktif
+                                                    </a>
                                                 <% } %>
                                             </td>
 

@@ -1,0 +1,258 @@
+<%- include('../include/header.ejs'); -%>
+          <div class="content-wrapper">
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <div class="col-lg-12 mb-4 order-0">
+                    <div class="card">
+                        <div class="p-4">
+                            <h5 class="m-0">Mesajlar</h5>
+                        </div>
+                        <div class="w-100 p-4 py-2 row m-0">
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0">
+                                <div class="pagination">
+                                    <li class="page-item d-flex justify-content-around align-items-center me-1">
+                                        <div style="font-size: 12px; margin-right: 4px;">Sayfada</div>
+                                        <select class="page-link limit-select p-2" style="cursor: pointer; font-size: 12px; margin-right: 4px;">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                        </select>
+                                        <div style="font-size: 12px; margin-right: 4px;">kayıt göster</div>
+                                    </li>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
+                                <li class="page-item d-flex justify-content-around align-items-center ms-1">
+                                    <a class="btn btn-danger btn-xs p-1" 
+                                        data-bs-toggle="tooltip" 
+                                        data-popup="tooltip-custom" 
+                                        data-bs-placement="top"
+                                        title="Okunmamış mesajları gör"
+                                        href="#">
+                                        <i class="bx bx-message-rounded-x"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item d-flex justify-content-around align-items-center ms-1">
+                                    <a class="btn btn-success btn-xs p-1" 
+                                        data-bs-toggle="tooltip" 
+                                        data-popup="tooltip-custom" 
+                                        data-bs-placement="top"
+                                        title="Okunmuş mesajları gör"
+                                        href="#">
+                                        <i class="bx bx-message-rounded-check"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item d-flex justify-content-around align-items-center ms-1">
+                                    <a class="btn btn-warning btn-xs p-1" 
+                                        data-bs-toggle="tooltip" 
+                                        data-popup="tooltip-custom" 
+                                        data-bs-placement="top"
+                                        title="Tüm mesajları okundu olarak işaretle"
+                                        href="#">
+                                        <i class="bx bx-message-alt-check"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item d-flex justify-content-around align-items-center ms-1">
+                                    <a class="p-1">
+                                        <i class="bx bx-dots-horizontal-rounded"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item d-flex justify-content-around align-items-center ms-1">
+                                    <a class="btn btn-danger btn-xs p-1 disabled" 
+                                        data-bs-toggle="tooltip" 
+                                        data-popup="tooltip-custom" 
+                                        data-bs-placement="top"
+                                        title="Seçili olanları sil"
+                                        href="#">
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </li>
+                            </div>
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                          <table class="table border-bottom border-top">
+                            <thead>
+                              <tr>
+                                <th style="font-size: 10px;">Adı</th>
+                                <th style="font-size: 10px;">Soyadı</th>
+                                <th style="font-size: 10px;">Email</th>
+                                <th style="font-size: 10px;">Mesaj</th>
+                                <th style="font-size: 10px;">Tarih</th>
+                                <th style="font-size: 10px;">Okundu mu?</th>
+                                <th style="font-size: 10px;">Detaylar</th>
+                              </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                <% messages.forEach((message) => { %> 
+                                    <tr>
+                                        <td style="font-size: 12px;">
+                                            <div class="d-flex justify-content-start align-items-center">
+                                                <input class="form-check-input m-0 mx-1" 
+                                                        style="height: 20px; width: 20px; cursor: pointer;" 
+                                                        type="checkbox" 
+                                                        value="" 
+                                                        id="<%=message._id%>">
+                                                <label style="cursor: pointer;" for="<%=message._id%>">
+                                                    <b class="m-0 mx-1"><%=message.senderName%></b>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td style="font-size: 12px;"><b><%=message.senderSurname%></b></td>
+                                        
+                                        <td style="font-size: 12px;"><%=message.senderMail%></td>
+                                        <td style="font-size: 12px;"><%=message.content.substring(0, 20)+"..."%></td>
+
+                                        <td style="font-size: 12px;">
+                                            <%=message.createdAt.getDate(); %> 
+                                            <%=message.createdAt.toLocaleString('default', {month: 'long'}); %>
+                                            <%=message.createdAt.getFullYear(); %> 
+                                            <br><%=message.createdAt.getHours(); %>:<%=message.createdAt.getMinutes(); %>
+                                        </td>
+                                        <td style="font-size: 12px;">
+                                            <% if(!message.seen){ %>
+                                                <a class="seen-message btn btn-danger btn-xs" 
+                                                    data-bs-toggle="tooltip" 
+                                                    data-popup="tooltip-custom" 
+                                                    data-bs-placement="top"
+                                                    title="Okundu olarak işaretle"
+                                                    href="http://localhost:3000/api/kurumsal/messages/<%=message._id%>">
+                                                        Okunmadı
+                                                </a>
+                                            <% }else{ %>
+                                                <a class="seen-message btn btn-primary btn-xs" 
+                                                    data-bs-toggle="tooltip" 
+                                                    data-popup="tooltip-custom" 
+                                                    data-bs-placement="top"
+                                                    title="Okunmadı olarak işaretle"
+                                                    href="http://localhost:3000/api/kurumsal/messages/<%=message._id%>">
+                                                        Okundu
+                                                </a>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                        <div style="font-size: 12px;" class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/messages/<%=message._id%>"
+                                                ><i class="bx bx-edit-alt me-1"></i> Mesajı gör</a>
+                                            </div>
+                                        </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="row p-4 py-2 m-0 w-100">
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-start align-items-center">
+                                <div style="font-size: 12px;">
+                                    Toplamda <span class="text-primary"><%=totalCount%></span> Kayıttan <span class="text-primary"><%=currentDataCount%></span> tanesi gösteriliyor
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
+                                <ul class="pagination m-0">
+                                    <input type="hidden" class="max-page" value="<%= pages; %>">
+                                    <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-prev m-0">Önceki</span></li>
+                                    <% for (var a=1; a<=pages; a++){ %>
+                                    <li class="page-item page-numbers d-none" style="cursor: pointer; font-size: 12px;"><span class="page-link"><%= a; %></span></li>
+                                    <% } %>
+                                    <li class="page-item" style="cursor: pointer; font-size: 12px;"><span class="page-link page-next">Sonraki</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+<%- include('../include/footer.ejs'); -%>
+<script>
+    function updateQueryStringParameter(uri, key, value) {
+    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+    if (uri.match(re)) {
+        return uri.replace(re, '$1' + key + "=" + value + '$2');
+    }
+    else {
+        return uri + separator + key + "=" + value;
+    }
+}
+
+$(document).ready(() => {
+    let searchParams = new URLSearchParams(window.location.search);
+    let page = searchParams.get('page');
+    for (const iterator of $('.pagination .page-numbers span')) {
+        if (page === null) {
+          $(iterator).parent().addClass('active');
+          $('.pagination .page-numbers.active').removeClass('d-none');
+          $('.pagination .page-numbers.active').prev('.page-numbers').removeClass('d-none').prev('.page-numbers').removeClass('d-none');
+          $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
+          return;
+        }
+        if ($(iterator).text() === page) {
+          $(iterator).parent().addClass('active');
+        };
+    };
+    $('.pagination .page-numbers.active').removeClass('d-none');
+    $('.pagination .page-numbers.active').prev('.page-numbers').removeClass('d-none').prev('.page-numbers').removeClass('d-none');
+    $('.pagination .page-numbers.active').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none').next('.page-numbers').removeClass('d-none');
+    for (const iterator of $('.limit-select option')) {
+        if ($(iterator).val() == localStorage.getItem('limit')) {
+            $(iterator).attr('selected','selected');
+        }
+    }
+});
+$('.limit-select').on('change',function(e) {
+    localStorage.setItem('limit',this.value);
+    let limit = updateQueryStringParameter(window.location.href,'limit',this.value);
+    window.location.href = updateQueryStringParameter(limit,'page',1);
+});
+
+$('.pagination .page-numbers').on('click',(e) => {
+    window.location.href = updateQueryStringParameter(window.location.href,'page',$(e.currentTarget).text());
+});
+
+$('.page-prev').on('click',(e) => {
+    let searchParams = new URLSearchParams(window.location.search);
+    let page = searchParams.get('page');
+    page = Number(page) - 1;
+    console.log(page)
+    if (!page == 0) {
+        console.log(page)
+        window.location.href = updateQueryStringParameter(window.location.href,'page',page);
+    }
+})
+$('.page-next').on('click',(e) => {
+    let searchParams = new URLSearchParams(window.location.search);
+    let page = searchParams.get('page');
+    page = Number(page) + 1;
+    console.log(page);
+    if (page <= $('.max-page').val()) {
+        window.location.href = updateQueryStringParameter(window.location.href,'page',page);
+    }
+})
+
+$(".seen-message").on('click', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url : this.href,
+            type : "DELETE",
+            success : (response) => {
+                Swal.fire({
+                    icon: "success",
+                    text: response.msg
+                });
+            },
+            error : (xhr, status, error) => {
+                Swal.fire({
+                    icon: "error",
+                    text: xhr.responseJSON.msg
+                });
+            },
+        })
+        return false;
+    });
+</script>

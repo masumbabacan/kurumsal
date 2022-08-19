@@ -155,6 +155,12 @@
                 </li>
               </ul>
             </li>
+            <li class="menu-item messages">
+              <a href="http://localhost:3000/api/kurumsal/messages" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-chat"></i>
+                <div data-i18n="Analytics">Mesajlar</div>
+              </a>
+            </li>
             <li class="menu-item" id="logout">
                 <a href="javascript:void(0)" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-log-out-circle"></i>
@@ -183,8 +189,10 @@
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <% if(authenticateUser.role === 'admin') { %>
+                <li class="mx-1">
                   <div class="btn-group">
                     <button  class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bx bx-cog bx-xs align-middle"></i>
                       İşlemler
                     </button>
                     <ul class="dropdown-menu">
@@ -196,6 +204,7 @@
                       </li>
                     </ul>
                   </div>
+                </li>
                 <% } %>
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a href="http://localhost:3000/api/kurumsal/users/profile" class="nav-link dropdown-toggle hide-arrow d-flex justify-content-between align-items-center">

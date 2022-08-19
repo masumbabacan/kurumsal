@@ -11,7 +11,7 @@ const page = async (req,res) => {
     const userCount = await User.find().count();
     const adminCount = await User.find({role : 'admin'}).count();
     const demoCount = await User.find({role : 'demo'}).count();
-    const normalUserCount = await User.find({role : 'user'}).count();
+    const normalUserCount = await User.find({role : 'companyOfficial'}).count();
     const serviceCount = await Service.find({}).count();
     const franchiseCount = await Franchise.find({}).count();
     const referanceCount = await Referance.find({}).count();
