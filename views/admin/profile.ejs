@@ -56,11 +56,11 @@
                         <input class="form-control font12px" type="text" id="email" value="<%= authenticateUser.email %>" disabled/>
                       </div>
                       <div class="mb-3 col-md-6">
-                        <label for="lastName" class="form-label font10px">Yetki</label>
+                        <label for="role" class="form-label font10px">Yetki</label>
                         <% if(authenticateUser.role === 'admin'){ %>
-                            <input class="form-control font12px" type="text" id="email" value="Sistem yöneticisi" disabled/>
+                            <input class="form-control font12px role" type="text" id="email" value="Sistem yöneticisi" disabled/>
                         <% } else if(authenticateUser.role === 'companyOfficial'){ %>
-                            <input class="form-control font12px" type="text" id="email" value="Şirket yetkilisi" disabled/>
+                            <input class="form-control font12px role" type="text" id="email" value="Şirket yetkilisi" disabled/>
                         <% } %>
                       </div>
                     </div>
@@ -104,7 +104,11 @@
 <script>
     $("#formAccountSettings").on("submit",function(e) {
         e.preventDefault();
+        let role = $('.role').val();
         var formData = new FormData(this);
+        if (role === 'Sistem yöneticisi') role = 'admin';
+        if (role === 'Şirket yetkisi') role = 'companyOfficial';
+        formData.append('role', role);
         $.ajax({
             url : "http://localhost:3000/api/kurumsal/users/updateUser",
             type : "PATCH",

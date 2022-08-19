@@ -66,96 +66,90 @@
                         </div>
                         <div class="table-responsive text-nowrap">
                             <table class="table border-bottom border-top">
-                            <thead>
-                                <tr>
-                                <th style="font-size: 10px;">Adı</th>
-                                <th style="font-size: 10px;">Soyadı</th>
-                                <th style="font-size: 10px;">Email</th>
-                                <th style="font-size: 10px;">Kullanıcı adı</th>
-                                <th style="font-size: 10px;">Durumu</th>
-                                <th style="font-size: 10px;">Yetki</th>
-                                <th style="font-size: 10px;">Detaylar</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-border-bottom-0">
-                                <% users.forEach((user) => { %> 
+                                <thead>
                                     <tr>
-                                        <td class="d-flex justify-content-start align-items-center" style="font-size: 12px;">
-                                            <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center" style="margin-right: 5px !important;">
-                                                <li data-bs-toggle="tooltip"
-                                                data-popup="tooltip-custom"
-                                                data-bs-placement="top"
-                                                class="avatar avatar-xs pull-up"
-                                                title="<%=user.role%>">
-                                                    <% if(!user.image) { %> 
-                                                        <img src="/adminpanel/assets/img/icons/unicons/userDefault.png" alt="Avatar" class="rounded-circle" />
-                                                    <% } else { %>
-                                                        <a data-fancybox href="<%=user.image%>">
-                                                            <img src="<%=user.image%>" alt="Avatar" class="rounded-circle" />
-                                                        </a>
-                                                    <% } %>
-                                                </li>
-                                            </ul> 
-                                            <% if(user.username === authenticateUser.username) { %> 
-                                                <ul class="list-unstyled m-0 avatar-group d-flex justify-content-center align-items-center text-success" 
-                                                    style="margin-right: 5px !important;">
+                                    <th style="font-size: 10px;">Adı</th>
+                                    <th style="font-size: 10px;">Soyadı</th>
+                                    <th style="font-size: 10px;">Email</th>
+                                    <th style="font-size: 10px;">Kullanıcı adı</th>
+                                    <th style="font-size: 10px;">Durumu</th>
+                                    <th style="font-size: 10px;">Yetki</th>
+                                    <th style="font-size: 10px;">Detaylar</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    <% users.forEach((user) => { %> 
+                                        <tr>
+                                            <td class="d-flex justify-content-start align-items-center" style="font-size: 12px;">
+                                                <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center" style="margin-right: 5px !important;">
                                                     <li data-bs-toggle="tooltip"
                                                     data-popup="tooltip-custom"
                                                     data-bs-placement="top"
-                                                    class="avatar avatar-xs d-flex justify-content-center align-items-center"
-                                                    title="Ben">
-                                                        <span class="tf-icons bx bx-user-check"></span>
+                                                    class="avatar avatar-xs pull-up"
+                                                    title="<%=user.role%>">
+                                                        <% if(!user.image) { %> 
+                                                            <img src="/adminpanel/assets/img/icons/unicons/userDefault.png" alt="Avatar" class="rounded-circle" />
+                                                        <% } else { %>
+                                                            <a data-fancybox href="<%=user.image%>">
+                                                                <img src="<%=user.image%>" alt="Avatar" class="rounded-circle" />
+                                                            </a>
+                                                        <% } %>
                                                     </li>
                                                 </ul> 
-                                            <% } %> 
-                                            <b style="margin-right: 5px;"><%=user.name%></b>
-                                        </td>
-                                        
-                                        <td style="font-size: 12px;"><%=user.surname%></td>
-                                        
-                                        <td style="font-size: 12px;"><%=user.email%></td>
+                                                <% if(user.username === authenticateUser.username) { %> 
+                                                    <ul class="list-unstyled m-0 avatar-group d-flex justify-content-center align-items-center text-success" 
+                                                        style="margin-right: 5px !important;">
+                                                        <li data-bs-toggle="tooltip"
+                                                        data-popup="tooltip-custom"
+                                                        data-bs-placement="top"
+                                                        class="avatar avatar-xs d-flex justify-content-center align-items-center"
+                                                        title="Ben">
+                                                            <span class="tf-icons bx bx-user-check"></span>
+                                                        </li>
+                                                    </ul> 
+                                                <% } %> 
+                                                <b style="margin-right: 5px;"><%=user.name%></b>
+                                            </td>
+                                            
+                                            <td style="font-size: 12px;"><%=user.surname%></td>
+                                            
+                                            <td style="font-size: 12px;"><%=user.email%></td>
 
-                                        <td style="font-size: 12px;"><%=user.username%></td>
+                                            <td style="font-size: 12px;"><%=user.username%></td>
 
-                                        <td style="font-size: 12px;">
-                                            <% if(!user.status) { %> 
-                                                <span class="badge bg-label-danger me-1">Pasif</span>
-                                            <% } else { %>
-                                                <span class="badge bg-label-primary me-1">Aktif</span>
-                                            <% } %>
-                                        </td>
+                                            <td style="font-size: 12px;">
+                                                <% if(!user.status) { %> 
+                                                        <a class="delete-user btn btn-danger btn-xs" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>">Pasif</a>
+                                                <% } else { %>
+                                                    <a class="delete-user btn btn-primary btn-xs" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>">Aktif</a>
+                                                <% } %>
+                                            </td>
 
-                                        <td style="font-size: 12px;">
-                                            <% if(user.role === 'admin') { %> 
-                                                <span class="badge bg-label-danger me-1">sistem yoneticisi</span>
-                                            <% } else if(user.role === 'companyOfficial') { %>
-                                                <span class="badge bg-label-primary me-1">sirket yetkilisi</span>
-                                            <% } %>
-                                        </td>
-                                        <td>
-                                            <div style="font-size: 12px;" class="dropdown">
-                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
-                                                        >Güncelle</a
-                                                    >
-                                                    <% if(!user.status) { %> 
-                                                    <a class="dropdown-item delete-user" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
-                                                        >Değiştir <span class="badge bg-label-success">Aktif</span></a
-                                                    >
-                                                    <% } else { %>
-                                                    <a class="dropdown-item delete-user" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
-                                                        >Değiştir <span class="badge bg-label-danger">Pasif</span> </a
-                                                    >
-                                                    <% } %>
+                                            <td style="font-size: 12px;">
+                                                <% if(user.role === 'admin') { %> 
+                                                    <span class="badge bg-label-danger me-1">sistem yoneticisi</span>
+                                                <% } else if(user.role === 'companyOfficial') { %>
+                                                    <span class="badge bg-label-primary me-1">sirket yetkilisi</span>
+                                                <% } %>
+                                            </td>
+                                            <td>
+                                                <div style="font-size: 12px;" class="dropdown">
+                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/users/<%=user._id%>"
+                                                            >Güncelle</a
+                                                        >
+                                                        <a class="dropdown-item deleteFromSystem" href="http://localhost:3000/api/kurumsal/users/deleteUser/<%=user._id%>"
+                                                            >Sistemden sil</a
+                                                        >
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <% }); %>
-                            </tbody>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
                             </table>
                         </div>
                         <div class="row p-4 py-2 m-0 w-100">
@@ -257,6 +251,26 @@
     });
 
     $(".delete-user").on('click', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url : this.href,
+            type : "DELETE",
+            success : (response) => {
+                Swal.fire({
+                    icon: "success",
+                    text: response.msg
+                });
+            },
+            error : (xhr, status, error) => {
+                Swal.fire({
+                    icon: "error",
+                    text: xhr.responseJSON.msg
+                });
+            },
+        })
+        return false;
+    });
+    $(".deleteFromSystem").on('click', function(e) {
         e.preventDefault();
         $.ajax({
             url : this.href,

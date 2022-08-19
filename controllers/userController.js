@@ -43,7 +43,6 @@ const getUser = async (req,res) => {
     const user = await User.findOne({_id:req.params.id}).select(unselectedColumns);
     const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
     if (!user) throw new CustomError.NotFoundError("Kullanıcı Bulunamadı");
-    if (authenticateUser.username === user.username) await showCurrentUser(req,res);
     res.status(StatusCodes.OK).render("admin/userDetail",{
         authenticateUser : authenticateUser,
         user : user,
@@ -121,6 +120,14 @@ const deleteUser = async (req,res) => {
     res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
 }
 
+const deleteFromSystem = async (req,res) => {
+    const user = await User.findOne({_id : req.params.id});
+    if (!user) throw new CustomError.BadRequestError("Bir hata oluştu");
+    checkPermissions(req.user,user._id);
+    await User.findOneAndDelete({_id : user._id});
+    res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
+}
+
 module.exports = {
     getAllUsers,
     getUser,
@@ -129,5 +136,6 @@ module.exports = {
     updateUser,
     updateUserPassword,
     deleteUser,
-    showCurrentUser
+    showCurrentUser,
+    deleteFromSystem
 }
