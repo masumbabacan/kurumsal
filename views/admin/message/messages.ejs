@@ -59,7 +59,7 @@
                                     </a>
                                 </li>
                                 <li class="page-item d-flex justify-content-around align-items-center ms-1">
-                                    <a class="btn btn-danger btn-xs p-1 disabled" 
+                                    <a class="btn btn-danger btn-xs p-1 disabled item-delete-btn" 
                                         data-bs-toggle="tooltip" 
                                         data-popup="tooltip-custom" 
                                         data-bs-placement="top"
@@ -84,6 +84,20 @@
                               </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
+                                <tr style="border: 0;">
+                                    <td style="font-size: 12px; border: 0;">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <input class="form-check-input m-0 mx-1" 
+                                                    style="height: 20px; width: 20px; cursor: pointer;" 
+                                                    type="checkbox" 
+                                                    value="all-item" 
+                                                    id="all-item">
+                                            <label style="cursor: pointer;" for="all-item">
+                                                <b class="m-0 mx-1">Tümünü seç</b>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <% messages.forEach((message) => { %> 
                                     <tr>
                                         <td style="font-size: 12px;">
@@ -235,7 +249,7 @@ $('.page-next').on('click',(e) => {
     }
 })
 
-$(".seen-message").on('click', function(e) {
+    $(".seen-message").on('click', function(e) {
         e.preventDefault();
         $.ajax({
             url : this.href,
@@ -255,4 +269,13 @@ $(".seen-message").on('click', function(e) {
         })
         return false;
     });
+
+    $("#all-item").on('click',function(e){
+        if ($('.table tr td .form-check-input').prop('checked') === true) {
+            $('.table tr td .form-check-input').prop('checked',true)
+        }else{
+            $('.table tr td .form-check-input').prop('checked',false)
+        }
+    });
+
 </script>
