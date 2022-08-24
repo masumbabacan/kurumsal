@@ -43,31 +43,6 @@
                                         <i class="bx bx-message-rounded-check"></i>
                                     </a>
                                 </li>
-                                <li class="page-item d-flex justify-content-around align-items-center ms-1">
-                                    <a class="btn btn-warning btn-xs p-1" 
-                                        data-bs-toggle="tooltip" 
-                                        data-popup="tooltip-custom" 
-                                        data-bs-placement="top"
-                                        title="Tüm mesajları okundu olarak işaretle"
-                                        href="#">
-                                        <i class="bx bx-message-alt-check"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item d-flex justify-content-around align-items-center ms-1">
-                                    <a class="p-1">
-                                        <i class="bx bx-dots-horizontal-rounded"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item d-flex justify-content-around align-items-center ms-1">
-                                    <a class="btn btn-danger btn-xs p-1 disabled item-delete-btn" 
-                                        data-bs-toggle="tooltip" 
-                                        data-popup="tooltip-custom" 
-                                        data-bs-placement="top"
-                                        title="Seçili olanları sil"
-                                        href="#">
-                                        <i class="bx bx-trash"></i>
-                                    </a>
-                                </li>
                             </div>
                         </div>
                         <div class="table-responsive text-nowrap">
@@ -84,20 +59,6 @@
                               </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
-                                <tr style="border: 0;">
-                                    <td style="font-size: 12px; border: 0;">
-                                        <div class="d-flex justify-content-start align-items-center">
-                                            <input class="form-check-input m-0 mx-1" 
-                                                    style="height: 20px; width: 20px; cursor: pointer;" 
-                                                    type="checkbox" 
-                                                    value="all-item" 
-                                                    id="all-item">
-                                            <label style="cursor: pointer;" for="all-item">
-                                                <b class="m-0 mx-1">Tümünü seç</b>
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
                                 <% messages.forEach((message) => { %> 
                                     <tr>
                                         <td style="font-size: 12px;">

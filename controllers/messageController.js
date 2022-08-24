@@ -12,7 +12,8 @@ const getAllMessages = async (req,res) => {
     var pages = Math.ceil(total / perpage);
     var pageNumber = (req.query.page == null) ? 1 : req.query.page;
     var startFrom = (pageNumber - 1) * perpage;
-    const messages = await Message.find({}).skip(startFrom).limit(perpage);
+    var seen = req.query.seen;
+    const messages = await Message.find({seen : seen}).skip(startFrom).limit(perpage);
 
     const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
     res.status(StatusCodes.OK).render("admin/message/messages", { 
