@@ -13,12 +13,12 @@ const {
 require("../controllers/authController");
 
 
-router.post("/register",register);
+// router.post("/register",register);
 
 router.get("/login",getLogin); 
 router.post("/login",postLogin);
 
-router.post("/verify-email",verifyEmail);
+// router.post("/verify-email",verifyEmail);
 
 router.get("/forgot-password",getForgotPassword);
 router.post("/forgot-password",postForgotPassword);
