@@ -13,6 +13,10 @@ const MessageSchema = new mongoose.Schema({
         type : String,
         required : [true,"Lütfen email giriniz"],
     },
+    phoneNumber : {
+        type : String,
+        required : [true,"Lütfen telefon numaranızı giriniz"],
+    },
     content : {
         type : String,
         required : [true,"Lütfen mesaj giriniz"],

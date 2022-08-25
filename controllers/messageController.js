@@ -7,14 +7,19 @@ const CustomError = require("../errors");
 const unselectedColumns = '-password -__v -verificationToken -passwordToken -passwordTokenExpirationDate';
 
 const getAllMessages = async (req,res) => {
+    //pagination and search
     var perpage = (req.query.limit == null) ? 10 : req.query.limit;
     var total = await Message.find({}).count();
     var pages = Math.ceil(total / perpage);
     var pageNumber = (req.query.page == null) ? 1 : req.query.page;
     var startFrom = (pageNumber - 1) * perpage;
-    var seen = req.query.seen;
-    const messages = await Message.find({seen : seen}).skip(startFrom).limit(perpage);
 
+    //filters
+    var filters = {};
+    (req.query.seen === undefined) ? '' : filters.seen = req.query.seen;
+
+    //get data
+    const messages = await Message.find(filters).skip(startFrom).limit(perpage);
     const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
     res.status(StatusCodes.OK).render("admin/message/messages", { 
         authenticateUser : authenticateUser,
@@ -24,6 +29,17 @@ const getAllMessages = async (req,res) => {
         currentDataCount : messages.length, 
         msg : 'İşlem başarılı' 
     });
+}
+
+const getMessage = async (req,res) => {
+    const message = await Message.findOne({_id:req.params.id});
+    const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
+    if (!message) throw new CustomError.NotFoundError("Mesaj Bulunamadı");
+    res.status(StatusCodes.OK).render("admin/message/messageDetail",{
+        authenticateUser : authenticateUser,
+        message : message,
+        msg : 'İşlem başarılı'
+    })
 }
 
 const createMessage = async (req,res) => {
@@ -47,6 +63,7 @@ const seenMessage = async (req,res) => {
 
 module.exports = {
     getAllMessages,
+    getMessage,
     createMessage,
     seenMessage
 }

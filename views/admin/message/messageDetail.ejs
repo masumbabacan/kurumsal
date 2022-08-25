@@ -1,0 +1,52 @@
+<%- include('../include/header.ejs'); -%>
+          <!-- Content wrapper -->
+    <div class="content-wrapper">
+            <!-- Content -->
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+                <div class="col-lg-12 mb-4 order-0">
+                    <div class="card mb-4">
+                        <h5 class="card-header font12px">Mesaj</h5>
+                        <hr class="my-0" />
+                        <div class="message-box m-3 border rounded">
+                            <div class="header d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="font12px p-2 text-primary"><%= message.senderName %> <%= message.senderSurname %></div>
+                                    <div class="font12px p-2 text-primary">
+                                        <i class="bx bx-mail-send"></i>
+                                    </div>
+                                    <div class="font12px p-2 text-primary">
+                                        <%= message.senderMail %>
+                                    </div>
+                                </div>
+                                <div class="font12px p-2 text-primary d-flex justify-content-around align-items-center">
+                                    <div>
+                                        <%=message.createdAt.getDate(); %> 
+                                        <%=message.createdAt.toLocaleString('default', {month: 'long'}); %>
+                                        <%=message.createdAt.getFullYear(); %> 
+                                    </div>
+                                    <i class="bx bx-calendar-check"></i>
+                                </div>
+                            </div>
+                            <hr class="my-0" />
+                            <div class="content">
+                                <div class="p-2 text-dark">
+                                    <i class="bx bx-message-dots text-danger"></i>
+                                    <%= message.content %>
+                                </div>
+                            </div>
+                            <hr class="my-0" />
+                            <div class="footer p-2 d-flex justify-content-end align-items-center">
+                                <button type="submit" class="btn btn-sm btn-primary me-2 font12px">
+                                    <i class="bx bx-conversation"></i>
+                                    Yanıtla
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            <!-- / Content -->
+<%- include('../include/footer.ejs'); -%>

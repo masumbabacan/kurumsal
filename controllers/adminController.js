@@ -2,6 +2,7 @@ const User = require("../models/User");
 const Service = require("../models/Service");
 const Franchise = require("../models/Franchise");
 const Referance = require("../models/Referance");
+const Message = require("../models/Message");
 const LoginHistory = require("../models/LoginHistory");
 const { StatusCodes } = require("http-status-codes");
 const unselectedColumns = '-password -__v -verificationToken -passwordToken -passwordTokenExpirationDate';
@@ -15,6 +16,7 @@ const page = async (req,res) => {
     const serviceCount = await Service.find({}).count();
     const franchiseCount = await Franchise.find({}).count();
     const referanceCount = await Referance.find({}).count();
+    const unreadmessageCount = await Message.find({seen : false}).count();
     res.status(200).render("admin/homePage",{
         authenticateUser : authenticateUser,
         totalNumberOfUsers : userCount,
@@ -24,6 +26,7 @@ const page = async (req,res) => {
         totalNumberOfService : serviceCount,
         totalNumberOfFranchise : franchiseCount,
         totalNumberOfReferance : referanceCount,
+        totalNumberOfMessage : unreadmessageCount,
     });
 }
 

@@ -24,23 +24,31 @@
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 m-0 p-0 d-flex justify-content-end align-items-center">
                                 <li class="page-item d-flex justify-content-around align-items-center ms-1">
-                                    <a class="btn btn-danger btn-xs p-1" 
+                                    <button class="btn btn-danger btn-xs p-1 unread-messages px-3" 
                                         data-bs-toggle="tooltip" 
                                         data-popup="tooltip-custom" 
                                         data-bs-placement="top"
-                                        title="Okunmamış mesajları gör"
-                                        href="#">
-                                        <i class="bx bx-message-rounded-x"></i>
-                                    </a>
+                                        title="Okunmamış mesajları gör">
+                                        <i class="bx bx-message-minus"></i>
+                                    </button>
                                 </li>
                                 <li class="page-item d-flex justify-content-around align-items-center ms-1">
-                                    <a class="btn btn-success btn-xs p-1" 
+                                    <button class="btn btn-primary btn-xs p-1 read-messages px-3" 
                                         data-bs-toggle="tooltip" 
                                         data-popup="tooltip-custom" 
                                         data-bs-placement="top"
-                                        title="Okunmuş mesajları gör"
-                                        href="#">
-                                        <i class="bx bx-message-rounded-check"></i>
+                                        title="Okunmuş mesajları gör">
+                                        <i class="bx bx-message-add"></i>
+                                    </button>
+                                </li>
+                                <li class="page-item d-flex justify-content-around align-items-center ms-1">
+                                    <a class="btn btn-info btn-xs p-1 px-3" 
+                                        data-bs-toggle="tooltip" 
+                                        data-popup="tooltip-custom" 
+                                        data-bs-placement="top"
+                                        title="Tüm mesajları gör"
+                                        href="http://localhost:3000/api/kurumsal/messages">
+                                        <i class="bx bx-chat"></i>
                                     </a>
                                 </li>
                             </div>
@@ -62,16 +70,7 @@
                                 <% messages.forEach((message) => { %> 
                                     <tr>
                                         <td style="font-size: 12px;">
-                                            <div class="d-flex justify-content-start align-items-center">
-                                                <input class="form-check-input m-0 mx-1" 
-                                                        style="height: 20px; width: 20px; cursor: pointer;" 
-                                                        type="checkbox" 
-                                                        value="" 
-                                                        id="<%=message._id%>">
-                                                <label style="cursor: pointer;" for="<%=message._id%>">
-                                                    <b class="m-0 mx-1"><%=message.senderName%></b>
-                                                </label>
-                                            </div>
+                                            <b class="m-0 mx-1"><%=message.senderName%></b>
                                         </td>
                                         <td style="font-size: 12px;"><b><%=message.senderSurname%></b></td>
                                         
@@ -196,7 +195,6 @@ $('.page-prev').on('click',(e) => {
     page = Number(page) - 1;
     console.log(page)
     if (!page == 0) {
-        console.log(page)
         window.location.href = updateQueryStringParameter(window.location.href,'page',page);
     }
 })
@@ -204,10 +202,20 @@ $('.page-next').on('click',(e) => {
     let searchParams = new URLSearchParams(window.location.search);
     let page = searchParams.get('page');
     page = Number(page) + 1;
-    console.log(page);
     if (page <= $('.max-page').val()) {
         window.location.href = updateQueryStringParameter(window.location.href,'page',page);
     }
+})
+
+$('.read-messages').on('click',(e) => {
+    let searchParams = new URLSearchParams(window.location.seen);
+    let seen = searchParams.get('seen');
+    window.location.href = updateQueryStringParameter(window.location.href,'seen',true);
+})
+$('.unread-messages').on('click',(e) => {
+    let searchParams = new URLSearchParams(window.location.seen);
+    let seen = searchParams.get('seen');
+    window.location.href = updateQueryStringParameter(window.location.href,'seen',false);
 })
 
     $(".seen-message").on('click', function(e) {
