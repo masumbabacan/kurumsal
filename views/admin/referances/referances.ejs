@@ -87,7 +87,7 @@
                                     <tr>
                                         <td style="font-size: 12px;"><b><%=referance.name%></b></td>
                                         
-                                        <td style="font-size: 12px;"><%=referance.description.substring(0, 20)+"..."%></td>
+                                        <td style="font-size: 12px;"><%=referance.description.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 20)+"..."%></td>
 
                                         <td style="font-size: 12px;">
                                             <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">

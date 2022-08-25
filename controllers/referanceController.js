@@ -1,7 +1,6 @@
 
 const User = require("../models/User");
 const Referance = require("../models/Referance");
-const LoginHistory = require("../models/LoginHistory");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const {
@@ -58,7 +57,6 @@ const createReferancePost = async (req,res) => {
     const imageUrl = await singleImageUpload(req);
     const referance = await Referance.create({name,description,imageUrl});
     if (!referance) throw new CustomError.BadRequestError("Bir hata oluştu");
-    await LoginHistory.create({user : req.user.userId, note : `${name} isimli referansı sisteme ekledi`, color : 'text-primary'});
     res.status(StatusCodes.CREATED).json({msg : "İşlem başarılı!"});
 }
 
@@ -70,7 +68,6 @@ const updateReferance = async (req,res) => {
     referance.description = description;
     referance.status = status;
     await referance.save();
-    await LoginHistory.create({user : req.user.userId, note : `${name} isimli referansı güncelledi`, color : 'text-primary'});
     res.status(StatusCodes.OK).json({msg : "Güncelleme işlemi başarılı"});
 }
 
@@ -82,7 +79,6 @@ const updateReferanceImages = async (req,res) => {
     await fileDelete(referance.imageUrl);
     referance.imageUrl = imageUrl;
     await referance.save();
-    await LoginHistory.create({user : req.user.userId, note : `${name} isimli referansın resmini güncelledi`, color : 'text-primary'});
     res.status(StatusCodes.OK).json({msg : "Güncelleme işlemi başarılı"});
 }
 
@@ -90,7 +86,6 @@ const deleteReferance = async (req,res) => {
     const referance = await Referance.findOneAndDelete({_id : req.params.id});
     if (!referance) throw new CustomError.BadRequestError("Bir hata oluştu");
     await fileDelete(referance.imageUrl);
-    await LoginHistory.create({user : req.user.userId, note : `${name} isimli referansı sildi`, color : 'text-primary'});
     res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
 }
 
@@ -100,7 +95,6 @@ const deleteReferanceImage = async (req,res) => {
     await fileDelete(referance.imageUrl);
     referance.imageUrl = null;
     await referance.save();
-    await LoginHistory.create({user : req.user.userId, note : `${name} isimli referansın resmini sildi`, color : 'text-primary'});
     res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
 }
 

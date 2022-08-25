@@ -1,7 +1,6 @@
 
 const User = require("../models/User");
 const Service = require("../models/Service");
-const LoginHistory = require("../models/LoginHistory");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const {
@@ -57,7 +56,6 @@ const createServicePost = async (req,res) => {
     const imageUrls = await multipleFileUpload(req);
     const service = await Service.create({name,description,imageUrls});
     if (!service) throw new CustomError.BadRequestError("Bir hata oluştu");
-    await LoginHistory.create({user : req.user.userId, note : `${name} isimli hizmeti sisteme ekledi`, color : 'text-warning'});
     res.status(StatusCodes.CREATED).json({msg : "İşlem başarılı!"});
 }
 
@@ -69,7 +67,6 @@ const updateService = async (req,res) => {
     service.description = description;
     service.status = status;
     await service.save();
-    await LoginHistory.create({user : req.user.userId, note : `${name} isimli hizmeti güncelledi`, color : 'text-warning'});
     res.status(StatusCodes.OK).json({msg : "Güncelleme işlemi başarılı"});
 }
 
@@ -82,7 +79,6 @@ const updateServiceImages = async (req,res) => {
         service.imageUrls.push(image);
     });
     await service.save();
-    await LoginHistory.create({user : req.user.userId, note : `${name} isimli hizmetin resmini güncelledi`, color : 'text-warning'});
     res.status(StatusCodes.OK).json({msg : "Güncelleme işlemi başarılı"});
 }
 
@@ -92,7 +88,6 @@ const deleteService = async (req,res) => {
     service.imageUrls.forEach(imagePath => {
         fileDelete(imagePath);
     });
-    await LoginHistory.create({user : req.user.userId, note : `${name} isimli hizmeti sildi`, color : 'text-warning'});
     res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
 }
 
@@ -107,7 +102,6 @@ const deleteServiceImage = async (req,res) => {
         }
     });
     await service.save();
-    await LoginHistory.create({user : req.user.userId, note : `${name} isimli hizmetin resmini sildi`, color : 'text-warning'});
     res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
 }
 

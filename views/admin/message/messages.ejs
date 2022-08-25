@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <div class="table-responsive text-nowrap">
-                          <table class="table border-bottom border-top">
+                          <table class="table border-bottom border-top table-striped">
                             <thead>
                               <tr>
                                 <th style="font-size: 10px;">Adı</th>
@@ -110,19 +110,28 @@
                                             <% } %>
                                         </td>
                                         <td>
-                                        <div style="font-size: 12px;" class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/messages/<%=message._id%>">
-                                                    Mesajı gör
-                                                </a>
-                                                <a class="dropdown-item delete-message" href="http://localhost:3000/api/kurumsal/messages/deleteMessage/<%=message._id%>">
-                                                    Mesajı Sil
-                                                </a>
+                                            <div class="d-flex justify-content-around align-items-center">
+                                                <div style="font-size: 12px;" class="dropdown">
+                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/messages/<%=message._id%>">
+                                                            Mesajı gör
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <a class="btn btn-danger btn-xs delete-message" 
+                                                        data-bs-toggle="tooltip" 
+                                                        data-popup="tooltip-custom" 
+                                                        data-bs-placement="top"
+                                                        title="Mesajı sil"
+                                                        href="http://localhost:3000/api/kurumsal/messages/deleteMessage/<%=message._id%>">
+                                                        <i class="bx bx-x-circle"></i>
+                                                    </a>
+                                                </div>
                                             </div>
-                                        </div>
                                         </td>
                                     </tr>
                                 <% }); %>
@@ -247,6 +256,10 @@ $('.unread-messages').on('click',(e) => {
         })
         return false;
     });
+    $(document).on('click',(e) => {
+        
+        console.log($(e.currentTarget))
+    })
     $(".delete-message").on('click', function(e) {
         e.preventDefault();
         $.ajax({
@@ -266,14 +279,6 @@ $('.unread-messages').on('click',(e) => {
             },
         })
         return false;
-    });
-
-    $("#all-item").on('click',function(e){
-        if ($('.table tr td .form-check-input').prop('checked') === true) {
-            $('.table tr td .form-check-input').prop('checked',true)
-        }else{
-            $('.table tr td .form-check-input').prop('checked',false)
-        }
     });
 
 </script>

@@ -1,7 +1,6 @@
 
 const User = require("../models/User");
 const Franchise = require("../models/Franchise");
-const LoginHistory = require("../models/LoginHistory");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const {
@@ -58,7 +57,6 @@ const createFranchisePost = async (req,res) => {
     const imageUrl = await singleImageUpload(req);
     const franchise = await Franchise.create({name,description,imageUrl});
     if (!franchise) throw new CustomError.BadRequestError("Bir hata oluştu");
-    await LoginHistory.create({user : req.user.userId, note : `${name} isimli bayiyi sisteme ekledi`, color : 'text-info'});
     res.status(StatusCodes.CREATED).json({msg : "İşlem başarılı!"});
 }
 
@@ -70,7 +68,6 @@ const updateFranchise = async (req,res) => {
     franchise.description = description;
     franchise.status = status;
     await franchise.save();
-    await LoginHistory.create({user : req.user.userId, note : `${name} isimli bayiyi güncelledi`, color : 'text-info'});
     res.status(StatusCodes.OK).json({msg : "Güncelleme işlemi başarılı"});
 }
 
@@ -82,7 +79,6 @@ const updateFranchiseImages = async (req,res) => {
     await fileDelete(franchise.imageUrl);
     franchise.imageUrl = imageUrl;
     await franchise.save();
-    await LoginHistory.create({user : req.user.userId, note : `${franchise.name} isimli bayinin resmini güncelledi`, color : 'text-info'});
     res.status(StatusCodes.OK).json({msg : "Güncelleme işlemi başarılı"});
 }
 
@@ -90,7 +86,6 @@ const deleteFranchise = async (req,res) => {
     const franchise = await Franchise.findOneAndDelete({_id : req.params.id});
     if (!franchise) throw new CustomError.BadRequestError("Bir hata oluştu");
     await fileDelete(franchise.imageUrl);
-    await LoginHistory.create({user : req.user.userId, note : `${franchise.name} isimli bayiyi sildi`, color : 'text-info'});
     res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
 }
 
@@ -100,7 +95,6 @@ const deleteFranchiseImage = async (req,res) => {
     await fileDelete(franchise.imageUrl);
     franchise.imageUrl = null;
     await franchise.save();
-    await LoginHistory.create({user : req.user.userId, note : `${franchise.name} isimli bayinin resmini sildi`, color : 'text-info'});
     res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
 }
 

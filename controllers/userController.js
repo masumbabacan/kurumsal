@@ -1,5 +1,4 @@
 const User = require("../models/User");
-const LoginHistory = require("../models/LoginHistory");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const {
@@ -110,11 +109,9 @@ const deleteUser = async (req,res) => {
     checkPermissions(req.user,user._id);
     if (user.status === false){
         await User.findOneAndUpdate({_id : user._id},{status: true});
-        await LoginHistory.create({user : req.user.userId, note : `${user.username} kişisini aktif yaptı`, color : 'text-warning'});
     } 
     if (user.status === true){
         await User.findOneAndUpdate({_id : user._id},{status: false});
-        await LoginHistory.create({user : req.user.userId, note : `${user.username} kişisini pasif yaptı`, color : 'text-warning'});
     }
     await user.save();
     res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});

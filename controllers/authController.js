@@ -29,7 +29,6 @@ const register = async (req,res) => {
         verificationToken : verificationToken,
         origin : origin,
     });
-    await LoginHistory.create({user : user._id, note : 'Kullanıcı kayıt oldu', color : 'text-primary'});
     res.status(StatusCodes.CREATED).json({msg : "İşlem başarılı! Lütfen hesabınızı doğrulamak için e-postanızı kontrol edin"});
 }
 
