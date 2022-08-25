@@ -78,6 +78,11 @@
                               </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
+                                <% if(franchises.length < 1) { %> 
+                                    <tr>
+                                        <td class="text-danger" style="font-size: 12px;" colspan="7">Herhangi bir kayıt bulunamadı</td>
+                                    </tr>
+                                <% } %> 
                                 <% franchises.forEach((franchise) => { %> 
                                     <tr>
                                         <td style="font-size: 12px;"><b><%=franchise.name%></b></td>

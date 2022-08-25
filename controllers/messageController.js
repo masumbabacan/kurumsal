@@ -3,6 +3,9 @@ const User = require("../models/User");
 const Message = require("../models/Message");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
+const { 
+    sendReplyToMessage
+} = require("../utils/index");
 
 const unselectedColumns = '-password -__v -verificationToken -passwordToken -passwordTokenExpirationDate';
 
@@ -19,7 +22,7 @@ const getAllMessages = async (req,res) => {
     (req.query.seen === undefined) ? '' : filters.seen = req.query.seen;
 
     //get data
-    const messages = await Message.find(filters).skip(startFrom).limit(perpage);
+    const messages = await Message.find(filters).skip(startFrom).limit(perpage).sort({createdAt : -1});
     const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
     res.status(StatusCodes.OK).render("admin/message/messages", { 
         authenticateUser : authenticateUser,
@@ -35,6 +38,8 @@ const getMessage = async (req,res) => {
     const message = await Message.findOne({_id:req.params.id});
     const authenticateUser = await User.findOne({_id:req.user.userId}).select(unselectedColumns);
     if (!message) throw new CustomError.NotFoundError("Mesaj Bulunamadı");
+    message.seen = true;
+    await message.save();
     res.status(StatusCodes.OK).render("admin/message/messageDetail",{
         authenticateUser : authenticateUser,
         message : message,
@@ -43,8 +48,8 @@ const getMessage = async (req,res) => {
 }
 
 const createMessage = async (req,res) => {
-    const { senderName, senderSurname, senderMail, content } = req.body;
-    const message = await Message.create({senderName, senderSurname, senderMail, content});
+    const { senderName, senderSurname, senderMail, content, phoneNumber } = req.body;
+    const message = await Message.create({senderName, senderSurname, senderMail, content, phoneNumber});
     if (!message) throw new CustomError.BadRequestError("Bir hata oluştu");
     res.status(StatusCodes.CREATED).json({msg : "İşlem başarılı!"});
 }
@@ -60,10 +65,17 @@ const seenMessage = async (req,res) => {
     res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
 }
 
+const sendMessage = async (req,res) => {
+    const {subject,message, email, name} = req.body;
+    console.log(email)
+    await sendReplyToMessage({name,email,message,subject});
+    res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
+}
 
 module.exports = {
     getAllMessages,
     getMessage,
     createMessage,
-    seenMessage
+    seenMessage,
+    sendMessage
 }

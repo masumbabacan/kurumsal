@@ -37,7 +37,7 @@
                             </div>
                             <hr class="my-0" />
                             <div class="footer p-2 d-flex justify-content-end align-items-center">
-                                <button type="submit" class="btn btn-sm btn-primary font12px">
+                                <button type="submit" class="btn btn-sm btn-primary font12px" data-toggle="modal" data-target="#sendMessageModal">
                                     <i class="bx bx-conversation"></i>
                                     Yanıtla
                                 </button>
@@ -49,4 +49,67 @@
         </div>
     </div>
             <!-- / Content -->
+
+<!-- send message modal -->
+<div class="modal fade" id="sendMessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title font12px" id="exampleModalLabel">Yanıt gönder</h5>
+        </div>
+        <form id="sendMessageForm">
+            <input type="hidden" name="email" value="<%= message.senderMail %>" />
+            <input type="hidden" name="name" value="<%= message.senderName %>" />
+            <div class="modal-body pb-0">
+                <div class="row mb-3">
+                  <div class="col-sm-12">
+                    <input type="text" class="form-control font12px" name="subject" id="basic-default-name" placeholder="Konu" />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-sm-12">
+                    <textarea
+                      id="basic-default-message"
+                      class="form-control font12px"
+                      name="message"
+                      placeholder="Mesaj"
+                    ></textarea>
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Kapat <i class="bx bx-x-circle"></i></button>
+                <button type="submit" class="btn btn-primary btn-sm">Gönder <i class="bx bx-mail-send"></i></button>
+            </div>
+        </form>
+      </div>
+    </div>
+</div>
+<!-- send message modal -->
 <%- include('../include/footer.ejs'); -%>
+<script>
+    $("#sendMessageForm").on("submit",function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            url : "http://localhost:3000/api/kurumsal/messages/sendMessage",
+            type : "POST",
+            data : formData,
+            success : (response) => {
+                Swal.fire({
+                    icon: "success",
+                    text: response.msg
+                });
+            },
+            error : (xhr, status, error) => {
+                Swal.fire({
+                    icon: "error",
+                    text: xhr.responseJSON.msg
+                });
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+</script>

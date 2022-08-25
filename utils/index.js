@@ -3,6 +3,7 @@ const createTokenUser = require("./createTokenUser");
 const checkPermissions = require("./checkPermissions");
 const sendVerificationEmail = require("./sendVerificationEmail");
 const sendResetPasswordEmail = require("./sendResetPasswordEmail");
+const sendReplyToMessage = require("./sendReplyToMessage");
 const createHash = require("./createHash");
 const singleImageUpload = require("./fileUpload");
 const multipleFileUpload = require("./multipleFileUpload");
@@ -22,4 +23,5 @@ module.exports = {
     multipleFileUpload,
     nullControl,
     fileDelete,
+    sendReplyToMessage
 }

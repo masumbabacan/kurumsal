@@ -78,6 +78,11 @@
                               </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
+                                <% if(referances.length < 1) { %> 
+                                    <tr>
+                                        <td class="text-danger" style="font-size: 12px;" colspan="7">Herhangi bir kayıt bulunamadı</td>
+                                    </tr>
+                                <% } %> 
                                 <% referances.forEach((referance) => { %> 
                                     <tr>
                                         <td style="font-size: 12px;"><b><%=referance.name%></b></td>
