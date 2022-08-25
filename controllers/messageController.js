@@ -72,10 +72,17 @@ const sendMessage = async (req,res) => {
     res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
 }
 
+const deleteMessage = async (req,res) => {
+    const message = await Message.findOneAndDelete({_id : req.params.id});
+    if (!message) throw new CustomError.BadRequestError("Bir hata oluştu");
+    res.status(StatusCodes.OK).json({msg : "İşlem başarılı!"});
+}
+
 module.exports = {
     getAllMessages,
     getMessage,
     createMessage,
     seenMessage,
-    sendMessage
+    sendMessage,
+    deleteMessage
 }

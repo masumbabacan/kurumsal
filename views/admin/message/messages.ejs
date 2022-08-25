@@ -115,8 +115,12 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/messages/<%=message._id%>"
-                                                ><i class="bx bx-edit-alt me-1"></i> Mesajı gör</a>
+                                                <a class="dropdown-item" href="http://localhost:3000/api/kurumsal/messages/<%=message._id%>">
+                                                    Mesajı gör
+                                                </a>
+                                                <a class="dropdown-item delete-message" href="http://localhost:3000/api/kurumsal/messages/deleteMessage/<%=message._id%>">
+                                                    Mesajı Sil
+                                                </a>
                                             </div>
                                         </div>
                                         </td>
@@ -224,6 +228,26 @@ $('.unread-messages').on('click',(e) => {
 })
 
     $(".seen-message").on('click', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url : this.href,
+            type : "DELETE",
+            success : (response) => {
+                Swal.fire({
+                    icon: "success",
+                    text: response.msg
+                });
+            },
+            error : (xhr, status, error) => {
+                Swal.fire({
+                    icon: "error",
+                    text: xhr.responseJSON.msg
+                });
+            },
+        })
+        return false;
+    });
+    $(".delete-message").on('click', function(e) {
         e.preventDefault();
         $.ajax({
             url : this.href,
