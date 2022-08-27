@@ -93,20 +93,16 @@
     });
 
     $("#upload").change(function () {
-        const files = this.files;
-        files.forEach(file => {
-          if (file) {
-            let reader = new FileReader();
-            reader.onload = function (event) {
-                $('#upload').parents('.add-image').after(`<div class="col-2 d-flex justify-content-center align-items-center px-2 mb-2">
-                                      <img class="w-100 rounded" 
-                                      src="${event.target.result}" 
-                                      alt=""
-                                      style="object-fit: cover; height:100px">
-                                    </div> `);
-            };
-            reader.readAsDataURL(file);
-          }
-        });
+        const file = this.files[0];
+        let reader = new FileReader();
+        reader.onload = function (event) {
+          $('#upload').parents('.add-image').after(`<div class="col-2 d-flex justify-content-center align-items-center px-2 mb-2">
+            <img class="w-100 rounded" 
+            src="${event.target.result}" 
+            alt=""
+            style="object-fit: cover; height:100px">
+          </div> `);
+        };
+        reader.readAsDataURL(file);
     });
 </script>
